@@ -57,6 +57,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        corvera: {
+          cream: "hsl(var(--corvera-cream))",
+          gold: "hsl(var(--corvera-gold))",
+          dark: "hsl(var(--corvera-dark))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
