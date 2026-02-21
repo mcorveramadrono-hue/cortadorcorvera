@@ -3,7 +3,7 @@ import corteImage from "@/assets/corte-servicio.jpg";
 import eventosImage from "@/assets/eventos-servicio.jpg";
 import corvera1 from "@/assets/corvera-1.jpeg";
 import corvera5 from "@/assets/corvera-5.jpeg";
-import { Scissors, PartyPopper, Knife, Award } from "lucide-react";
+import { Scissors, PartyPopper, Utensils, Award } from "lucide-react";
 import cuchillo from "@/assets/cuchillo.png";
 import ContactFormDialog from "./ContactFormDialog";
 
@@ -35,7 +35,7 @@ const services = [
     image: eventosImage,
   },
   {
-    icon: Knife,
+    icon: Utensils,
     title: "Corte de Jamón a Cuchillo sin Pieza Incluida",
     description:
       "¿Ya tienes tu pieza de jamón ibérico? Nuestro cortador profesional se encarga de lonchearla con la máxima precisión. Tú pones el jamón, nosotros la técnica y el arte del corte a cuchillo.",
