@@ -59,7 +59,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
 
         {sent ? (
           <div className="p-12 flex flex-col items-center gap-4 text-center">
-            <CheckCircle size={48} className="text-green-600" />
+            <CheckCircle size={48} className="text-primary" />
             <p className="font-serif text-xl font-semibold text-foreground">¡Mensaje enviado!</p>
             <p className="text-sm text-muted-foreground">Nos pondremos en contacto contigo lo antes posible.</p>
           </div>

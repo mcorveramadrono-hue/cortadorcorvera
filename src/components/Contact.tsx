@@ -37,7 +37,7 @@ const Contact = () => {
           {/* Form */}
           {sent ? (
             <div className="flex flex-col items-center justify-center gap-4 py-12">
-              <CheckCircle size={48} className="text-green-600" />
+              <CheckCircle size={48} className="text-primary" />
               <p className="font-serif text-xl font-semibold text-foreground">¡Gracias por tu mensaje!</p>
               <p className="text-sm text-muted-foreground">Te responderemos lo antes posible.</p>
             </div>
@@ -100,7 +100,7 @@ const Contact = () => {
               rel="noopener noreferrer"
               className="flex items-center gap-4 p-6 border border-border hover:border-primary/30 transition-colors group"
             >
-              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
                 <MessageCircle size={20} className="text-white" />
               </div>
               <div>
