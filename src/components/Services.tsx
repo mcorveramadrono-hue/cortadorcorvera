@@ -1,8 +1,11 @@
+import { useState } from "react";
 import corteImage from "@/assets/corte-servicio.jpg";
 import eventosImage from "@/assets/eventos-servicio.jpg";
-import { MessageCircle, Scissors, PartyPopper } from "lucide-react";
-
-const WHATSAPP_NUMBER = "34600000000";
+import corvera1 from "@/assets/corvera-1.jpeg";
+import corvera5 from "@/assets/corvera-5.jpeg";
+import { Scissors, PartyPopper, Utensils, Award } from "lucide-react";
+import cuchillo from "@/assets/cuchillo.png";
+import ContactFormDialog from "./ContactFormDialog";
 
 const services = [
   {
@@ -17,7 +20,6 @@ const services = [
       "Presentación elegante en plato",
     ],
     image: corteImage,
-    whatsappText: "Hola, me gustaría contratar el servicio de corte de jamón a domicilio",
   },
   {
     icon: PartyPopper,
@@ -31,14 +33,49 @@ const services = [
       "Maridaje con vinos seleccionados",
     ],
     image: eventosImage,
-    whatsappText: "Hola, me gustaría información sobre el servicio de eventos y catering",
+  },
+  {
+    icon: Utensils,
+    title: "Corte de Jamón a Cuchillo sin Pieza Incluida",
+    description:
+      "¿Ya tienes tu pieza de jamón ibérico? Nuestro cortador profesional se encarga de lonchearla con la máxima precisión. Tú pones el jamón, nosotros la técnica y el arte del corte a cuchillo.",
+    features: [
+      "Trae tu propia pieza",
+      "Corte profesional a cuchillo",
+      "Loncheado perfecto garantizado",
+      "Servicio a domicilio o en local",
+    ],
+    image: corvera1,
+  },
+  {
+    icon: Award,
+    title: "Corte de Jamón a Cuchillo con Pieza Incluida",
+    description:
+      "El servicio más completo: nosotros ponemos la pieza de jamón ibérico de bellota y el cortador profesional. Solo tienes que disfrutar. Ideal para eventos, celebraciones o reuniones especiales.",
+    features: [
+      "Pieza de jamón ibérico incluida",
+      "Cortador profesional certificado",
+      "Servicio completo llave en mano",
+      "Presentación y emplatado incluidos",
+    ],
+    image: corvera5,
   },
 ];
 
 const Services = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+
   return (
-    <section id="servicios" className="py-24 bg-corvera-cream">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="servicios" className="relative py-24 bg-corvera-cream overflow-hidden">
+      {/* Decorative cuchillo */}
+      <img
+        src={cuchillo}
+        alt=""
+        className="absolute bottom-20 left-0 w-64 h-auto opacity-[0.05] pointer-events-none select-none rotate-12"
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
           <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
             Servicios
@@ -55,9 +92,7 @@ const Services = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`grid lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? "lg:direction-rtl" : ""
-              }`}
+              className="grid lg:grid-cols-2 gap-12 items-center"
             >
               <div className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
                 <img
@@ -83,20 +118,24 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(service.whatsappText)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => { setSelectedService(service.title); setShowForm(true); }}
                   className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors mt-4"
                 >
-                  <MessageCircle size={16} />
                   Solicitar Servicio
-                </a>
+                </button>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      <ContactFormDialog
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        title={`Solicitar: ${selectedService}`}
+        defaultMessage={`Hola, estoy interesado en: ${selectedService}`}
+      />
     </section>
   );
 };

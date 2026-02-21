@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { MessageCircle, Phone, Mail, MapPin } from "lucide-react";
+import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
 
-const WHATSAPP_NUMBER = "34600000000";
+const WHATSAPP_NUMBER = "34676703034";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:info@corvera.es?subject=Contacto web - ${formData.name}&body=${encodeURIComponent(formData.message)}%0A%0ADe: ${formData.name} (${formData.email})`;
-    window.location.href = mailtoLink;
+    const subject = encodeURIComponent(`Contacto web - ${formData.name}`);
+    const body = encodeURIComponent(
+      `Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`
+    );
+    window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
+    setSent(true);
+    setTimeout(() => setSent(false), 3000);
   };
 
   return (
@@ -29,53 +35,62 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                Nombre
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
-                placeholder="Tu nombre"
-              />
+          {sent ? (
+            <div className="flex flex-col items-center justify-center gap-4 py-12">
+              <CheckCircle size={48} className="text-primary" />
+              <p className="font-serif text-xl font-semibold text-foreground">¡Gracias por tu mensaje!</p>
+              <p className="text-sm text-muted-foreground">Te responderemos lo antes posible.</p>
             </div>
-            <div>
-              <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
-                placeholder="tu@email.com"
-              />
-            </div>
-            <div>
-              <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                Mensaje
-              </label>
-              <textarea
-                required
-                rows={5}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
-                placeholder="¿En qué podemos ayudarte?"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-8 py-3 bg-foreground text-background text-sm tracking-widest uppercase hover:bg-foreground/90 transition-colors"
-            >
-              Enviar Mensaje
-            </button>
-          </form>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
+                  placeholder="Tu nombre"
+                />
+              </div>
+              <div>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
+                  placeholder="tu@email.com"
+                />
+              </div>
+              <div>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
+                  Mensaje
+                </label>
+                <textarea
+                  required
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
+                  placeholder="¿En qué podemos ayudarte?"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full inline-flex items-center justify-center gap-2 px-8 py-3 bg-foreground text-background text-sm tracking-widest uppercase hover:bg-foreground/90 transition-colors"
+              >
+                <Send size={16} />
+                Enviar Mensaje
+              </button>
+            </form>
+          )}
 
           {/* Info */}
           <div className="space-y-8">
@@ -85,7 +100,7 @@ const Contact = () => {
               rel="noopener noreferrer"
               className="flex items-center gap-4 p-6 border border-border hover:border-primary/30 transition-colors group"
             >
-              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
                 <MessageCircle size={20} className="text-white" />
               </div>
               <div>
@@ -99,25 +114,25 @@ const Contact = () => {
             </a>
 
             <div className="space-y-6 p-6 border border-border">
-              <div className="flex items-start gap-4">
+              <a href="tel:+34676703034" className="flex items-start gap-4 group">
                 <Phone size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-foreground">Teléfono</p>
-                  <p className="text-sm text-muted-foreground">+34 600 000 000</p>
+                  <p className="font-medium text-foreground group-hover:text-primary transition-colors">Teléfono</p>
+                  <p className="text-sm text-muted-foreground">+34 676 703 034</p>
                 </div>
-              </div>
-              <div className="flex items-start gap-4">
+              </a>
+              <a href="mailto:mcorveramadrono@gmail.com" className="flex items-start gap-4 group">
                 <Mail size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-foreground">Email</p>
-                  <p className="text-sm text-muted-foreground">info@corvera.es</p>
+                  <p className="font-medium text-foreground group-hover:text-primary transition-colors">Email</p>
+                  <p className="text-sm text-muted-foreground">mcorveramadrono@gmail.com</p>
                 </div>
-              </div>
+              </a>
               <div className="flex items-start gap-4">
                 <MapPin size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground">Ubicación</p>
-                  <p className="text-sm text-muted-foreground">Extremadura, España</p>
+                  <p className="text-sm text-muted-foreground">Servicio a toda la Península</p>
                 </div>
               </div>
             </div>
