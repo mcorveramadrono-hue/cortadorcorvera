@@ -1,10 +1,23 @@
 import corvera2 from "@/assets/corvera-2.jpeg";
 import corvera3 from "@/assets/corvera-3.jpeg";
+import selloCorteOriginal from "@/assets/sello-corte-original.png";
+import jamonTexturaBg from "@/assets/jamon-textura-bg.jpeg";
 
 const About = () => {
   return (
-    <section className="py-24 bg-corvera-cream">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="relative py-24 bg-corvera-cream overflow-hidden">
+      {/* Decorative background */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${jamonTexturaBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.04,
+        }}
+      />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Images */}
           <div className="grid grid-cols-2 gap-4">
@@ -18,13 +31,8 @@ const About = () => {
               alt="Textura del jamón Corvera"
               className="w-full h-48 object-cover"
             />
-            <div className="bg-primary flex items-center justify-center p-6">
-              <div className="text-center">
-                <p className="font-serif text-4xl font-bold text-primary-foreground">MC</p>
-                <p className="text-xs tracking-[0.3em] text-primary-foreground/80 mt-2 uppercase">
-                  Tradición
-                </p>
-              </div>
+            <div className="flex items-center justify-center p-6 bg-background">
+              <img src={selloCorteOriginal} alt="Un Corte Original" className="w-28 h-28 object-contain" />
             </div>
           </div>
 

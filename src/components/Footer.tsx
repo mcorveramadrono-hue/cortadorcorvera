@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import logoMC from "@/assets/logo-mc.png";
 
 const Footer = () => {
   return (
@@ -8,9 +9,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-serif text-xl font-bold">MC</span>
-              </div>
+              <img src={logoMC} alt="MC Logo" className="h-14 w-auto invert" />
               <div>
                 <p className="font-serif text-xl font-bold tracking-widest text-background">CORVERA</p>
                 <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
