@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Send, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ContactFormDialogProps {
   isOpen: boolean;
@@ -22,22 +23,36 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     e.preventDefault();
     setSending(true);
 
-    // Send via mailto as fallback (opens email client with pre-filled data)
-    const subject = encodeURIComponent(`Solicitud web - ${title}`);
-    const body = encodeURIComponent(
-      `Nombre: ${formData.nombre} ${formData.apellidos}\nEmail: ${formData.email}\n\nMensaje:\n${formData.mensaje}`
-    );
-    
-    // Open mailto link
-    window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
-    
-    setSending(false);
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
-      onClose();
-      setFormData({ nombre: "", apellidos: "", email: "", mensaje: defaultMessage });
-    }, 2000);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          nombre: formData.nombre,
+          apellidos: formData.apellidos,
+          email: formData.email,
+          mensaje: formData.mensaje,
+          asunto: `Solicitud web - ${title}`,
+        },
+      });
+
+      if (error) throw error;
+
+      setSent(true);
+      setTimeout(() => {
+        setSent(false);
+        onClose();
+        setFormData({ nombre: "", apellidos: "", email: "", mensaje: defaultMessage });
+      }, 2000);
+    } catch (err) {
+      console.error("Error sending form:", err);
+      // Fallback to mailto
+      const subject = encodeURIComponent(`Solicitud web - ${title}`);
+      const body = encodeURIComponent(
+        `Nombre: ${formData.nombre} ${formData.apellidos}\nEmail: ${formData.email}\n\nMensaje:\n${formData.mensaje}`
+      );
+      window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
+    } finally {
+      setSending(false);
+    }
   };
 
   if (!isOpen) return null;
