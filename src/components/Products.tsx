@@ -1,7 +1,12 @@
 import { useState } from "react";
-import heroImage from "@/assets/hero-jamon.jpg";
-import corvera4 from "@/assets/corvera-4.jpeg";
-import corvera5 from "@/assets/corvera-5.jpeg";
+import jamonCebo50 from "@/assets/products/jamon-cebo-50.jpg";
+import jamonCeboCampo50 from "@/assets/products/jamon-cebo-campo-50.jpg";
+import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
+import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
+import paletaCebo50 from "@/assets/products/paleta-cebo-50.jpg";
+import paletaCeboCampo50 from "@/assets/products/paleta-cebo-campo-50.jpg";
+import paletaBellota100 from "@/assets/products/paleta-bellota-100.webp";
+import paletaBellota50 from "@/assets/products/paleta-bellota-50.jpg";
 import { Info, ShoppingBag } from "lucide-react";
 import cerdo from "@/assets/cerdo.png";
 import ContactFormDialog from "./ContactFormDialog";
@@ -9,52 +14,68 @@ import ProductInfoDialog from "./ProductInfoDialog";
 
 const products = [
   {
-    name: "Jamón Ibérico de Bellota",
-    description: "Pieza entera de jamón 100% ibérico de bellota. Curación mínima de 36 meses en bodega natural.",
-    longDescription: "Pieza entera de jamón 100% ibérico de bellota, procedente de cerdos criados en libertad en las dehesas extremeñas. Alimentados exclusivamente con bellotas durante la montanera, cada pieza se cura durante un mínimo de 36 meses en bodega natural, donde adquiere su sabor profundo, su grasa infiltrada y su textura sedosa. Un producto de excelencia para los paladares más exigentes.",
-    price: "Consultar precio",
-    image: heroImage,
-    weight: "7-8 kg",
+    name: "Jamón de Bellota 100% Ibérico",
+    description: "Jamón de bellota 100% ibérico, criado en libertad en la dehesa. Curación mínima de 36 meses.",
+    longDescription: "El jamón de bellota 100% ibérico es la pieza cumbre de la gastronomía española. Proviene de cerdos ibéricos puros criados en libertad en la dehesa, alimentados exclusivamente con bellotas durante la montanera. Su curación mínima de 36 meses en bodega natural le confiere un sabor profundo, con mayor infiltración de grasa, más jugoso y con un aroma intenso y aromático.",
+    price: "588,00 € – 770,00 €",
+    image: jamonBellota100,
+    weight: "7,5 – 8,5 kg",
   },
   {
-    name: "Paleta Ibérica de Bellota",
-    description: "Paleta 100% ibérica de bellota con curación de 24 meses. Sabor intenso y textura sedosa.",
-    longDescription: "Paleta 100% ibérica de bellota con curación de 24 meses en bodega natural. La paleta, más pequeña que el jamón, ofrece un sabor más intenso y concentrado. Ideal para degustar en reuniones familiares o como pieza de consumo más accesible sin renunciar a la calidad suprema del ibérico de bellota.",
-    price: "Consultar precio",
-    image: corvera4,
-    weight: "5-6 kg",
+    name: "Jamón de Bellota 75% Ibérico DO",
+    description: "Jamón de bellota 75% ibérico con Denominación de Origen Guijuelo. Sabor redondo y equilibrado.",
+    longDescription: "Jamón de bellota 75% ibérico con Denominación de Origen Guijuelo. Procede de cerdos ibéricos criados en la dehesa con alimentación natural a base de bellotas. Un producto de excelencia avalado por la D.O. Guijuelo.",
+    price: "497,00 € – 630,00 €",
+    image: jamonBellota75,
+    weight: "7 – 10 kg",
   },
   {
-    name: "Jamón Ibérico de Cebo de Campo",
-    description: "Jamón ibérico de cebo de campo, criado en libertad con alimentación natural complementaria.",
-    longDescription: "Jamón ibérico de cebo de campo, elaborado a partir de cerdos ibéricos criados en libertad en la dehesa con alimentación natural complementaria a base de cereales y leguminosas. Su curación de al menos 24 meses le confiere un equilibrio perfecto entre sabor, aroma y textura, siendo una opción excepcional con la esencia del ibérico.",
-    price: "Consultar precio",
-    image: corvera5,
-    weight: "7-8 kg",
+    name: "Jamón de Cebo de Campo 50% Ibérico",
+    description: "Cerdos criados en libertad con alimentación natural complementaria. Premiado en Frankfurt.",
+    longDescription: "El jamón de cebo de campo 50% ibérico proviene de cerdos criados en libertad en la dehesa con alimentación natural complementaria a base de cereales y leguminosas. Su curación lenta y pausada le confiere un equilibrio perfecto entre sabor, aroma y textura.",
+    price: "336,00 €",
+    image: jamonCeboCampo50,
+    weight: "7 – 10 kg",
   },
   {
-    name: "Loncheado de Bellota",
-    description: "Jamón ibérico de bellota cortado a cuchillo y envasado al vacío. Listo para degustar.",
-    longDescription: "Lonchas de jamón ibérico de bellota cortadas a cuchillo por nuestros maestros cortadores y envasadas al vacío para conservar todo su aroma y sabor. Cada sobre contiene 100g de puro placer ibérico, listo para abrir y degustar en cualquier momento. Presentación ideal para regalo o para disfrutar en casa sin necesidad de jamonero.",
-    price: "Consultar precio",
-    image: heroImage,
-    weight: "100g / sobre",
+    name: "Jamón de Cebo 50% Ibérico",
+    description: "Elaborado con cerdos alimentados con cereales de primera calidad. Ideal para el día a día.",
+    longDescription: "El jamón de cebo 50% ibérico se elabora a partir de cerdos alimentados a base de cereales de primera calidad. Con una curación mínima de 36 meses en bodega natural, ofrece un sabor delicioso y aromático.",
+    price: "252,00 € – 322,00 €",
+    image: jamonCebo50,
+    weight: "7 – 10 kg",
   },
   {
-    name: "Pack Degustación",
-    description: "Selección de loncheados ibéricos de bellota: jamón, paleta y lomo. Ideal para regalo.",
-    longDescription: "Pack degustación compuesto por tres sobres de loncheados ibéricos de bellota: jamón, paleta y lomo ibérico. Cada variedad aporta un matiz diferente de sabor, permitiendo una experiencia gastronómica completa. Presentado en un estuche elegante, es el regalo perfecto para amantes del ibérico o para descubrir las diferencias entre las distintas piezas.",
-    price: "Consultar precio",
-    image: corvera4,
-    weight: "3 x 100g",
+    name: "Paleta de Bellota 100% Ibérica",
+    description: "Sabor intenso y concentrado, con grasa blanda y brillante. Extremadamente jugosa.",
+    longDescription: "La paleta de bellota 100% ibérica proviene de las patas delanteras de cerdos ibéricos puros criados en libertad y alimentados con bellotas. Su curación más corta que el jamón le confiere un sabor extremadamente intenso y concentrado.",
+    price: "196,00 €",
+    image: paletaBellota100,
+    weight: "5 – 6 kg",
   },
   {
-    name: "Media Pieza de Jamón",
-    description: "Media pieza de jamón ibérico de bellota, deshuesada y envasada al vacío para mayor comodidad.",
-    longDescription: "Media pieza de jamón ibérico de bellota, deshuesada y envasada al vacío para una conservación óptima y mayor comodidad de consumo. Ideal para quienes buscan disfrutar de la calidad suprema del jamón ibérico sin necesidad de jamonero ni herramientas especiales. Se puede cortar fácilmente en casa en lonchas perfectas.",
-    price: "Consultar precio",
-    image: corvera5,
-    weight: "3-4 kg",
+    name: "Paleta de Bellota 50% Ibérica",
+    description: "Sabor intenso con la calidad del cerdo ibérico de bellota en formato más accesible.",
+    longDescription: "La paleta de bellota 50% ibérica combina la calidad del cerdo ibérico alimentado con bellotas con un proceso de curación artesanal. Más pequeña que el jamón, ofrece un sabor más intenso y concentrado.",
+    price: "182,00 € – 224,00 €",
+    image: paletaBellota50,
+    weight: "4 – 6 kg",
+  },
+  {
+    name: "Paleta de Cebo de Campo 50% Ibérica",
+    description: "Criada en libertad con alimentación natural complementaria. Abanico de matices aromáticos.",
+    longDescription: "La paleta de cebo de campo 50% ibérica proviene de cerdos criados en libertad en la dehesa con alimentación natural complementaria. Su curación artesanal le confiere un sabor intenso y un abanico de matices aromáticos.",
+    price: "147,00 € – 182,00 €",
+    image: paletaCeboCampo50,
+    weight: "4 – 6 kg",
+  },
+  {
+    name: "Paleta de Cebo 50% Ibérica",
+    description: "Elaborada con cerdos alimentados con cereales de primera calidad. Ideal para el día a día.",
+    longDescription: "La paleta de cebo 50% ibérica se elabora a partir de cerdos alimentados con cereales de primera calidad. Con una curación cuidada en bodegas naturales, ofrece un sabor delicioso y aromático.",
+    price: "126,00 € – 154,00 €",
+    image: paletaCebo50,
+    weight: "4 – 6 kg",
   },
 ];
 
@@ -82,53 +103,51 @@ const Products = () => {
             Nuestros Productos
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Jamones ibéricos seleccionados con la máxima exigencia. Cada pieza es única, 
+            Jamones y paletas ibéricas seleccionados con la máxima exigencia. Cada pieza es única, 
             curada con paciencia y tradición.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product, index) => (
             <article
               key={index}
               className="group bg-card border border-border hover:border-primary/30 transition-all duration-300"
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden bg-corvera-cream/30">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-72 object-contain group-hover:scale-105 transition-transform duration-500 p-4"
                 />
               </div>
-              <div className="p-6 space-y-3">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-serif text-xl font-semibold text-foreground">
-                    {product.name}
-                  </h3>
-                  <span className="text-xs tracking-widest uppercase text-muted-foreground whitespace-nowrap ml-2">
-                    {product.weight}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+              <div className="p-5 space-y-2">
+                <h3 className="font-serif text-base font-semibold text-foreground leading-tight">
+                  {product.name}
+                </h3>
+                <span className="text-xs tracking-widest uppercase text-muted-foreground block">
+                  {product.weight}
+                </span>
+                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
                   {product.description}
                 </p>
-                <div className="flex items-center justify-between pt-3 border-t border-border">
-                  <span className="font-serif text-lg font-semibold text-primary">
+                <div className="pt-3 border-t border-border space-y-3">
+                  <span className="font-serif text-sm font-semibold text-primary block">
                     {product.price}
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => { setSelectedProduct(product); setShowInfo(true); }}
-                      className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      <Info size={16} />
-                      <span className="hidden sm:inline">Info</span>
+                      <Info size={14} />
+                      Info
                     </button>
                     <button
                       onClick={() => { setBuyProductName(product.name); setShowBuyForm(true); }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors ml-auto"
                     >
-                      <ShoppingBag size={14} />
+                      <ShoppingBag size={12} />
                       Comprar
                     </button>
                   </div>
