@@ -1,5 +1,5 @@
 import { Instagram } from "lucide-react";
-import logoMC from "@/assets/logo-mc.png";
+import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Footer = () => {
   return (
@@ -9,11 +9,8 @@ const Footer = () => {
           {/* Logo */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src={logoMC} alt="MC Logo" className="h-14 w-auto invert" />
-              <div>
-                <p className="font-serif text-xl font-bold tracking-widest text-background">CORVERA</p>
-                <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
-              </div>
+              <img src={corveraLogo} alt="Corvera" className="h-10 w-auto invert" />
+              <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
             </div>
             <p className="text-sm text-background/50 leading-relaxed max-w-xs">
               Jamón ibérico de la más alta calidad, seleccionado con la exigencia que mereces.
@@ -57,7 +54,7 @@ const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-background/10 text-center">
           <p className="text-xs text-background/30 tracking-widest">
-            © {new Date().getFullYear()} CORVERA · Un Corte Original. Todos los derechos reservados.
+            © {new Date().getFullYear()} Cortador Corvera · Un Corte Original. Todos los derechos reservados.
           </p>
         </div>
       </div>

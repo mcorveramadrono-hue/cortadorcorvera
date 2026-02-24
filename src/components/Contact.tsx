@@ -1,21 +1,46 @@
 import { useState } from "react";
 import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_NUMBER = "34676703034";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contacto web - ${formData.name}`);
-    const body = encodeURIComponent(
-      `Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`
-    );
-    window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setSending(true);
+
+    try {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          nombre: formData.name,
+          apellidos: "",
+          email: formData.email,
+          mensaje: formData.message,
+          asunto: `Contacto web - ${formData.name}`,
+        },
+      });
+
+      if (error) throw error;
+
+      setSent(true);
+      setTimeout(() => {
+        setSent(false);
+        setFormData({ name: "", email: "", message: "" });
+      }, 3000);
+    } catch (err) {
+      console.error("Error sending form:", err);
+      const subject = encodeURIComponent(`Contacto web - ${formData.name}`);
+      const body = encodeURIComponent(
+        `Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`
+      );
+      window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -84,10 +109,11 @@ const Contact = () => {
               </div>
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-8 py-3 bg-foreground text-background text-sm tracking-widest uppercase hover:bg-foreground/90 transition-colors"
+                disabled={sending}
+                className="w-full inline-flex items-center justify-center gap-2 px-8 py-3 bg-foreground text-background text-sm tracking-widest uppercase hover:bg-foreground/90 transition-colors disabled:opacity-50"
               >
                 <Send size={16} />
-                Enviar Mensaje
+                {sending ? "Enviando..." : "Enviar Mensaje"}
               </button>
             </form>
           )}

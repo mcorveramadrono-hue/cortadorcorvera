@@ -1,26 +1,12 @@
 import { useState } from "react";
-import corteImage from "@/assets/corte-servicio.jpg";
-import eventosImage from "@/assets/eventos-servicio.jpg";
-import corvera1 from "@/assets/corvera-1.jpeg";
-import corvera5 from "@/assets/corvera-5.jpeg";
-import { Scissors, PartyPopper, Utensils, Award } from "lucide-react";
+import servicioEventos from "@/assets/servicio-eventos.jpg";
+import servicioSinPieza from "@/assets/servicio-sin-pieza.jpg";
+import servicioConPieza from "@/assets/servicio-con-pieza.jpg";
+import { PartyPopper, Utensils, Award } from "lucide-react";
 import cuchillo from "@/assets/cuchillo.png";
 import ContactFormDialog from "./ContactFormDialog";
 
 const services = [
-  {
-    icon: Scissors,
-    title: "Corte de Jamón a Domicilio",
-    description:
-      "Nuestro cortador profesional se desplaza a tu hogar o local para ofrecer un servicio de corte impecable. Disfruta de lonchas perfectas cortadas a cuchillo, con la técnica y el mimo que solo un experto puede ofrecer.",
-    features: [
-      "Cortador profesional certificado",
-      "Desplazamiento incluido",
-      "Corte a cuchillo de máxima precisión",
-      "Presentación elegante en plato",
-    ],
-    image: corteImage,
-  },
   {
     icon: PartyPopper,
     title: "Eventos y Catering",
@@ -30,9 +16,9 @@ const services = [
       "Bodas y celebraciones",
       "Eventos corporativos",
       "Show de corte en vivo",
-      "Maridaje con vinos seleccionados",
+      "Posibilidad de elección de la pieza",
     ],
-    image: eventosImage,
+    image: servicioEventos,
   },
   {
     icon: Utensils,
@@ -41,11 +27,11 @@ const services = [
       "¿Ya tienes tu pieza de jamón ibérico? Nuestro cortador profesional se encarga de lonchearla con la máxima precisión. Tú pones el jamón, nosotros la técnica y el arte del corte a cuchillo.",
     features: [
       "Trae tu propia pieza",
-      "Corte profesional a cuchillo",
-      "Loncheado perfecto garantizado",
-      "Servicio a domicilio o en local",
+      "Corte a cuchillo",
+      "Servicio a domicilio",
+      "Envasado al vacío",
     ],
-    image: corvera1,
+    image: servicioSinPieza,
   },
   {
     icon: Award,
@@ -54,11 +40,11 @@ const services = [
       "El servicio más completo: nosotros ponemos la pieza de jamón ibérico de bellota y el cortador profesional. Solo tienes que disfrutar. Ideal para eventos, celebraciones o reuniones especiales.",
     features: [
       "Pieza de jamón ibérico incluida",
-      "Cortador profesional certificado",
-      "Servicio completo llave en mano",
-      "Presentación y emplatado incluidos",
+      "Corte a cuchillo",
+      "Servicio a domicilio",
+      "Envasado al vacío",
     ],
-    image: corvera5,
+    image: servicioConPieza,
   },
 ];
 
@@ -119,7 +105,10 @@ const Services = () => {
                   ))}
                 </ul>
                 <button
-                  onClick={() => { setSelectedService(service.title); setShowForm(true); }}
+                  onClick={() => {
+                    setSelectedService(service.title);
+                    setShowForm(true);
+                  }}
                   className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors mt-4"
                 >
                   Solicitar Servicio
