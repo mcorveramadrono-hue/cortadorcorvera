@@ -1,5 +1,5 @@
 import corvera2 from "@/assets/corvera-2.jpeg";
-import corvera3 from "@/assets/corvera-3.jpeg";
+import cerdo2 from "@/assets/cerdo-2.png";
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import jamonTexturaBg from "@/assets/jamon-textura-bg.jpeg";
 
@@ -27,8 +27,8 @@ const About = () => {
               className="w-full h-64 object-cover col-span-2"
             />
             <img
-              src={corvera3}
-              alt="Textura del jamón Corvera"
+              src={cerdo2}
+              alt="Cerdo ibérico"
               className="w-full h-48 object-cover"
             />
             <div className="flex items-center justify-center p-6 bg-background">
@@ -45,29 +45,23 @@ const About = () => {
               La tradición del buen jamón
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              En Corvera, cada pieza cuenta una historia. Seleccionamos los mejores jamones ibéricos 
-              de bellota, criados en las dehesas extremeñas, con una curación que respeta los tiempos 
-              y la tradición artesanal.
+              Cortador Corvera nace de la pasión por el jamón ibérico y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Nuestro compromiso es llevar a tu mesa un producto excepcional, con el sabor auténtico 
-              que solo un jamón ibérico de la más alta calidad puede ofrecer. Cada corte es una 
-              experiencia única.
+              Detrás de este proyecto está Marcos Corvera, cortador profesional, que entiende que cada pieza es única y que cada corte debe realzar su sabor, su textura y su esencia. El corte de jamón no es solo un servicio, es una experiencia que aporta valor, elegancia y distinción a cualquier evento.
             </p>
-            <div className="grid grid-cols-3 gap-6 pt-6">
-              <div className="text-center">
-                <p className="font-serif text-3xl font-bold text-primary">+15</p>
-                <p className="text-xs tracking-widest uppercase text-muted-foreground mt-1">Años</p>
-              </div>
-              <div className="text-center">
-                <p className="font-serif text-3xl font-bold text-primary">100%</p>
-                <p className="text-xs tracking-widest uppercase text-muted-foreground mt-1">Ibérico</p>
-              </div>
-              <div className="text-center">
-                <p className="font-serif text-3xl font-bold text-primary">+36</p>
-                <p className="text-xs tracking-widest uppercase text-muted-foreground mt-1">Meses</p>
-              </div>
-            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              En Cortador Corvera cuidamos cada detalle: desde la selección y preparación de la pieza hasta la presentación final, ofreciendo siempre una imagen profesional y un trato cercano.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Trabajamos en bodas, celebraciones privadas y eventos de empresa, adaptándonos a cada ocasión con profesionalidad, presencia y pasión por la excelencia.
+            </p>
+            <p className="text-muted-foreground leading-relaxed font-medium">
+              Cortador Corvera es tradición, elegancia y respeto por el producto.
+            </p>
           </div>
         </div>
       </div>

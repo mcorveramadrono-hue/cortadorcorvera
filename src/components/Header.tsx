@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logoMC from "@/assets/logo-mc.png";
+import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,11 +17,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <a href="#inicio" className="flex items-center gap-3">
-          <img src={logoMC} alt="MC Logo" className="h-12 w-auto" />
-          <div className="hidden sm:block">
-            <p className="font-serif text-lg font-bold tracking-widest text-foreground">CORVERA</p>
-            <p className="text-[10px] tracking-[0.25em] text-muted-foreground uppercase">Un Corte Original</p>
-          </div>
+          <img src={corveraLogo} alt="Corvera" className="h-10 md:h-12 w-auto" />
+          <p className="text-[10px] tracking-[0.25em] text-muted-foreground uppercase hidden sm:block">Un Corte Original</p>
         </a>
 
         {/* Desktop Nav */}
