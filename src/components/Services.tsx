@@ -3,7 +3,7 @@ import eventosServicio from "@/assets/eventos-servicio.jpg";
 import servicioSinPieza from "@/assets/servicio-sin-pieza.jpg";
 import servicioConPieza from "@/assets/servicio-con-pieza.jpg";
 import { PartyPopper, Utensils, Award } from "lucide-react";
-import cuchillo from "@/assets/cuchillo.png";
+
 import ContactFormDialog from "./ContactFormDialog";
 
 const services = [
@@ -28,7 +28,7 @@ const services = [
     features: [
       "Trae tu propia pieza",
       "Corte a cuchillo",
-      "Servicio a domicilio",
+      "Envío a toda la península",
       "Envasado al vacío",
     ],
     image: servicioSinPieza,
@@ -41,7 +41,7 @@ const services = [
     features: [
       "Pieza de jamón ibérico incluida",
       "Corte a cuchillo",
-      "Servicio a domicilio",
+      "Envío a toda la península",
       "Envasado al vacío",
     ],
     image: servicioConPieza,
@@ -54,11 +54,6 @@ const Services = () => {
 
   return (
     <section id="servicios" className="relative py-24 bg-corvera-cream overflow-hidden">
-      <img
-        src={cuchillo}
-        alt=""
-        className="absolute bottom-20 left-0 w-64 h-auto opacity-[0.05] pointer-events-none select-none rotate-12"
-      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">

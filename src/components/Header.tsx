@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import corveraLogo from "@/assets/corvera-logo.webp";
-import corveraIsotipo from "@/assets/corvera-isotipo.webp";
+import logoMC from "@/assets/logo-mc.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,11 +38,9 @@ const Header = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#inicio" className="flex items-center gap-2">
-          <img src={corveraLogo} alt="Corvera" className="h-7 md:h-9 w-auto" />
-          <img src={corveraIsotipo} alt="" className="h-6 md:h-8 w-auto" />
-          <p className="text-[9px] tracking-[0.25em] text-muted-foreground uppercase hidden sm:block">Un Corte Original</p>
+        {/* Logo MC a la izquierda */}
+        <a href="#inicio" className="flex items-center">
+          <img src={logoMC} alt="MC Cortador Corvera" className="h-8 md:h-10 w-auto" />
         </a>
 
         {/* Desktop Nav */}

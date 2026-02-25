@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle, Instagram } from "lucide-react";
 
 const WHATSAPP_NUMBER = "34676703034";
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
@@ -155,9 +155,16 @@ const Contact = () => {
                 <MapPin size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground">Ubicación</p>
-                  <p className="text-sm text-muted-foreground">Servicio a toda la Península</p>
+                  <p className="text-sm text-muted-foreground">Madrid</p>
                 </div>
               </div>
+              <a href="https://www.instagram.com/cortadormc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
+                <Instagram size={20} className="text-primary mt-1 flex-shrink-0" />
+                <div>
+                  <p className="font-medium text-foreground group-hover:text-primary transition-colors">Instagram</p>
+                  <p className="text-sm text-muted-foreground">@cortadormc</p>
+                </div>
+              </a>
             </div>
           </div>
         </div>

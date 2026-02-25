@@ -41,13 +41,13 @@ const Footer = () => {
               Síguenos
             </p>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/cortadormc?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-background/60 hover:text-background transition-colors"
             >
               <Instagram size={18} />
-              @corvera_jamon
+              @cortadormc
             </a>
           </div>
         </div>
