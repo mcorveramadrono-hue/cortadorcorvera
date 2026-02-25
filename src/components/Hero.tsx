@@ -14,11 +14,11 @@ const Hero = () => {
           className="w-36 h-36 md:w-48 md:h-48 object-contain"
         />
 
-        {/* Logo MC */}
+        {/* Logo MC - más grande */}
         <img
           src={logoMC}
           alt="MC Logo Corvera"
-          className="w-16 md:w-20 h-auto"
+          className="w-28 md:w-36 h-auto"
         />
 
         {/* Frase exacta como imagen */}

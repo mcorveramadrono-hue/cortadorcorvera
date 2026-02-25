@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { X, Send, CheckCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 interface ContactFormDialogProps {
   isOpen: boolean;
@@ -9,11 +8,14 @@ interface ContactFormDialogProps {
   title: string;
 }
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
+
 const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFormDialogProps) => {
   const [formData, setFormData] = useState({
     nombre: "",
     apellidos: "",
     email: "",
+    telefono: "",
     mensaje: defaultMessage,
   });
   const [sending, setSending] = useState(false);
@@ -24,30 +26,32 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     setSending(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `Solicitud web - ${title}`,
           nombre: formData.nombre,
           apellidos: formData.apellidos,
           email: formData.email,
+          telefono: formData.telefono,
           mensaje: formData.mensaje,
-          asunto: `Solicitud web - ${title}`,
-        },
+        }),
       });
 
-      if (error) throw error;
+      if (!res.ok) throw new Error("Formspree error");
 
       setSent(true);
       setTimeout(() => {
         setSent(false);
         onClose();
-        setFormData({ nombre: "", apellidos: "", email: "", mensaje: defaultMessage });
+        setFormData({ nombre: "", apellidos: "", email: "", telefono: "", mensaje: defaultMessage });
       }, 2000);
     } catch (err) {
       console.error("Error sending form:", err);
-      // Fallback to mailto
       const subject = encodeURIComponent(`Solicitud web - ${title}`);
       const body = encodeURIComponent(
-        `Nombre: ${formData.nombre} ${formData.apellidos}\nEmail: ${formData.email}\n\nMensaje:\n${formData.mensaje}`
+        `Nombre: ${formData.nombre} ${formData.apellidos}\nEmail: ${formData.email}\nTeléfono: ${formData.telefono}\n\nMensaje:\n${formData.mensaje}`
       );
       window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
     } finally {
@@ -59,12 +63,8 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Overlay */}
       <div className="absolute inset-0 bg-foreground/60 backdrop-blur-sm" onClick={onClose} />
-
-      {/* Modal */}
       <div className="relative bg-background border border-border w-full max-w-lg max-h-[90vh] overflow-y-auto z-10">
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h3 className="font-serif text-xl font-bold text-foreground">{title}</h3>
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
@@ -82,9 +82,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">
-                  Nombre *
-                </label>
+                <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Nombre *</label>
                 <input
                   type="text"
                   required
@@ -95,9 +93,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
                 />
               </div>
               <div>
-                <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">
-                  Apellido/s *
-                </label>
+                <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Apellido/s *</label>
                 <input
                   type="text"
                   required
@@ -109,9 +105,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
               </div>
             </div>
             <div>
-              <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">
-                Email *
-              </label>
+              <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Email *</label>
               <input
                 type="email"
                 required
@@ -122,9 +116,18 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
               />
             </div>
             <div>
-              <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">
-                Mensaje
-              </label>
+              <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Teléfono *</label>
+              <input
+                type="tel"
+                required
+                value={formData.telefono}
+                onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                placeholder="+34 600 000 000"
+              />
+            </div>
+            <div>
+              <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Mensaje</label>
               <textarea
                 required
                 rows={4}
