@@ -48,16 +48,7 @@ const About = () => {
               Cortador Corvera nace de la pasión por el jamón ibérico y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Detrás de este proyecto está Marcos Corvera, cortador profesional, que entiende que cada pieza es única y que cada corte debe realzar su sabor, su textura y su esencia. El corte de jamón no es solo un servicio, es una experiencia que aporta valor, elegancia y distinción a cualquier evento.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              En Cortador Corvera cuidamos cada detalle: desde la selección y preparación de la pieza hasta la presentación final, ofreciendo siempre una imagen profesional y un trato cercano.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
               Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Trabajamos en bodas, celebraciones privadas y eventos de empresa, adaptándonos a cada ocasión con profesionalidad, presencia y pasión por la excelencia.
             </p>
             <p className="text-muted-foreground leading-relaxed font-medium">
               Cortador Corvera es tradición, elegancia y respeto por el producto.

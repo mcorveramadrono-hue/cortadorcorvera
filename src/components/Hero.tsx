@@ -1,4 +1,3 @@
-import logoMC from "@/assets/logo-mc.png";
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import fraseJamon from "@/assets/frase-jamon.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
@@ -7,6 +6,13 @@ const Hero = () => {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
       <div className="relative z-10 max-w-5xl mx-auto px-6 w-full flex flex-col items-center text-center space-y-10 py-16">
+        {/* CORVERA logo arriba */}
+        <img
+          src={corveraLogo}
+          alt="Corvera"
+          className="w-full max-w-md h-auto object-contain"
+        />
+
         {/* Sello "Un Corte Original" */}
         <img
           src={selloCorteOriginal}
@@ -14,25 +20,11 @@ const Hero = () => {
           className="w-36 h-36 md:w-48 md:h-48 object-contain"
         />
 
-        {/* Logo MC - más grande */}
-        <img
-          src={logoMC}
-          alt="MC Logo Corvera"
-          className="w-28 md:w-36 h-auto"
-        />
-
         {/* Frase exacta como imagen */}
         <img
           src={fraseJamon}
           alt="El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón"
           className="w-full max-w-xl h-auto object-contain"
-        />
-
-        {/* CORVERA logo image */}
-        <img
-          src={corveraLogo}
-          alt="Corvera"
-          className="w-full max-w-md h-auto object-contain"
         />
 
         {/* CTA buttons */}
