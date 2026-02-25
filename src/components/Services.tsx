@@ -1,5 +1,5 @@
 import { useState } from "react";
-import servicioEventos from "@/assets/servicio-eventos.jpg";
+import eventosServicio from "@/assets/eventos-servicio.jpg";
 import servicioSinPieza from "@/assets/servicio-sin-pieza.jpg";
 import servicioConPieza from "@/assets/servicio-con-pieza.jpg";
 import { PartyPopper, Utensils, Award } from "lucide-react";
@@ -18,7 +18,7 @@ const services = [
       "Show de corte en vivo",
       "Posibilidad de elección de la pieza",
     ],
-    image: servicioEventos,
+    image: eventosServicio,
   },
   {
     icon: Utensils,
@@ -54,7 +54,6 @@ const Services = () => {
 
   return (
     <section id="servicios" className="relative py-24 bg-corvera-cream overflow-hidden">
-      {/* Decorative cuchillo */}
       <img
         src={cuchillo}
         alt=""
@@ -63,12 +62,8 @@ const Services = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
-          <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
-            Servicios
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-            Experiencias a Medida
-          </h2>
+          <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">Servicios</p>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Experiencias a Medida</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Más allá del producto, ofrecemos experiencias únicas alrededor del jamón ibérico.
           </p>
@@ -76,26 +71,21 @@ const Services = () => {
 
         <div className="space-y-20">
           {services.map((service, index) => (
-            <div
-              key={index}
-              className="grid lg:grid-cols-2 gap-12 items-center"
-            >
-              <div className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
+            <div key={index} className="grid lg:grid-cols-2 gap-12 items-center">
+              {/* Image: on mobile always after text (order-2), on desktop alternating */}
+              <div className={`order-2 ${index % 2 === 1 ? "lg:order-2" : "lg:order-1"}`}>
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-[400px] object-cover"
+                  className="w-full h-[300px] md:h-[400px] object-cover"
                 />
               </div>
 
-              <div className={`space-y-6 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
+              {/* Text: on mobile always first (order-1), on desktop alternating */}
+              <div className={`space-y-6 order-1 ${index % 2 === 1 ? "lg:order-1" : "lg:order-2"}`}>
                 <service.icon size={32} className="text-primary" />
-                <h3 className="font-serif text-3xl font-bold text-foreground">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed text-lg">
-                  {service.description}
-                </p>
+                <h3 className="font-serif text-3xl font-bold text-foreground">{service.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-lg">{service.description}</p>
                 <ul className="space-y-2">
                   {service.features.map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 text-muted-foreground">

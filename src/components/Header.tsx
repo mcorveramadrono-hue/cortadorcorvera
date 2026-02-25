@@ -1,9 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import corveraLogo from "@/assets/corvera-logo.webp";
+import corveraIsotipo from "@/assets/corvera-isotipo.webp";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY < 50) {
+        setVisible(true);
+      } else if (currentScrollY < lastScrollY.current) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+        setIsOpen(false);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const links = [
     { label: "Inicio", href: "#inicio" },
@@ -13,12 +33,17 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-transform duration-300 ${
+        visible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <a href="#inicio" className="flex items-center gap-3">
-          <img src={corveraLogo} alt="Corvera" className="h-10 md:h-12 w-auto" />
-          <p className="text-[10px] tracking-[0.25em] text-muted-foreground uppercase hidden sm:block">Un Corte Original</p>
+        <a href="#inicio" className="flex items-center gap-2">
+          <img src={corveraLogo} alt="Corvera" className="h-7 md:h-9 w-auto" />
+          <img src={corveraIsotipo} alt="" className="h-6 md:h-8 w-auto" />
+          <p className="text-[9px] tracking-[0.25em] text-muted-foreground uppercase hidden sm:block">Un Corte Original</p>
         </a>
 
         {/* Desktop Nav */}

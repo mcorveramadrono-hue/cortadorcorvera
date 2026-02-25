@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_NUMBER = "34676703034";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", telefono: "", message: "" });
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -14,28 +14,30 @@ const Contact = () => {
     setSending(true);
 
     try {
-      const { error } = await supabase.functions.invoke("send-contact-email", {
-        body: {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `Contacto web - ${formData.name}`,
           nombre: formData.name,
-          apellidos: "",
           email: formData.email,
+          telefono: formData.telefono,
           mensaje: formData.message,
-          asunto: `Contacto web - ${formData.name}`,
-        },
+        }),
       });
 
-      if (error) throw error;
+      if (!res.ok) throw new Error("Formspree error");
 
       setSent(true);
       setTimeout(() => {
         setSent(false);
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", telefono: "", message: "" });
       }, 3000);
     } catch (err) {
       console.error("Error sending form:", err);
       const subject = encodeURIComponent(`Contacto web - ${formData.name}`);
       const body = encodeURIComponent(
-        `Nombre: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`
+        `Nombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.telefono}\n\nMensaje:\n${formData.message}`
       );
       window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
     } finally {
@@ -47,19 +49,14 @@ const Contact = () => {
     <section id="contacto" className="py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
-          <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
-            Contacto
-          </p>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-            Hablemos
-          </h2>
+          <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">Contacto</p>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Hablemos</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             ¿Tienes alguna pregunta o quieres hacer un pedido? Escríbenos y te responderemos lo antes posible.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* Form */}
           {sent ? (
             <div className="flex flex-col items-center justify-center gap-4 py-12">
               <CheckCircle size={48} className="text-primary" />
@@ -69,9 +66,7 @@ const Contact = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                  Nombre
-                </label>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Nombre</label>
                 <input
                   type="text"
                   required
@@ -82,9 +77,7 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                  Email
-                </label>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Email</label>
                 <input
                   type="email"
                   required
@@ -95,9 +88,18 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">
-                  Mensaje
-                </label>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Teléfono</label>
+                <input
+                  type="tel"
+                  required
+                  value={formData.telefono}
+                  onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                  className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
+                  placeholder="+34 600 000 000"
+                />
+              </div>
+              <div>
+                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Mensaje</label>
                 <textarea
                   required
                   rows={5}
@@ -118,7 +120,6 @@ const Contact = () => {
             </form>
           )}
 
-          {/* Info */}
           <div className="space-y-8">
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
@@ -127,15 +128,11 @@ const Contact = () => {
               className="flex items-center gap-4 p-6 border border-border hover:border-primary/30 transition-colors group"
             >
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                <MessageCircle size={20} className="text-white" />
+                <MessageCircle size={20} className="text-primary-foreground" />
               </div>
               <div>
-                <p className="font-serif text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                  WhatsApp Directo
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Escríbenos y te respondemos al momento
-                </p>
+                <p className="font-serif text-lg font-semibold text-foreground group-hover:text-primary transition-colors">WhatsApp Directo</p>
+                <p className="text-sm text-muted-foreground">Escríbenos y te respondemos al momento</p>
               </div>
             </a>
 
