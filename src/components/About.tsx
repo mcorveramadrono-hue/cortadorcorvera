@@ -1,21 +1,10 @@
 import corvera2 from "@/assets/corvera-2.jpeg";
 import cerdo2 from "@/assets/cerdo-2.png";
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
-import jamonTexturaBg from "@/assets/jamon-textura-bg.jpeg";
 
 const About = () => {
   return (
     <section className="relative py-24 bg-corvera-cream overflow-hidden">
-      {/* Decorative background */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `url(${jamonTexturaBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.04,
-        }}
-      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
