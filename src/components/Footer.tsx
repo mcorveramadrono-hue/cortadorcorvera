@@ -41,9 +41,8 @@ const Footer = () => {
               Síguenos
             </p>
             <a
-              href="https://www.instagram.com/cortadormc/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="instagram://user?username=cortadormc"
+              onClick={(e) => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }}
               className="inline-flex items-center gap-2 text-sm text-background/60 hover:text-background transition-colors"
             >
               <Instagram size={18} />

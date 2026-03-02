@@ -158,7 +158,7 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Madrid</p>
                 </div>
               </div>
-              <a href="https://www.instagram.com/cortadormc/" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group">
+              <a href="instagram://user?username=cortadormc" onClick={(e) => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }} className="flex items-start gap-4 group">
                 <Instagram size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground group-hover:text-primary transition-colors">Instagram</p>

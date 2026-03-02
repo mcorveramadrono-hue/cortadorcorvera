@@ -76,13 +76,13 @@ const Tienda = () => {
       <Header />
       <main className="pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-6">
-          <Link
-            to="/"
+          <button
+            onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft size={16} />
             Volver al inicio
-          </Link>
+          </button>
 
           <div className="text-center mb-16 space-y-4">
             <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">Catálogo Completo</p>

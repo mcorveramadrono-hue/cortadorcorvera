@@ -40,7 +40,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo MC a la izquierda */}
         <a href="#inicio" className="flex items-center">
-          <img src={logoMC} alt="MC Cortador Corvera" className="h-12 md:h-14 w-auto" />
+          <img src={logoMC} alt="MC Cortador Corvera" className="h-16 md:h-20 w-auto" />
         </a>
 
         {/* Desktop Nav */}

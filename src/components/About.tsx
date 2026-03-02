@@ -18,7 +18,7 @@ const About = () => {
             <img
               src={cerdo2}
               alt="Cerdo ibérico"
-              className="w-full h-48 object-cover"
+              className="w-full h-48 object-contain bg-corvera-cream"
             />
             <div className="flex items-center justify-center p-6 bg-background">
               <img src={selloCorteOriginal} alt="Un Corte Original" className="w-28 h-28 object-contain" />
