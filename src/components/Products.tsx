@@ -1,82 +1,10 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import jamonCebo50 from "@/assets/products/jamon-cebo-50.jpg";
-import jamonCebo502 from "@/assets/products/jamon-cebo-50-2.jpg";
-import jamonCeboCampo50 from "@/assets/products/jamon-cebo-campo-50.jpg";
-import jamonCeboCampo502 from "@/assets/products/jamon-cebo-campo-50-2.jpg";
-import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
-import jamonBellota1002 from "@/assets/products/jamon-bellota-100-2.jpg";
-import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
-import jamonBellota752 from "@/assets/products/jamon-bellota-75-2.jpg";
-import paletaCebo50 from "@/assets/products/paleta-cebo-50.jpg";
-import paletaCebo502 from "@/assets/products/paleta-cebo-50-2.jpg";
-import paletaCeboCampo50 from "@/assets/products/paleta-cebo-campo-50.jpg";
-import paletaCeboCampo502 from "@/assets/products/paleta-cebo-campo-50-2.jpg";
-import paletaBellota100 from "@/assets/products/paleta-bellota-100.webp";
-import paletaBellota1002 from "@/assets/products/paleta-bellota-100-2.jpg";
-import paletaBellota50 from "@/assets/products/paleta-bellota-50.jpg";
-import paletaBellota502 from "@/assets/products/paleta-bellota-50-2.jpg";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { products } from "@/data/products";
 import ContactFormDialog from "./ContactFormDialog";
-
-export const products = [
-  {
-    name: "Jamón de Bellota 100% Ibérico",
-    description: "Jamón de bellota 100% ibérico, criado en libertad en la dehesa. Curación mínima de 36 meses.",
-    price: "420,00 € – 550,00 €",
-    images: [jamonBellota100, jamonBellota1002],
-    weight: "7,5 – 8,5 kg",
-  },
-  {
-    name: "Jamón de Bellota 75% Ibérico DO",
-    description: "Jamón de bellota 75% ibérico con Denominación de Origen Guijuelo. Sabor redondo y equilibrado.",
-    price: "355,00 € – 450,00 €",
-    images: [jamonBellota75, jamonBellota752],
-    weight: "7 – 10 kg",
-  },
-  {
-    name: "Jamón de Cebo de Campo 50% Ibérico",
-    description: "Cerdos criados en libertad con alimentación natural complementaria. Premiado en Frankfurt.",
-    price: "240,00 €",
-    images: [jamonCeboCampo50, jamonCeboCampo502],
-    weight: "7 – 10 kg",
-  },
-  {
-    name: "Jamón de Cebo 50% Ibérico",
-    description: "Elaborado con cerdos alimentados con cereales de primera calidad. Ideal para el día a día.",
-    price: "180,00 € – 230,00 €",
-    images: [jamonCebo50, jamonCebo502],
-    weight: "7 – 10 kg",
-  },
-  {
-    name: "Paleta de Bellota 100% Ibérica",
-    description: "Sabor intenso y concentrado, con grasa blanda y brillante. Extremadamente jugosa.",
-    price: "140,00 €",
-    images: [paletaBellota100, paletaBellota1002],
-    weight: "5 – 6 kg",
-  },
-  {
-    name: "Paleta de Bellota 50% Ibérica",
-    description: "Sabor intenso con la calidad del cerdo ibérico de bellota en formato más accesible.",
-    price: "130,00 € – 160,00 €",
-    images: [paletaBellota50, paletaBellota502],
-    weight: "4 – 6 kg",
-  },
-  {
-    name: "Paleta de Cebo de Campo 50% Ibérica",
-    description: "Criada en libertad con alimentación natural complementaria. Abanico de matices aromáticos.",
-    price: "105,00 € – 130,00 €",
-    images: [paletaCeboCampo50, paletaCeboCampo502],
-    weight: "4 – 6 kg",
-  },
-  {
-    name: "Paleta de Cebo 50% Ibérica",
-    description: "Elaborada con cerdos alimentados con cereales de primera calidad. Ideal para el día a día.",
-    price: "90,00 € – 110,00 €",
-    images: [paletaCebo50, paletaCebo502],
-    weight: "4 – 6 kg",
-  },
-];
+import ProductDetailDialog from "./ProductDetailDialog";
+import type { Product } from "@/data/products";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -84,6 +12,7 @@ const Products = () => {
   const [imageIndices, setImageIndices] = useState<Record<number, number>>({});
   const [showBuyForm, setShowBuyForm] = useState(false);
   const [buyProductName, setBuyProductName] = useState("");
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
 
   const itemsPerView = typeof window !== "undefined" && window.innerWidth >= 1024 ? 4 : typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1;
   const maxIndex = Math.max(0, products.length - itemsPerView);
@@ -153,8 +82,18 @@ const Products = () => {
                       <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
                       <span className="text-xs tracking-widest uppercase text-muted-foreground block">{product.weight}</span>
                       <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
-                      <div className="pt-3 border-t border-border mt-auto">
-                        <span className="font-serif text-sm font-semibold text-primary block mb-3">{product.price}</span>
+                      <div className="pt-3 border-t border-border mt-auto space-y-2">
+                        <div className="flex items-baseline justify-between">
+                          <span className="font-serif text-sm font-semibold text-primary">{product.price}</span>
+                          <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
+                        </div>
+                        <button
+                          onClick={() => setDetailProduct(product)}
+                          className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
+                        >
+                          <Info size={14} />
+                          Más Información
+                        </button>
                         <button
                           onClick={() => {
                             setBuyProductName(product.name);
@@ -183,8 +122,13 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Ver Tienda button - navigates to /tienda */}
-        <div className="text-center mt-12">
+        {/* Shipping info */}
+        <p className="text-center text-xs text-muted-foreground/50 mt-6">
+          Gastos de envío: 15 € para pedidos inferiores a 20 kg · Envío gratuito a partir de 20 kg
+        </p>
+
+        {/* Ver Tienda button */}
+        <div className="text-center mt-10">
           <button
             onClick={() => navigate("/tienda")}
             className="inline-flex items-center justify-center px-10 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
@@ -199,6 +143,12 @@ const Products = () => {
         onClose={() => setShowBuyForm(false)}
         title={`Comprar: ${buyProductName}`}
         defaultMessage={`Hola, estoy interesado en: ${buyProductName}`}
+      />
+
+      <ProductDetailDialog
+        isOpen={!!detailProduct}
+        onClose={() => setDetailProduct(null)}
+        product={detailProduct}
       />
     </section>
   );

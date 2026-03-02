@@ -16,10 +16,20 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     apellidos: "",
     email: "",
     telefono: "",
-    mensaje: defaultMessage,
+    mensaje: "",
   });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+
+  // Reset message when dialog opens with new defaultMessage
+  if (isOpen && !initialized) {
+    setFormData((prev) => ({ ...prev, mensaje: defaultMessage }));
+    setInitialized(true);
+  }
+  if (!isOpen && initialized) {
+    setInitialized(false);
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
