@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Footer = () => {
