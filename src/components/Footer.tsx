@@ -1,4 +1,5 @@
 import { Instagram } from "lucide-react";
+import { Link } from "react-router-dom";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Footer = () => {
@@ -51,7 +52,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-background/10 text-center">
+        <div className="mt-16 pt-8 border-t border-background/10 text-center space-y-2">
+          <Link
+            to="/politica-privacidad"
+            className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors"
+          >
+            Política de Privacidad
+          </Link>
           <p className="text-xs text-background/30 tracking-widest">
             © {new Date().getFullYear()} Cortador Corvera · Un Corte Original. Todos los derechos reservados.
           </p>

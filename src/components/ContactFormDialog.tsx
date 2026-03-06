@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Send, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ContactFormDialogProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     telefono: "",
     mensaje: "",
   });
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -146,9 +148,26 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
                 className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors resize-none"
               />
             </div>
+            <div className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                id="privacy"
+                required
+                checked={acceptPrivacy}
+                onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                className="mt-1 accent-primary"
+              />
+              <label htmlFor="privacy" className="text-xs text-muted-foreground leading-relaxed">
+                He leído y acepto la{" "}
+                <Link to="/politica-privacidad" target="_blank" className="text-primary hover:underline">
+                  Política de Privacidad
+                </Link>
+                . *
+              </label>
+            </div>
             <button
               type="submit"
-              disabled={sending}
+              disabled={sending || !acceptPrivacy}
               className="w-full inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Send size={16} />
