@@ -19,6 +19,7 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     telefono: "",
     mensaje: "",
   });
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [initialized, setInitialized] = useState(false);
