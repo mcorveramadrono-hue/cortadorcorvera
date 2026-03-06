@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Send, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ContactFormDialogProps {
   isOpen: boolean;
