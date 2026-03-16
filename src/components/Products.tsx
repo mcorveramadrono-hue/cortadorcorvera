@@ -1,17 +1,14 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info, ShoppingCart } from "lucide-react";
 import { products } from "@/data/products";
-import ContactFormDialog from "./ContactFormDialog";
 import ProductDetailDialog from "./ProductDetailDialog";
 import type { Product } from "@/data/products";
 
 const Products = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [imageIndices, setImageIndices] = useState<Record<number, number>>({});
-  const [showBuyForm, setShowBuyForm] = useState(false);
-  const [buyProductName, setBuyProductName] = useState("");
+  const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
 
   const itemsPerView = typeof window !== "undefined" && window.innerWidth >= 1024 ? 4 : typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1;
@@ -20,10 +17,10 @@ const Products = () => {
   const prev = useCallback(() => setCurrentIndex((i) => Math.max(0, i - 1)), []);
   const next = useCallback(() => setCurrentIndex((i) => Math.min(maxIndex, i + 1)), [maxIndex]);
 
-  const toggleProductImage = (productIdx: number) => {
+  const toggleProductImage = (productId: string, totalImages: number) => {
     setImageIndices((prev) => ({
       ...prev,
-      [productIdx]: ((prev[productIdx] || 0) + 1) % products[productIdx].images.length,
+      [productId]: ((prev[productId] || 0) + 1) % totalImages,
     }));
   };
 
@@ -60,54 +57,56 @@ const Products = () => {
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
             >
-              {products.map((product, index) => (
-                <article key={index} className="flex-shrink-0 px-2" style={{ width: `${100 / itemsPerView}%` }}>
-                  <div className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 h-full flex flex-col">
-                    <div className="overflow-hidden bg-corvera-cream/30 cursor-pointer relative" onClick={() => toggleProductImage(index)}>
-                      <img
-                        src={product.images[imageIndices[index] || 0]}
-                        alt={product.name}
-                        className="w-full h-72 object-contain group-hover:scale-105 transition-transform duration-500 p-4"
-                      />
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
-                        {product.images.map((_, imgIdx) => (
-                          <span
-                            key={imgIdx}
-                            className={`w-2 h-2 rounded-full transition-colors ${(imageIndices[index] || 0) === imgIdx ? "bg-primary" : "bg-muted-foreground/30"}`}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    <div className="p-5 space-y-2 flex-1 flex flex-col">
-                      <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
-                      <span className="text-xs tracking-widest uppercase text-muted-foreground block">{product.weight}</span>
-                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
-                      <div className="pt-3 border-t border-border mt-auto space-y-2">
-                        <div className="flex items-baseline justify-between">
-                          <span className="font-serif text-sm font-semibold text-primary">{product.price}</span>
-                          <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
+              {products.map((product) => {
+                const minPrice = product.weightOptions[0]?.price ?? 0;
+                const maxPrice = product.weightOptions[product.weightOptions.length - 1]?.price ?? 0;
+                const minWeight = product.weightOptions[0]?.weight ?? 0;
+                const maxWeight = product.weightOptions[product.weightOptions.length - 1]?.weight ?? 0;
+
+                return (
+                  <article key={product.id} className="flex-shrink-0 px-2" style={{ width: `${100 / itemsPerView}%` }}>
+                    <div className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 h-full flex flex-col">
+                      <div className="overflow-hidden bg-corvera-cream/30 cursor-pointer relative" onClick={() => toggleProductImage(product.id, product.images.length)}>
+                        <img
+                          src={product.images[imageIndices[product.id] || 0]}
+                          alt={product.name}
+                          className="w-full h-72 object-contain group-hover:scale-105 transition-transform duration-500 p-4"
+                        />
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                          {product.images.map((_, imgIdx) => (
+                            <span
+                              key={imgIdx}
+                              className={`w-2 h-2 rounded-full transition-colors ${(imageIndices[product.id] || 0) === imgIdx ? "bg-primary" : "bg-muted-foreground/30"}`}
+                            />
+                          ))}
                         </div>
-                        <button
-                          onClick={() => setDetailProduct(product)}
-                          className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
-                        >
-                          <Info size={14} />
-                          Más Información
-                        </button>
-                        <button
-                          onClick={() => {
-                            setBuyProductName(product.name);
-                            setShowBuyForm(true);
-                          }}
-                          className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
-                        >
-                          Comprar
-                        </button>
+                      </div>
+                      <div className="p-5 space-y-2 flex-1 flex flex-col">
+                        <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
+                        <span className="text-xs tracking-widest uppercase text-muted-foreground block">
+                          {minWeight.toFixed(1).replace('.', ',')} – {maxWeight.toFixed(1).replace('.', ',')} kg
+                        </span>
+                        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
+                        <div className="pt-3 border-t border-border mt-auto space-y-2">
+                          <div className="flex items-baseline justify-between">
+                            <span className="font-serif text-sm font-semibold text-primary">
+                              {minPrice.toFixed(2).replace('.', ',')} – {maxPrice.toFixed(2).replace('.', ',')} €
+                            </span>
+                            <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
+                          </div>
+                          <button
+                            onClick={() => setDetailProduct(product)}
+                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
+                          >
+                            <Info size={14} />
+                            Más Información
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           </div>
 
@@ -122,28 +121,20 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Shipping info */}
         <p className="text-center text-xs text-muted-foreground/50 mt-6">
           Gastos de envío: 15 € para pedidos inferiores a 20 kg · Envío gratuito a partir de 20 kg
         </p>
 
-        {/* Ver Tienda button */}
         <div className="text-center mt-10">
           <button
             onClick={() => navigate("/tienda")}
-            className="inline-flex items-center justify-center px-10 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-10 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
           >
+            <ShoppingCart size={16} />
             Ver Tienda
           </button>
         </div>
       </div>
-
-      <ContactFormDialog
-        isOpen={showBuyForm}
-        onClose={() => setShowBuyForm(false)}
-        title={`Comprar: ${buyProductName}`}
-        defaultMessage={`Hola, estoy interesado en: ${buyProductName}`}
-      />
 
       <ProductDetailDialog
         isOpen={!!detailProduct}

@@ -53,6 +53,7 @@ const Checkout = () => {
     try {
       // Create order in database
       const orderData = {
+        order_number: `TMP-${Date.now()}`,
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
