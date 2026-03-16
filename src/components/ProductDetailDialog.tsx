@@ -10,6 +10,11 @@ interface ProductDetailDialogProps {
 const ProductDetailDialog = ({ isOpen, onClose, product }: ProductDetailDialogProps) => {
   if (!isOpen || !product) return null;
 
+  const minPrice = product.weightOptions[0]?.price ?? 0;
+  const maxPrice = product.weightOptions[product.weightOptions.length - 1]?.price ?? 0;
+  const minWeight = product.weightOptions[0]?.weight ?? 0;
+  const maxWeight = product.weightOptions[product.weightOptions.length - 1]?.weight ?? 0;
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-foreground/60 backdrop-blur-sm" onClick={onClose} />
@@ -28,18 +33,20 @@ const ProductDetailDialog = ({ isOpen, onClose, product }: ProductDetailDialogPr
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 border border-border">
               <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio *IVA incluido</p>
-              <p className="font-serif text-lg font-semibold text-primary">{product.price}</p>
+              <p className="font-serif text-lg font-semibold text-primary">
+                {minPrice.toFixed(2).replace('.', ',')} – {maxPrice.toFixed(2).replace('.', ',')} €
+              </p>
             </div>
             <div className="p-4 border border-border">
               <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Peso</p>
-              <p className="font-serif text-lg font-semibold text-foreground">{product.weight}</p>
+              <p className="font-serif text-lg font-semibold text-foreground">
+                {minWeight.toFixed(1).replace('.', ',')} – {maxWeight.toFixed(1).replace('.', ',')} kg
+              </p>
             </div>
-            {product.pricePerKg && (
-              <div className="p-4 border border-border">
-                <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio por kg</p>
-                <p className="font-serif text-lg font-semibold text-foreground">{product.pricePerKg}</p>
-              </div>
-            )}
+            <div className="p-4 border border-border">
+              <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio por kg</p>
+              <p className="font-serif text-lg font-semibold text-foreground">{product.pricePerKg.toFixed(2).replace('.', ',')} €/kg</p>
+            </div>
             <div className="p-4 border border-border">
               <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Curación</p>
               <p className="font-serif text-lg font-semibold text-foreground">{product.curing}</p>
@@ -52,7 +59,7 @@ const ProductDetailDialog = ({ isOpen, onClose, product }: ProductDetailDialogPr
             )}
             <div className="p-4 border border-border">
               <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Corte a cuchillo</p>
-              <p className="font-serif text-sm font-semibold text-foreground">{product.knifeSuplement}</p>
+              <p className="font-serif text-sm font-semibold text-foreground">Suplemento de {product.knifeSupplementPrice} €</p>
             </div>
           </div>
 
