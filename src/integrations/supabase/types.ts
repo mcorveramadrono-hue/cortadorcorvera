@@ -14,7 +14,125 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          knife_supplement: boolean
+          knife_supplement_price: number
+          order_id: string
+          price: number
+          product_name: string
+          quantity: number
+          weight: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          knife_supplement?: boolean
+          knife_supplement_price?: number
+          order_id: string
+          price: number
+          product_name: string
+          quantity?: number
+          weight: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          knife_supplement?: boolean
+          knife_supplement_price?: number
+          order_id?: string
+          price?: number
+          product_name?: string
+          quantity?: number
+          weight?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          accept_privacy: boolean
+          address: string
+          city: string
+          created_at: string
+          dni: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          notes: string | null
+          order_number: string
+          payment_method: string
+          phone: string
+          postal_code: string
+          province: string
+          shipping_cost: number
+          status: string
+          stripe_session_id: string | null
+          subtotal: number
+          total: number
+          total_weight: number
+          updated_at: string
+        }
+        Insert: {
+          accept_privacy?: boolean
+          address: string
+          city: string
+          created_at?: string
+          dni: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          notes?: string | null
+          order_number: string
+          payment_method?: string
+          phone: string
+          postal_code: string
+          province: string
+          shipping_cost?: number
+          status?: string
+          stripe_session_id?: string | null
+          subtotal?: number
+          total?: number
+          total_weight?: number
+          updated_at?: string
+        }
+        Update: {
+          accept_privacy?: boolean
+          address?: string
+          city?: string
+          created_at?: string
+          dni?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          notes?: string | null
+          order_number?: string
+          payment_method?: string
+          phone?: string
+          postal_code?: string
+          province?: string
+          shipping_cost?: number
+          status?: string
+          stripe_session_id?: string | null
+          subtotal?: number
+          total?: number
+          total_weight?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
