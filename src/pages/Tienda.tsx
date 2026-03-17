@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, ShoppingCart, Plus, Minus, Info, Scissors } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Info, Scissors } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import type { Product } from "@/data/products";
@@ -11,7 +11,7 @@ import { toast } from "@/hooks/use-toast";
 
 const Tienda = () => {
   const navigate = useNavigate();
-  const { addItem, totalItems } = useCart();
+  const { addItem } = useCart();
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
   const [selectedKnife, setSelectedKnife] = useState<Record<string, boolean>>({});
@@ -129,27 +129,15 @@ const Tienda = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-6">
+      <main className="pt-20 pb-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => navigate("/")}
               className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft size={16} />
               Volver
-            </button>
-            <button
-              onClick={() => navigate("/carrito")}
-              className="relative inline-flex items-center gap-2 px-4 py-2 border border-border text-foreground text-sm tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
-            >
-              <ShoppingCart size={18} />
-              Carrito
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
             </button>
           </div>
 

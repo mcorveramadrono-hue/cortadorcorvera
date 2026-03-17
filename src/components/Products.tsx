@@ -1,15 +1,20 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Info, ShoppingCart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info, ShoppingCart, Scissors } from "lucide-react";
 import { products } from "@/data/products";
+import { useCart } from "@/contexts/CartContext";
 import ProductDetailDialog from "./ProductDetailDialog";
 import type { Product } from "@/data/products";
+import { toast } from "@/hooks/use-toast";
 
 const Products = () => {
   const navigate = useNavigate();
+  const { addItem } = useCart();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+  const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
+  const [selectedKnife, setSelectedKnife] = useState<Record<string, boolean>>({});
 
   const itemsPerView = typeof window !== "undefined" && window.innerWidth >= 1024 ? 4 : typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1;
   const maxIndex = Math.max(0, products.length - itemsPerView);
@@ -22,6 +27,25 @@ const Products = () => {
       ...prev,
       [productId]: ((prev[productId] || 0) + 1) % totalImages,
     }));
+  };
+
+  const handleAddToCart = (product: Product) => {
+    const weightIdx = selectedWeights[product.id] ?? 0;
+    const option = product.weightOptions[weightIdx];
+    const withKnife = selectedKnife[product.id] ?? false;
+
+    addItem({
+      product,
+      selectedWeight: option.weight,
+      price: option.price,
+      quantity: 1,
+      withKnife,
+    });
+
+    toast({
+      title: "Añadido al carrito",
+      description: `${product.name} (${option.weight.toFixed(1).replace('.', ',')} kg)`,
+    });
   };
 
   return (
@@ -58,10 +82,10 @@ const Products = () => {
               style={{ transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)` }}
             >
               {products.map((product) => {
-                const minPrice = product.weightOptions[0]?.price ?? 0;
-                const maxPrice = product.weightOptions[product.weightOptions.length - 1]?.price ?? 0;
-                const minWeight = product.weightOptions[0]?.weight ?? 0;
-                const maxWeight = product.weightOptions[product.weightOptions.length - 1]?.weight ?? 0;
+                const weightIdx = selectedWeights[product.id] ?? 0;
+                const option = product.weightOptions[weightIdx];
+                const withKnife = selectedKnife[product.id] ?? false;
+                const totalPrice = option.price + (withKnife ? product.knifeSupplementPrice : 0);
 
                 return (
                   <article key={product.id} className="flex-shrink-0 px-2" style={{ width: `${100 / itemsPerView}%` }}>
@@ -83,23 +107,55 @@ const Products = () => {
                       </div>
                       <div className="p-5 space-y-2 flex-1 flex flex-col">
                         <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
-                        <span className="text-xs tracking-widest uppercase text-muted-foreground block">
-                          {minWeight.toFixed(1).replace('.', ',')} – {maxWeight.toFixed(1).replace('.', ',')} kg
-                        </span>
                         <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
+
+                        {/* Weight selector */}
+                        <div>
+                          <select
+                            value={weightIdx}
+                            onChange={(e) => setSelectedWeights((prev) => ({ ...prev, [product.id]: Number(e.target.value) }))}
+                            className="w-full border border-border bg-background px-3 py-1.5 text-xs text-foreground focus:outline-none focus:border-primary transition-colors"
+                          >
+                            {product.weightOptions.map((opt, idx) => (
+                              <option key={idx} value={idx}>{opt.label}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Knife supplement */}
+                        <label className="flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={withKnife}
+                            onChange={(e) => setSelectedKnife((prev) => ({ ...prev, [product.id]: e.target.checked }))}
+                            className="accent-primary"
+                          />
+                          <Scissors size={12} className="text-muted-foreground" />
+                          <span className="text-[11px] text-muted-foreground">
+                            Corte a cuchillo (+{product.knifeSupplementPrice} €)
+                          </span>
+                        </label>
+
                         <div className="pt-3 border-t border-border mt-auto space-y-2">
                           <div className="flex items-baseline justify-between">
                             <span className="font-serif text-sm font-semibold text-primary">
-                              {minPrice.toFixed(2).replace('.', ',')} – {maxPrice.toFixed(2).replace('.', ',')} €
+                              {totalPrice.toFixed(2).replace('.', ',')} €
                             </span>
                             <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
                           </div>
                           <button
                             onClick={() => setDetailProduct(product)}
-                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
+                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
                           >
                             <Info size={14} />
-                            Más Información
+                            Más Info
+                          </button>
+                          <button
+                            onClick={() => handleAddToCart(product)}
+                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                          >
+                            <ShoppingCart size={14} />
+                            Añadir al Carrito
                           </button>
                         </div>
                       </div>

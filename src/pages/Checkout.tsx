@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, CreditCard, Building2, Loader2 } from "lucide-react";
+import { ArrowLeft, Building2, Smartphone, Loader2 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +12,7 @@ const Checkout = () => {
   const { items, subtotal, totalWeight, shippingCost, total, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "transfer">("card");
+  const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum">("transfer");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -45,13 +45,16 @@ const Checkout = () => {
     );
   }
 
+  // Calculate knife supplement total
+  const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const productSubtotal = subtotal - knifeTotal;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!acceptPrivacy) return;
     setLoading(true);
 
     try {
-      // Create order in database
       const orderData = {
         order_number: `TMP-${Date.now()}`,
         first_name: formData.firstName,
@@ -70,7 +73,7 @@ const Checkout = () => {
         notes: formData.notes || null,
         accept_privacy: acceptPrivacy,
         payment_method: paymentMethod,
-        status: paymentMethod === "transfer" ? "pending_transfer" : "pending_payment",
+        status: "pending_payment",
       };
 
       const { data: order, error: orderError } = await supabase
@@ -81,7 +84,6 @@ const Checkout = () => {
 
       if (orderError) throw orderError;
 
-      // Create order items
       const orderItems = items.map((item) => ({
         order_id: order.id,
         product_name: item.product.name,
@@ -95,39 +97,13 @@ const Checkout = () => {
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
       if (itemsError) throw itemsError;
 
-      if (paymentMethod === "card") {
-        // Create Stripe checkout session
-        const { data: stripeData, error: stripeError } = await supabase.functions.invoke("create-checkout", {
-          body: {
-            orderId: order.id,
-            items: items.map((item) => ({
-              name: item.product.name,
-              weight: item.selectedWeight,
-              price: item.price,
-              quantity: item.quantity,
-              withKnife: item.withKnife,
-              knifePrice: item.withKnife ? item.product.knifeSupplementPrice : 0,
-            })),
-            shippingCost,
-            customerEmail: formData.email,
-          },
-        });
+      // Send notification email
+      await supabase.functions.invoke("send-order-notification", {
+        body: { orderId: order.id },
+      });
 
-        if (stripeError) throw stripeError;
-
-        if (stripeData?.url) {
-          clearCart();
-          window.location.href = stripeData.url;
-          return;
-        }
-      } else {
-        // Bank transfer - send notification email
-        await supabase.functions.invoke("send-order-notification", {
-          body: { orderId: order.id },
-        });
-        clearCart();
-        navigate(`/pedido-confirmado/${order.id}`);
-      }
+      clearCart();
+      navigate(`/pedido-confirmado/${order.id}`);
     } catch (err: any) {
       console.error("Checkout error:", err);
       toast({
@@ -145,8 +121,8 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        <div className="max-w-5xl mx-auto px-6">
+      <main className="pt-20 pb-16">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
           <button
             onClick={() => navigate("/carrito")}
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
@@ -230,18 +206,6 @@ const Checkout = () => {
                 <div className="space-y-3">
                   <label
                     className={`flex items-center gap-3 p-4 border cursor-pointer transition-colors ${
-                      paymentMethod === "card" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
-                    }`}
-                  >
-                    <input type="radio" name="payment" value="card" checked={paymentMethod === "card"} onChange={() => setPaymentMethod("card")} className="accent-primary" />
-                    <CreditCard size={20} className="text-foreground" />
-                    <div>
-                      <p className="text-sm font-medium text-foreground">Tarjeta de crédito/débito</p>
-                      <p className="text-xs text-muted-foreground">Pago seguro con Stripe</p>
-                    </div>
-                  </label>
-                  <label
-                    className={`flex items-center gap-3 p-4 border cursor-pointer transition-colors ${
                       paymentMethod === "transfer" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                     }`}
                   >
@@ -249,7 +213,19 @@ const Checkout = () => {
                     <Building2 size={20} className="text-foreground" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Transferencia bancaria</p>
-                      <p className="text-xs text-muted-foreground">Recibirás los datos bancarios por email</p>
+                      <p className="text-xs text-muted-foreground">Recibirás los datos bancarios tras confirmar</p>
+                    </div>
+                  </label>
+                  <label
+                    className={`flex items-center gap-3 p-4 border cursor-pointer transition-colors ${
+                      paymentMethod === "bizum" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                    }`}
+                  >
+                    <input type="radio" name="payment" value="bizum" checked={paymentMethod === "bizum"} onChange={() => setPaymentMethod("bizum")} className="accent-primary" />
+                    <Smartphone size={20} className="text-foreground" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Bizum</p>
+                      <p className="text-xs text-muted-foreground">Pago rápido con Bizum</p>
                     </div>
                   </label>
                 </div>
@@ -277,7 +253,7 @@ const Checkout = () => {
 
             {/* Right column - Summary */}
             <div className="lg:col-span-1">
-              <div className="border border-border p-6 space-y-4 sticky top-28">
+              <div className="border border-border p-6 space-y-4 sticky top-20">
                 <h2 className="font-serif text-lg font-bold text-foreground">Resumen del Pedido</h2>
                 <div className="space-y-3 max-h-60 overflow-y-auto">
                   {items.map((item, i) => {
@@ -288,7 +264,7 @@ const Checkout = () => {
                           <p className="text-foreground truncate text-xs">{item.product.name}</p>
                           <p className="text-[10px] text-muted-foreground">
                             {item.selectedWeight.toFixed(1).replace('.', ',')} kg × {item.quantity}
-                            {item.withKnife && " + cuchillo"}
+                            {item.withKnife && ` + cuchillo (${item.product.knifeSupplementPrice} €)`}
                           </p>
                         </div>
                         <span className="text-foreground font-medium text-xs whitespace-nowrap ml-2">{itemTotal.toFixed(2).replace('.', ',')} €</span>
@@ -298,9 +274,15 @@ const Checkout = () => {
                 </div>
                 <div className="border-t border-border pt-3 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="text-foreground">{subtotal.toFixed(2).replace('.', ',')} €</span>
+                    <span className="text-muted-foreground">Productos</span>
+                    <span className="text-foreground">{productSubtotal.toFixed(2).replace('.', ',')} €</span>
                   </div>
+                  {knifeTotal > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Corte a cuchillo</span>
+                      <span className="text-foreground">{knifeTotal.toFixed(2).replace('.', ',')} €</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Envío ({totalWeight.toFixed(1).replace('.', ',')} kg)</span>
                     <span className="text-foreground">{shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}</span>
@@ -315,8 +297,8 @@ const Checkout = () => {
                   disabled={loading || !acceptPrivacy}
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : paymentMethod === "card" ? <CreditCard size={16} /> : <Building2 size={16} />}
-                  {loading ? "Procesando..." : paymentMethod === "card" ? "Pagar con Tarjeta" : "Confirmar Pedido"}
+                  {loading ? <Loader2 size={16} className="animate-spin" /> : paymentMethod === "bizum" ? <Smartphone size={16} /> : <Building2 size={16} />}
+                  {loading ? "Procesando..." : "Confirmar Pedido"}
                 </button>
               </div>
             </div>

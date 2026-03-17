@@ -8,13 +8,17 @@ const Carrito = () => {
   const navigate = useNavigate();
   const { items, removeItem, updateQuantity, subtotal, totalWeight, shippingCost, total } = useCart();
 
+  // Calculate knife supplement total
+  const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const productSubtotal = subtotal - knifeTotal;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        <div className="max-w-4xl mx-auto px-6">
+      <main className="pt-20 pb-16">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
           <button
-            onClick={() => navigate("/tienda")}
+            onClick={() => navigate("/")}
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft size={16} />
@@ -48,8 +52,8 @@ const Carrito = () => {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-serif text-sm font-semibold text-foreground truncate">{item.product.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        {item.selectedWeight.toFixed(1).replace('.', ',')} kg
-                        {item.withKnife && " · Corte a cuchillo"}
+                        {item.selectedWeight.toFixed(1).replace('.', ',')} kg — {item.price.toFixed(2).replace('.', ',')} €
+                        {item.withKnife && ` · Corte a cuchillo (+${item.product.knifeSupplementPrice} €)`}
                       </p>
                       <div className="flex items-center gap-3 mt-2">
                         <button
@@ -80,9 +84,15 @@ const Carrito = () => {
               {/* Totals */}
               <div className="border border-border p-6 space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span className="text-foreground font-medium">{subtotal.toFixed(2).replace('.', ',')} €</span>
+                  <span className="text-muted-foreground">Productos</span>
+                  <span className="text-foreground font-medium">{productSubtotal.toFixed(2).replace('.', ',')} €</span>
                 </div>
+                {knifeTotal > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Corte a cuchillo</span>
+                    <span className="text-foreground font-medium">{knifeTotal.toFixed(2).replace('.', ',')} €</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Peso total</span>
                   <span className="text-foreground font-medium">{totalWeight.toFixed(1).replace('.', ',')} kg</span>
