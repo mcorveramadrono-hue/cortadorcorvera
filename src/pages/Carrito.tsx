@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ArrowLeft, Trash2, Plus, Minus, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
@@ -6,6 +7,10 @@ import Footer from "@/components/Footer";
 
 const Carrito = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { items, removeItem, updateQuantity, subtotal, totalWeight, shippingCost, total } = useCart();
 
   // Calculate knife supplement total
