@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle, Instagram } from "lucide-react";
 
 const WHATSAPP_NUMBER = "34676703034";
