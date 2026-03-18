@@ -36,11 +36,11 @@ const Contact = () => {
       }, 3000);
     } catch (err) {
       console.error("Error sending form:", err);
-      const subject = encodeURIComponent(`Contacto web - ${formData.name}`);
-      const body = encodeURIComponent(
-        `Nombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.telefono}\n\nMensaje:\n${formData.message}`
-      );
-      window.location.href = `mailto:mcorveramadrono@gmail.com?subject=${subject}&body=${body}`;
+      toast({
+        title: "Error al enviar",
+        description: "No se pudo enviar el mensaje. Prueba a contactarnos por WhatsApp o teléfono.",
+        variant: "destructive",
+      });
     } finally {
       setSending(false);
     }
