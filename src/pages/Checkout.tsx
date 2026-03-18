@@ -97,10 +97,31 @@ const Checkout = () => {
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
       if (itemsError) throw itemsError;
 
-      // Send notification email
-      await supabase.functions.invoke("send-order-notification", {
-        body: { orderId: order.id },
-      });
+      // Send notification email with one retry
+      let notificationSent = false;
+      let lastNotificationError: string | null = null;
+
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const { error: notificationError } = await supabase.functions.invoke("send-order-notification", {
+          body: { orderId: order.id },
+        });
+
+        if (!notificationError) {
+          notificationSent = true;
+          break;
+        }
+
+        lastNotificationError = notificationError.message;
+      }
+
+      if (!notificationSent) {
+        console.error("Order notification error:", lastNotificationError);
+        toast({
+          title: "Pedido guardado",
+          description: "Tu pedido se registró, pero hubo un problema enviando la notificación. Si no te contactamos pronto, escríbenos por WhatsApp.",
+          variant: "destructive",
+        });
+      }
 
       clearCart();
       navigate(`/pedido-confirmado/${order.id}`);

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle, Instagram } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_NUMBER = "34676703034";
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", telefono: "", message: "" });
@@ -15,19 +15,18 @@ const Contact = () => {
     setSending(true);
 
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          _subject: `Contacto web - ${formData.name}`,
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          asunto: `Contacto web - ${formData.name}`,
           nombre: formData.name,
           email: formData.email,
           telefono: formData.telefono,
           mensaje: formData.message,
-        }),
+          origen: "contacto",
+        },
       });
 
-      if (!res.ok) throw new Error("Formspree error");
+      if (error) throw error;
 
       setSent(true);
       setTimeout(() => {
