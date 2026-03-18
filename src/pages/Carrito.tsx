@@ -92,12 +92,15 @@ const Carrito = () => {
                   <span className="text-muted-foreground">Productos</span>
                   <span className="text-foreground font-medium">{productSubtotal.toFixed(2).replace('.', ',')} €</span>
                 </div>
-                {knifeTotal > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Corte a cuchillo</span>
-                    <span className="text-foreground font-medium">{knifeTotal.toFixed(2).replace('.', ',')} €</span>
-                  </div>
-                )}
+                {knifeTotal > 0 && (() => {
+                  const knifeCount = items.filter(i => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
+                  return (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Corte a cuchillo x{knifeCount}</span>
+                      <span className="text-foreground font-medium">{knifeTotal.toFixed(2).replace('.', ',')} €</span>
+                    </div>
+                  );
+                })()}
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Peso total</span>
                   <span className="text-foreground font-medium">{totalWeight.toFixed(1).replace('.', ',')} kg</span>

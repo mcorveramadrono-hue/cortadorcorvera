@@ -129,7 +129,7 @@ const Tienda = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-20 pb-16">
+      <main className="pt-28 pb-16">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-8">
             <button
