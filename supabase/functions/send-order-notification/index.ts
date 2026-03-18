@@ -43,7 +43,7 @@ serve(async (req) => {
     const message = `
 NUEVO PEDIDO - ${order.order_number}
 ================================
-Método de pago: ${order.payment_method === "transfer" ? "Transferencia bancaria" : "Tarjeta (Stripe)"}
+Método de pago: ${order.payment_method === "transfer" ? "Transferencia bancaria" : order.payment_method === "bizum" ? "Bizum" : order.payment_method}
 Estado: ${order.status}
 
 CLIENTE:

@@ -114,7 +114,7 @@ export const products: Product[] = [
     description: "Jamón seleccionado de forma artesanal, elaborado a partir de piezas escogidas por su excelente calidad y equilibrio de grasa infiltrada. Su curación lenta en bodegas naturales potencia un aroma intenso y un sabor suave y persistente en boca.",
     pricePerKg: 21.05,
     images: [jamonCebo50, jamonCebo502],
-    weightOptions: generateWeightOptions(5.5, 7, 0.5, 21.05),
+    weightOptions: generateWeightOptions(7, 7, 0.5, 21.05),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
