@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast as showToast } from "@/hooks/use-toast";
 import { X, Send, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ContactFormDialogProps {
   isOpen: boolean;
@@ -9,8 +10,6 @@ interface ContactFormDialogProps {
   defaultMessage: string;
   title: string;
 }
-
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
 
 const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFormDialogProps) => {
   const [formData, setFormData] = useState({
@@ -39,20 +38,19 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
     setSending(true);
 
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          _subject: `Solicitud web - ${title}`,
+      const { error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
+          asunto: `Solicitud web - ${title}`,
           nombre: formData.nombre,
           apellidos: formData.apellidos,
           email: formData.email,
           telefono: formData.telefono,
           mensaje: formData.mensaje,
-        }),
+          origen: "servicio",
+        },
       });
 
-      if (!res.ok) throw new Error("Formspree error");
+      if (error) throw error;
 
       setSent(true);
       setTimeout(() => {
