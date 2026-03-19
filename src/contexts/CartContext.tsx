@@ -14,6 +14,7 @@ interface CartContextType {
   addItem: (item: CartItem) => void;
   removeItem: (index: number) => void;
   updateQuantity: (index: number, quantity: number) => void;
+  updateKnife: (index: number, withKnife: boolean) => void;
   clearCart: () => void;
   totalItems: number;
   subtotal: number;
@@ -32,17 +33,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const existingIdx = prev.findIndex(
         (i) =>
           i.product.id === newItem.product.id &&
-          i.selectedWeight === newItem.selectedWeight &&
-          i.withKnife === newItem.withKnife
+          i.selectedWeight === newItem.selectedWeight,
       );
+
       if (existingIdx >= 0) {
         const updated = [...prev];
         updated[existingIdx] = {
           ...updated[existingIdx],
           quantity: updated[existingIdx].quantity + newItem.quantity,
+          withKnife: updated[existingIdx].withKnife || newItem.withKnife,
         };
         return updated;
       }
+
       return [...prev, newItem];
     });
   };
@@ -56,6 +59,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setItems((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], quantity };
+      return updated;
+    });
+  };
+
+  const updateKnife = (index: number, withKnife: boolean) => {
+    setItems((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], withKnife };
       return updated;
     });
   };
@@ -77,7 +88,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, clearCart, totalItems, subtotal, totalWeight, shippingCost, total }}
+      value={{ items, addItem, removeItem, updateQuantity, updateKnife, clearCart, totalItems, subtotal, totalWeight, shippingCost, total }}
     >
       {children}
     </CartContext.Provider>
