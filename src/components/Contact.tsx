@@ -4,6 +4,7 @@ import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle, Instagram } from
 import { supabase } from "@/integrations/supabase/client";
 
 const WHATSAPP_NUMBER = "34676703034";
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", telefono: "", message: "" });
@@ -12,16 +13,42 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      telefono: formData.telefono.trim(),
+      message: formData.message.trim(),
+    };
+
+    if (!payload.name || !payload.email || !payload.telefono || !payload.message) {
+      toast({
+        title: "Faltan datos",
+        description: "Revisa que nombre, email, teléfono y mensaje estén completos.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(payload.email)) {
+      toast({
+        title: "Email no válido",
+        description: "Introduce un email correcto para poder enviarte respuesta.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSending(true);
 
     try {
       const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
-          asunto: `Contacto web - ${formData.name}`,
-          nombre: formData.name,
-          email: formData.email,
-          telefono: formData.telefono,
-          mensaje: formData.message,
+          asunto: `Contacto web - ${payload.name}`,
+          nombre: payload.name,
+          email: payload.email,
+          telefono: payload.telefono,
+          mensaje: payload.message,
           origen: "contacto",
         },
       });
@@ -33,12 +60,13 @@ const Contact = () => {
         setSent(false);
         setFormData({ name: "", email: "", telefono: "", message: "" });
       }, 3000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error sending form:", err);
       toast({
         title: "Error al enviar",
-        description: "No se pudo enviar el mensaje. Prueba a contactarnos por WhatsApp o teléfono.",
+        description: err?.message || "No se pudo enviar el mensaje. Prueba por WhatsApp o teléfono.",
         variant: "destructive",
+        duration: 6000,
       });
     } finally {
       setSending(false);
@@ -64,12 +92,11 @@ const Contact = () => {
               <p className="text-sm text-muted-foreground">Te responderemos lo antes posible.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-6">
               <div>
                 <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Nombre</label>
                 <input
                   type="text"
-                  required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -80,7 +107,6 @@ const Contact = () => {
                 <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Email</label>
                 <input
                   type="email"
-                  required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -91,7 +117,6 @@ const Contact = () => {
                 <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Teléfono</label>
                 <input
                   type="tel"
-                  required
                   value={formData.telefono}
                   onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                   className="w-full border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -101,7 +126,6 @@ const Contact = () => {
               <div>
                 <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Mensaje</label>
                 <textarea
-                  required
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -158,7 +182,7 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Madrid</p>
                 </div>
               </div>
-              <a href="instagram://user?username=cortadormc" onClick={(e) => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }} className="flex items-start gap-4 group">
+              <a href="instagram://user?username=cortadormc" onClick={() => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }} className="flex items-start gap-4 group">
                 <Instagram size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground group-hover:text-primary transition-colors">Instagram</p>
