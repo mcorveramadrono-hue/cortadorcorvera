@@ -45,8 +45,8 @@ const Checkout = () => {
     );
   }
 
-  // Calculate knife supplement total
   const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
   const productSubtotal = subtotal - knifeTotal;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,7 +97,6 @@ const Checkout = () => {
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
       if (itemsError) throw itemsError;
 
-      // Send notification email with one retry
       let notificationSent = false;
       let lastNotificationError: string | null = null;
 
@@ -155,9 +154,7 @@ const Checkout = () => {
           <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-8">Finalizar Pedido</h1>
 
           <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 gap-8">
-            {/* Left column - Form */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Personal data */}
               <div className="border border-border p-6 space-y-4">
                 <h2 className="font-serif text-lg font-bold text-foreground">Datos Personales</h2>
                 <div className="grid grid-cols-2 gap-4">
@@ -186,7 +183,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Shipping */}
               <div className="border border-border p-6 space-y-4">
                 <h2 className="font-serif text-lg font-bold text-foreground">Dirección de Envío</h2>
                 <div>
@@ -209,7 +205,6 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Notes */}
               <div className="border border-border p-6 space-y-4">
                 <h2 className="font-serif text-lg font-bold text-foreground">Notas del Pedido</h2>
                 <textarea
@@ -221,7 +216,6 @@ const Checkout = () => {
                 />
               </div>
 
-              {/* Payment method */}
               <div className="border border-border p-6 space-y-4">
                 <h2 className="font-serif text-lg font-bold text-foreground">Método de Pago</h2>
                 <div className="space-y-3">
@@ -234,7 +228,7 @@ const Checkout = () => {
                     <Building2 size={20} className="text-foreground" />
                     <div>
                       <p className="text-sm font-medium text-foreground">Transferencia bancaria</p>
-                      <p className="text-xs text-muted-foreground">Recibirás los datos bancarios tras confirmar</p>
+                      <p className="text-xs text-muted-foreground">Titular: Marcos Corvera Madroño</p>
                     </div>
                   </label>
                   <label
@@ -252,17 +246,16 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Privacy */}
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-3 border border-border bg-card p-4 md:p-5">
                 <input
                   type="checkbox"
                   id="privacy-checkout"
                   required
                   checked={acceptPrivacy}
                   onChange={(e) => setAcceptPrivacy(e.target.checked)}
-                  className="mt-1 accent-primary"
+                  className="mt-0.5 h-5 w-5 accent-primary"
                 />
-                <label htmlFor="privacy-checkout" className="text-xs text-muted-foreground leading-relaxed">
+                <label htmlFor="privacy-checkout" className="text-sm text-muted-foreground leading-relaxed">
                   He leído y acepto la{" "}
                   <Link to="/politica-privacidad" target="_blank" className="text-primary hover:underline">
                     Política de Privacidad
@@ -272,7 +265,6 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* Right column - Summary */}
             <div className="lg:col-span-1">
               <div className="border border-border p-6 space-y-4 sticky top-20">
                 <h2 className="font-serif text-lg font-bold text-foreground">Resumen del Pedido</h2>
@@ -300,7 +292,7 @@ const Checkout = () => {
                   </div>
                   {knifeTotal > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Corte a cuchillo</span>
+                      <span className="text-muted-foreground">Corte a cuchillo x{knifeCount}</span>
                       <span className="text-foreground">{knifeTotal.toFixed(2).replace('.', ',')} €</span>
                     </div>
                   )}

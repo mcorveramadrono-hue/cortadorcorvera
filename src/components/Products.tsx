@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, Info, ShoppingCart, Scissors } from "lucide-react";
+import { ChevronLeft, ChevronRight, Info, ShoppingCart } from "lucide-react";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import ProductDetailDialog from "./ProductDetailDialog";
@@ -14,7 +14,6 @@ const Products = () => {
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
-  const [selectedKnife, setSelectedKnife] = useState<Record<string, boolean>>({});
 
   const itemsPerView = typeof window !== "undefined" && window.innerWidth >= 1024 ? 4 : typeof window !== "undefined" && window.innerWidth >= 768 ? 2 : 1;
   const maxIndex = Math.max(0, products.length - itemsPerView);
@@ -32,19 +31,19 @@ const Products = () => {
   const handleAddToCart = (product: Product) => {
     const weightIdx = selectedWeights[product.id] ?? 0;
     const option = product.weightOptions[weightIdx];
-    const withKnife = selectedKnife[product.id] ?? false;
 
     addItem({
       product,
       selectedWeight: option.weight,
       price: option.price,
       quantity: 1,
-      withKnife,
+      withKnife: false,
     });
 
     toast({
       title: "Añadido al carrito",
       description: `${product.name} (${option.weight.toFixed(1).replace('.', ',')} kg)`,
+      duration: 5000,
     });
   };
 
@@ -59,7 +58,6 @@ const Products = () => {
           </p>
         </div>
 
-        {/* Carousel */}
         <div className="relative">
           <button
             onClick={prev}
@@ -84,8 +82,7 @@ const Products = () => {
               {products.map((product) => {
                 const weightIdx = selectedWeights[product.id] ?? 0;
                 const option = product.weightOptions[weightIdx];
-                const withKnife = selectedKnife[product.id] ?? false;
-                const totalPrice = option.price + (withKnife ? product.knifeSupplementPrice : 0);
+                const totalPrice = option.price;
 
                 return (
                   <article key={product.id} className="flex-shrink-0 px-2" style={{ width: `${100 / itemsPerView}%` }}>
@@ -109,7 +106,6 @@ const Products = () => {
                         <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
                         <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
 
-                        {/* Weight selector */}
                         <div>
                           <select
                             value={weightIdx}
@@ -121,20 +117,6 @@ const Products = () => {
                             ))}
                           </select>
                         </div>
-
-                        {/* Knife supplement */}
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={withKnife}
-                            onChange={(e) => setSelectedKnife((prev) => ({ ...prev, [product.id]: e.target.checked }))}
-                            className="accent-primary"
-                          />
-                          <Scissors size={12} className="text-muted-foreground" />
-                          <span className="text-[11px] text-muted-foreground">
-                            Corte a cuchillo (+{product.knifeSupplementPrice} €)
-                          </span>
-                        </label>
 
                         <div className="pt-3 border-t border-border mt-auto space-y-2">
                           <div className="flex items-baseline justify-between">
