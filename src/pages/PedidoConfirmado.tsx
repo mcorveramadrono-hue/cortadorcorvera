@@ -77,7 +77,7 @@ const PedidoConfirmado = () => {
                 Realiza una transferencia con los siguientes datos:
               </p>
               <div className="bg-muted/50 p-4 space-y-2">
-                <p className="text-sm"><strong>Titular:</strong> Miguel Corvera Madroño</p>
+                <p className="text-sm"><strong>Titular:</strong> Marcos Corvera Madroño</p>
                 <p className="text-sm"><strong>IBAN:</strong> ES53 0182 1836 9502 0157 8384</p>
                 <p className="text-sm"><strong>Concepto:</strong> {order.first_name} {order.last_name} - {order.order_number}</p>
                 <p className="text-sm"><strong>Importe:</strong> {Number(order.total).toFixed(2).replace('.', ',')} €</p>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast as showToast } from "@/hooks/use-toast";
 import { X, Send, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,8 @@ interface ContactFormDialogProps {
   title: string;
 }
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFormDialogProps) => {
   const [formData, setFormData] = useState({
     nombre: "",
@@ -22,30 +24,55 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
-  const [initialized, setInitialized] = useState(false);
 
-  // Reset message when dialog opens with new defaultMessage
-  if (isOpen && !initialized) {
-    setFormData((prev) => ({ ...prev, mensaje: defaultMessage }));
-    setInitialized(true);
-  }
-  if (!isOpen && initialized) {
-    setInitialized(false);
-  }
+  useEffect(() => {
+    if (isOpen) {
+      setFormData((prev) => ({ ...prev, mensaje: defaultMessage }));
+      setAcceptPrivacy(false);
+      setSent(false);
+    }
+  }, [isOpen, defaultMessage]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const payload = {
+      nombre: formData.nombre.trim(),
+      apellidos: formData.apellidos.trim(),
+      email: formData.email.trim(),
+      telefono: formData.telefono.trim(),
+      mensaje: formData.mensaje.trim(),
+    };
+
+    if (!payload.nombre || !payload.apellidos || !payload.email || !payload.telefono || !payload.mensaje) {
+      showToast({
+        title: "Faltan datos",
+        description: "Rellena todos los campos del formulario.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!EMAIL_REGEX.test(payload.email)) {
+      showToast({
+        title: "Email no válido",
+        description: "Introduce un correo electrónico válido.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSending(true);
 
     try {
       const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
           asunto: `Solicitud web - ${title}`,
-          nombre: formData.nombre,
-          apellidos: formData.apellidos,
-          email: formData.email,
-          telefono: formData.telefono,
-          mensaje: formData.mensaje,
+          nombre: payload.nombre,
+          apellidos: payload.apellidos,
+          email: payload.email,
+          telefono: payload.telefono,
+          mensaje: payload.mensaje,
           origen: "servicio",
         },
       });
@@ -58,12 +85,13 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
         onClose();
         setFormData({ nombre: "", apellidos: "", email: "", telefono: "", mensaje: defaultMessage });
       }, 2000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error sending form:", err);
       showToast({
         title: "Error al enviar",
-        description: "No se pudo enviar el mensaje. Prueba a contactarnos por WhatsApp o teléfono.",
+        description: err?.message || "No se pudo enviar el mensaje. Prueba a contactarnos por WhatsApp o teléfono.",
         variant: "destructive",
+        duration: 6000,
       });
     } finally {
       setSending(false);
@@ -90,13 +118,12 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
             <p className="text-sm text-muted-foreground">Nos pondremos en contacto contigo lo antes posible.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="p-6 space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Nombre *</label>
                 <input
                   type="text"
-                  required
                   value={formData.nombre}
                   onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                   className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -107,7 +134,6 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
                 <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Apellido/s *</label>
                 <input
                   type="text"
-                  required
                   value={formData.apellidos}
                   onChange={(e) => setFormData({ ...formData, apellidos: e.target.value })}
                   className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -119,7 +145,6 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
               <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Email *</label>
               <input
                 type="email"
-                required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -130,7 +155,6 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
               <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Teléfono *</label>
               <input
                 type="tel"
-                required
                 value={formData.telefono}
                 onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                 className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
@@ -140,7 +164,6 @@ const ContactFormDialog = ({ isOpen, onClose, defaultMessage, title }: ContactFo
             <div>
               <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Mensaje</label>
               <textarea
-                required
                 rows={4}
                 value={formData.mensaje}
                 onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}

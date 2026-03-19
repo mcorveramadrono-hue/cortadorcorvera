@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ArrowLeft, ShoppingCart, Info, Scissors } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, ShoppingCart, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { products } from "@/data/products";
 import type { Product } from "@/data/products";
@@ -14,8 +14,11 @@ const Tienda = () => {
   const { addItem } = useCart();
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
-  const [selectedKnife, setSelectedKnife] = useState<Record<string, boolean>>({});
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const toggleProductImage = (productId: string, totalImages: number) => {
     setImageIndices((prev) => ({
@@ -27,19 +30,19 @@ const Tienda = () => {
   const handleAddToCart = (product: Product) => {
     const weightIdx = selectedWeights[product.id] ?? 0;
     const option = product.weightOptions[weightIdx];
-    const withKnife = selectedKnife[product.id] ?? false;
 
     addItem({
       product,
       selectedWeight: option.weight,
       price: option.price,
       quantity: 1,
-      withKnife,
+      withKnife: false,
     });
 
     toast({
       title: "Añadido al carrito",
       description: `${product.name} (${option.weight.toFixed(1).replace('.', ',')} kg)`,
+      duration: 5000,
     });
   };
 
@@ -49,8 +52,7 @@ const Tienda = () => {
   const renderProductCard = (product: Product) => {
     const weightIdx = selectedWeights[product.id] ?? 0;
     const option = product.weightOptions[weightIdx];
-    const withKnife = selectedKnife[product.id] ?? false;
-    const totalPrice = option.price + (withKnife ? product.knifeSupplementPrice : 0);
+    const totalPrice = option.price;
 
     return (
       <article key={product.id} className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col">
@@ -73,7 +75,6 @@ const Tienda = () => {
           <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
 
-          {/* Weight selector */}
           <div>
             <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Peso</label>
             <select
@@ -86,20 +87,6 @@ const Tienda = () => {
               ))}
             </select>
           </div>
-
-          {/* Knife supplement */}
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={withKnife}
-              onChange={(e) => setSelectedKnife((prev) => ({ ...prev, [product.id]: e.target.checked }))}
-              className="accent-primary"
-            />
-            <Scissors size={14} className="text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">
-              Corte a cuchillo (+{product.knifeSupplementPrice} €)
-            </span>
-          </label>
 
           <div className="pt-3 border-t border-border mt-auto space-y-2">
             <div className="flex items-baseline justify-between">
