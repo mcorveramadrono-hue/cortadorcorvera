@@ -232,11 +232,12 @@ ${!isCard ? `CONFIRMAR PAGO RECIBIDO:\n${confirmPaymentUrl}\n` : ""}Notas: ${ord
       await sendToFormspreeWithRetry(formspreePayload);
     } catch (formspreeError) {
       console.error("Formspree order notification failed, using fallback:", formspreeError);
+      const ownerHtml = `<pre>${ownerText}</pre>${!isCard ? `<br/><a href="${confirmPaymentUrl}" style="display:inline-block;padding:12px 24px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;border-radius:6px;">✅ Confirmar pago recibido</a>` : ""}`;
       await sendWithResend({
         to: OWNER_EMAIL,
         subject: ownerSubject,
         text: ownerText,
-        html: `<pre>${ownerText}</pre>`,
+        html: ownerHtml,
       });
       ownerProvider = "resend_fallback";
     }
