@@ -1,0 +1,1 @@
+ALTER TABLE public.orders ADD COLUMN confirmation_token uuid DEFAULT gen_random_uuid();
