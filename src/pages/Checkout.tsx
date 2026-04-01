@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Building2, Smartphone, Loader2 } from "lucide-react";
+import { ArrowLeft, Building2, Smartphone, CreditCard, Loader2 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +12,7 @@ const Checkout = () => {
   const { items, subtotal, totalWeight, shippingCost, total, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum">("transfer");
+  const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -73,7 +73,7 @@ const Checkout = () => {
         notes: formData.notes || null,
         accept_privacy: acceptPrivacy,
         payment_method: paymentMethod,
-        status: "pending_payment",
+        status: paymentMethod === "card" ? "pending_stripe" : "pending_payment",
       };
 
       const { data: order, error: orderError } = await supabase
@@ -97,6 +97,38 @@ const Checkout = () => {
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
       if (itemsError) throw itemsError;
 
+      // If card payment, redirect to Stripe Checkout
+      if (paymentMethod === "card") {
+        const stripeItems = items.map((item) => ({
+          name: item.product.name,
+          weight: item.selectedWeight,
+          price: item.price,
+          quantity: item.quantity,
+          withKnife: item.withKnife,
+          knifePrice: item.withKnife ? item.product.knifeSupplementPrice : 0,
+        }));
+
+        const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke("create-checkout", {
+          body: {
+            orderId: order.id,
+            items: stripeItems,
+            shippingCost,
+            customerEmail: formData.email,
+          },
+        });
+
+        if (checkoutError) throw checkoutError;
+
+        if (checkoutData?.url) {
+          clearCart();
+          window.location.href = checkoutData.url;
+          return;
+        } else {
+          throw new Error("No se pudo crear la sesión de pago");
+        }
+      }
+
+      // For transfer/bizum, send notification
       let notificationSent = false;
       let lastNotificationError: string | null = null;
 
@@ -221,6 +253,18 @@ const Checkout = () => {
                 <div className="space-y-3">
                   <label
                     className={`flex items-center gap-3 p-4 border cursor-pointer transition-colors ${
+                      paymentMethod === "card" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                    }`}
+                  >
+                    <input type="radio" name="payment" value="card" checked={paymentMethod === "card"} onChange={() => setPaymentMethod("card")} className="accent-primary" />
+                    <CreditCard size={20} className="text-foreground" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Tarjeta de crédito/débito</p>
+                      <p className="text-xs text-muted-foreground">Visa, Mastercard, Apple Pay, Google Pay</p>
+                    </div>
+                  </label>
+                  <label
+                    className={`flex items-center gap-3 p-4 border cursor-pointer transition-colors ${
                       paymentMethod === "transfer" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                     }`}
                   >
@@ -310,8 +354,16 @@ const Checkout = () => {
                   disabled={loading || !acceptPrivacy}
                   className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : paymentMethod === "bizum" ? <Smartphone size={16} /> : <Building2 size={16} />}
-                  {loading ? "Procesando..." : "Confirmar Pedido"}
+                  {loading ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : paymentMethod === "card" ? (
+                    <CreditCard size={16} />
+                  ) : paymentMethod === "bizum" ? (
+                    <Smartphone size={16} />
+                  ) : (
+                    <Building2 size={16} />
+                  )}
+                  {loading ? "Procesando..." : paymentMethod === "card" ? "Pagar con Tarjeta" : "Confirmar Pedido"}
                 </button>
               </div>
             </div>
