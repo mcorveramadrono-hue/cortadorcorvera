@@ -40,6 +40,7 @@ const PaymentConfirmedEmail = ({
     <Preview>Pago confirmado - Pedido {orderNumber}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logoStyle} />
         <Heading style={h1}>
           ¡Pago confirmado, {firstName}!
         </Heading>

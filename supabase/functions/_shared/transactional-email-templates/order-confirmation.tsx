@@ -53,6 +53,7 @@ const OrderConfirmationEmail = ({
       </Preview>
       <Body style={main}>
         <Container style={container}>
+          <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logoStyle} />
           <Heading style={h1}>
             Gracias por tu pedido, {firstName}
           </Heading>
