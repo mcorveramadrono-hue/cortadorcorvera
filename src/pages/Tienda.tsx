@@ -18,6 +18,9 @@ const Tienda = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Tienda de Jamón Ibérico | Corvera Ibéricos - Comprar Online";
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", "Compra jamón ibérico de bellota 100%, paleta ibérica D.O.P. y más. Envío a toda España. Precios con IVA incluido.");
   }, []);
 
   const toggleProductImage = (productId: string, totalImages: number) => {
