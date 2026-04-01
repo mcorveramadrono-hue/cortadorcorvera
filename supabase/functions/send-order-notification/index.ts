@@ -214,7 +214,7 @@ Peso total: ${Number(order.total_weight).toFixed(1)}kg
 INSTRUCCIONES DE PAGO:
 ${paymentInstructions.text}
 
-Notas: ${order.notes || "Sin notas"}
+${!isCard ? `CONFIRMAR PAGO RECIBIDO:\n${confirmPaymentUrl}\n` : ""}Notas: ${order.notes || "Sin notas"}
     `.trim();
 
     const formspreePayload = {
