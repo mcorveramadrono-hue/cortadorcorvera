@@ -9,6 +9,8 @@ import jamonCeboCampo502 from "@/assets/products/jamon-cebo-campo-50-2.jpg";
 import jamonCebo50 from "@/assets/products/jamon-cebo-50.jpg";
 import jamonCebo502 from "@/assets/products/jamon-cebo-50-2.jpg";
 import paletaBellota100 from "@/assets/products/paleta-bellota-100.webp";
+import paletaBellota100Dop from "@/assets/products/paleta-bellota-100-dop-new.png";
+import paletaBellota75Dop from "@/assets/products/paleta-bellota-75-dop-new.png";
 import paletaBellota1002 from "@/assets/products/paleta-bellota-100-2.jpg";
 import paletaBellota50 from "@/assets/products/paleta-bellota-50.jpg";
 import paletaBellota502 from "@/assets/products/paleta-bellota-50-2.jpg";
@@ -127,7 +129,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 100% Ibérica D.O.P.",
     description: "Fruto de su prolongada curación de más de 24 meses, y de su alimentación natural a base de bellotas. Su color característico va del rosa intenso al rosa pálido con abundante grasa veteada.",
     pricePerKg: 29.61,
-    images: [paletaBellota100, paletaBellota502],
+    images: [paletaBellota100Dop, paletaBellota502],
     weightOptions: generateWeightOptions(5, 6, 0.5, 29.61),
     curing: "Más de 24 meses",
     campaign: "2021",
@@ -150,7 +152,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 75% Ibérica D.O.P.",
     description: "Fruto de su prolongada curación de más de 24 meses, y de su alimentación natural a base de bellotas. La proporción superior al 56% de ácido oleico en sus grasas la hacen untuosa a la vez que suave, se \"funde\" en el paladar.",
     pricePerKg: 27.62,
-    images: [paletaBellota50, paletaBellota502],
+    images: [paletaBellota75Dop, paletaBellota502],
     weightOptions: generateWeightOptions(4, 6, 0.5, 27.62),
     curing: "Más de 24 meses",
     campaign: "2021",
