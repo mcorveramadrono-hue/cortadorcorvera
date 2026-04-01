@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { X, Gift } from "lucide-react";
+import { Gift } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +13,7 @@ const PROMO_DISMISSED_KEY = "corvera_promo_dismissed";
 const PROMO_DURATION_MS = 5 * 24 * 60 * 60 * 1000; // 5 days
 
 const PromoBanner = () => {
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -19,6 +21,7 @@ const PromoBanner = () => {
     const dismissed = sessionStorage.getItem(PROMO_DISMISSED_KEY);
     if (dismissed) return;
 
+    // Use existing end time from localStorage, or set a new one only once
     let endTime = localStorage.getItem(PROMO_END_KEY);
     if (!endTime) {
       const end = Date.now() + PROMO_DURATION_MS;
@@ -27,15 +30,18 @@ const PromoBanner = () => {
     }
 
     const end = Number(endTime);
-    if (Date.now() >= end) return;
+    if (Date.now() >= end) {
+      localStorage.removeItem(PROMO_END_KEY);
+      return;
+    }
 
     setVisible(true);
 
-    const interval = setInterval(() => {
+    const tick = () => {
       const diff = end - Date.now();
       if (diff <= 0) {
-        clearInterval(interval);
         setVisible(false);
+        localStorage.removeItem(PROMO_END_KEY);
         return;
       }
       setTimeLeft({
@@ -44,14 +50,21 @@ const PromoBanner = () => {
         minutes: Math.floor((diff / (1000 * 60)) % 60),
         seconds: Math.floor((diff / 1000) % 60),
       });
-    }, 1000);
+    };
 
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, []);
 
   const close = () => {
     sessionStorage.setItem(PROMO_DISMISSED_KEY, "true");
     setVisible(false);
+  };
+
+  const handleShopNow = () => {
+    close();
+    navigate("/tienda");
   };
 
   const pad = (n: number) => n.toString().padStart(2, "0");
@@ -87,7 +100,7 @@ const PromoBanner = () => {
             <span className="font-mono text-lg font-bold text-primary tracking-wider">SEMANASANTA</span>
           </div>
           <button
-            onClick={close}
+            onClick={handleShopNow}
             className="w-full px-6 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded"
           >
             ¡Comprar Ahora!

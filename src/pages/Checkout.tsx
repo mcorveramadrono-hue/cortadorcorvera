@@ -119,13 +119,16 @@ const Checkout = () => {
 
         if (checkoutError) throw checkoutError;
 
-        if (checkoutData?.url) {
-          clearCart();
-          window.location.href = checkoutData.url;
-          return;
-        } else {
-          throw new Error("No se pudo crear la sesión de pago");
+        const stripeUrl = checkoutData?.url;
+        if (!stripeUrl) throw new Error("No se pudo crear la sesión de pago");
+
+        clearCart();
+        // Use window.open as primary, with location.href as fallback
+        const stripeWindow = window.open(stripeUrl, "_blank");
+        if (!stripeWindow) {
+          window.location.href = stripeUrl;
         }
+        return;
       }
 
       // For transfer/bizum, send notification
