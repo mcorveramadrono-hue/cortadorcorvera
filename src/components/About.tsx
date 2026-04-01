@@ -34,13 +34,13 @@ const About = () => {
               La tradición del buen jamón
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              Cortador Corvera nace de la pasión por el jamón ibérico y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad.
+              Corvera Ibéricos nace de la pasión por el jamón ibérico y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo.
             </p>
             <p className="text-muted-foreground leading-relaxed font-medium">
-              Cortador Corvera es tradición, elegancia y respeto por el producto.
+              Corvera Ibéricos es tradición, elegancia y respeto por el producto.
             </p>
           </div>
         </div>

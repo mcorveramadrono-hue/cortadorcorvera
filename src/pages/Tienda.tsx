@@ -155,7 +155,7 @@ const Tienda = () => {
               <strong>Envío gratuito</strong> para pedidos superiores a 20 kg de peso.
             </p>
             <p className="text-xs text-muted-foreground/70">
-              Para pedidos inferiores a 20 kg, los gastos de envío son de 15 €.
+              Para pedidos inferiores a 20 kg, los gastos de envío son de 5 €.
             </p>
           </div>
         </div>
