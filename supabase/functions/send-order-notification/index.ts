@@ -168,6 +168,10 @@ serve(async (req) => {
     const concept = `${order.first_name} ${order.last_name} - ${order.order_number}`;
     const paymentInstructions = buildPaymentInstructions(order.payment_method, concept, Number(order.total));
 
+    // Build confirmation link for bizum/transfer payments
+    const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+    const confirmPaymentUrl = `${supabaseUrl}/functions/v1/confirm-payment?orderId=${order.id}&token=${order.confirmation_token}`;
+
     const itemsListText = safeItems
       .map((item) => {
         const lineBase = Number(item.price) * Number(item.quantity);
