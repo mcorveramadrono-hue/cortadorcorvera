@@ -130,12 +130,9 @@ const Checkout = () => {
         const stripeUrl = checkoutData?.url;
         if (!stripeUrl) throw new Error("No se pudo crear la sesión de pago");
 
+        // Clear cart and redirect - use location.assign for maximum mobile compatibility
         clearCart();
-        // Use window.open as primary, with location.href as fallback
-        const stripeWindow = window.open(stripeUrl, "_blank");
-        if (!stripeWindow) {
-          window.location.href = stripeUrl;
-        }
+        window.location.assign(stripeUrl);
         return;
       }
 

@@ -15,6 +15,22 @@ serve(async (req) => {
   try {
     const { orderId, items, shippingCost, customerEmail } = await req.json();
 
+    // Validate email server-side
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!customerEmail || !emailRegex.test(customerEmail)) {
+      return new Response(
+        JSON.stringify({ error: "Introduce un email válido" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    if (!orderId || !items || !Array.isArray(items) || items.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "Datos de pedido inválidos" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
     });
@@ -22,7 +38,6 @@ serve(async (req) => {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     for (const item of items) {
-      // Main product
       const unitAmount = Math.round(item.price * 100);
       lineItems.push({
         price_data: {
@@ -35,7 +50,6 @@ serve(async (req) => {
         quantity: item.quantity,
       });
 
-      // Knife supplement
       if (item.withKnife && item.knifePrice > 0) {
         lineItems.push({
           price_data: {
@@ -50,7 +64,6 @@ serve(async (req) => {
       }
     }
 
-    // Shipping
     if (shippingCost > 0) {
       lineItems.push({
         price_data: {
@@ -68,6 +81,7 @@ serve(async (req) => {
       customer_email: customerEmail,
       line_items: lineItems,
       mode: "payment",
+      payment_method_types: ["card"],
       success_url: `${origin}/pedido-confirmado/${orderId}?payment=success`,
       cancel_url: `${origin}/checkout?payment=cancelled`,
       metadata: {
