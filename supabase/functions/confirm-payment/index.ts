@@ -9,7 +9,8 @@ const corsHeaders = {
 const OWNER_EMAIL = "mcorveramadrono@gmail.com";
 
 async function enqueueAppEmail(
-  supabase: ReturnType<typeof createClient>,
+  supabaseUrl: string,
+  serviceKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -17,12 +18,19 @@ async function enqueueAppEmail(
     templateData: Record<string, unknown>;
   },
 ) {
-  const { error } = await supabase.functions.invoke("send-transactional-email", {
-    body: payload,
+  const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
   });
 
-  if (error) {
-    throw new Error(`Failed to enqueue '${payload.templateName}': ${error.message}`);
+  const responseText = await response.text();
+  if (!response.ok) {
+    throw new Error(`Failed to enqueue '${payload.templateName}': HTTP ${response.status} ${responseText}`);
   }
 }
 
@@ -49,18 +57,6 @@ serve(async (req) => {
     );
 
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-    const internalInvokeClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      serviceKey,
-      {
-        global: {
-          headers: {
-            Authorization: `Bearer ${serviceKey}`,
-            apikey: serviceKey,
-          },
-        },
-      },
-    );
 
     // Verify order exists and token matches
     const { data: order, error: orderError } = await supabase
@@ -116,7 +112,7 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    await enqueueAppEmail(internalInvokeClient, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "payment-confirmed",
       recipientEmail: order.email,
       idempotencyKey: `payment-confirmed-${orderId}`,
@@ -130,7 +126,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(internalInvokeClient, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "owner-payment-confirmed",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-payment-confirmed-${orderId}`,
