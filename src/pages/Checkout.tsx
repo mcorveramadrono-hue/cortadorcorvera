@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, subtotal, totalWeight, shippingCost, total, clearCart } = useCart();
+  const { items, subtotal, totalWeight, shippingCost, total, clearCart, promoApplied, promoCode } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
@@ -341,8 +341,14 @@ const Checkout = () => {
                     </div>
                   )}
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Envío ({totalWeight.toFixed(1).replace('.', ',')} kg)</span>
-                    <span className="text-foreground">{shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}</span>
+                    <span className="text-muted-foreground">
+                      Envío ({totalWeight.toFixed(1).replace('.', ',')} kg)
+                      {promoApplied && <span className="text-primary ml-1">(Código {promoCode})</span>}
+                      {!promoApplied && shippingCost === 0 && <span className="text-primary ml-1">(¡Gratis!)</span>}
+                    </span>
+                    <span className={`text-foreground ${shippingCost === 0 ? "text-primary font-medium" : ""}`}>
+                      {shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}
+                    </span>
                   </div>
                   <div className="border-t border-border pt-2 flex justify-between">
                     <span className="font-serif font-bold text-foreground">Total</span>

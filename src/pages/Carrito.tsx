@@ -1,22 +1,33 @@
-import { useEffect } from "react";
-import { ArrowLeft, Trash2, Plus, Minus, ShoppingCart, Scissors } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowLeft, Trash2, Plus, Minus, ShoppingCart, Scissors, Tag, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { toast } from "@/hooks/use-toast";
 
 const Carrito = () => {
   const navigate = useNavigate();
+  const [promoInput, setPromoInput] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { items, removeItem, updateQuantity, updateKnife, subtotal, totalWeight, shippingCost, total } = useCart();
+  const { items, removeItem, updateQuantity, updateKnife, subtotal, totalWeight, shippingCost, total, promoApplied, promoCode, applyPromoCode, removePromoCode } = useCart();
 
   const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
   const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
   const productSubtotal = subtotal - knifeTotal;
+
+  const handleApplyPromo = () => {
+    if (applyPromoCode(promoInput)) {
+      toast({ title: "¡Código aplicado!", description: "Envío gratuito en tu pedido." });
+      setPromoInput("");
+    } else {
+      toast({ title: "Código inválido", description: "El código promocional no es válido.", variant: "destructive" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -101,6 +112,42 @@ const Carrito = () => {
                 );
               })}
 
+              {/* Promo Code */}
+              <div className="border border-border p-4 space-y-3">
+                <h3 className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Tag size={16} />
+                  Código Promocional
+                </h3>
+                {promoApplied ? (
+                  <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded px-4 py-2.5">
+                    <span className="text-sm font-mono font-bold text-primary">{promoCode}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">Envío gratis aplicado</span>
+                      <button onClick={removePromoCode} className="text-muted-foreground hover:text-destructive transition-colors">
+                        <X size={14} />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
+                      placeholder="Introduce tu código"
+                      className="flex-1 border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                    />
+                    <button
+                      onClick={handleApplyPromo}
+                      className="px-6 py-2.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                    >
+                      Aplicar
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="border border-border p-6 space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Productos</span>
@@ -117,8 +164,14 @@ const Carrito = () => {
                   <span className="text-foreground font-medium">{totalWeight.toFixed(1).replace('.', ',')} kg</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Envío {totalWeight >= 20 && <span className="text-primary">(¡Gratis!)</span>}</span>
-                  <span className="text-foreground font-medium">{shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}</span>
+                  <span className="text-muted-foreground">
+                    Envío{" "}
+                    {promoApplied && <span className="text-primary">(Código SEMANASANTA)</span>}
+                    {!promoApplied && totalWeight >= 20 && <span className="text-primary">(¡Gratis!)</span>}
+                  </span>
+                  <span className={`text-foreground font-medium ${shippingCost === 0 ? "text-primary" : ""}`}>
+                    {shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}
+                  </span>
                 </div>
                 <div className="border-t border-border pt-3 flex justify-between">
                   <span className="font-serif text-lg font-bold text-foreground">Total</span>

@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Gift } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const PROMO_END_KEY = "corvera_promo_end";
 const PROMO_DISMISSED_KEY = "corvera_promo_dismissed";
@@ -43,8 +49,6 @@ const PromoBanner = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!visible) return null;
-
   const close = () => {
     sessionStorage.setItem(PROMO_DISMISSED_KEY, "true");
     setVisible(false);
@@ -53,23 +57,44 @@ const PromoBanner = () => {
   const pad = (n: number) => n.toString().padStart(2, "0");
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] bg-primary text-primary-foreground">
-      <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-center gap-3 text-center relative">
-        <p className="text-xs sm:text-sm font-medium">
-          🎉 <strong>¡Envío GRATIS!</strong> en todos los pedidos durante{" "}
-          <span className="font-mono font-bold">
-            {timeLeft.days}d {pad(timeLeft.hours)}:{pad(timeLeft.minutes)}:{pad(timeLeft.seconds)}
-          </span>
-        </p>
-        <button
-          onClick={close}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-primary-foreground/20 rounded transition-colors"
-          aria-label="Cerrar"
-        >
-          <X size={16} />
-        </button>
-      </div>
-    </div>
+    <Dialog open={visible} onOpenChange={(open) => { if (!open) close(); }}>
+      <DialogContent className="max-w-md text-center">
+        <DialogHeader>
+          <DialogTitle className="font-serif text-2xl flex items-center justify-center gap-2">
+            <Gift className="text-primary" size={28} />
+            ¡Envío GRATIS!
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Disfruta de <strong className="text-foreground">envío gratuito</strong> en todos tus pedidos durante los próximos días. ¡No dejes pasar esta oportunidad!
+          </p>
+          <div className="flex justify-center gap-3">
+            {[
+              { value: timeLeft.days, label: "Días" },
+              { value: timeLeft.hours, label: "Horas" },
+              { value: timeLeft.minutes, label: "Min" },
+              { value: timeLeft.seconds, label: "Seg" },
+            ].map((unit) => (
+              <div key={unit.label} className="bg-primary/10 rounded-lg px-3 py-2 min-w-[60px]">
+                <span className="font-mono text-2xl font-bold text-primary">{pad(unit.value)}</span>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{unit.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-accent/50 border border-border rounded-lg p-3">
+            <p className="text-xs text-muted-foreground mb-1">Usa el código en tu carrito:</p>
+            <span className="font-mono text-lg font-bold text-primary tracking-wider">SEMANASANTA</span>
+          </div>
+          <button
+            onClick={close}
+            className="w-full px-6 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded"
+          >
+            ¡Comprar Ahora!
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
