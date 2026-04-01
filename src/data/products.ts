@@ -129,7 +129,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 100% Ibérica D.O.P.",
     description: "Fruto de su prolongada curación de más de 24 meses, y de su alimentación natural a base de bellotas. Su color característico va del rosa intenso al rosa pálido con abundante grasa veteada.",
     pricePerKg: 29.61,
-    images: [paletaBellota100, paletaBellota502],
+    images: [paletaBellota100Dop, paletaBellota502],
     weightOptions: generateWeightOptions(5, 6, 0.5, 29.61),
     curing: "Más de 24 meses",
     campaign: "2021",
