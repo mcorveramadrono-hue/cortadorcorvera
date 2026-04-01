@@ -1,10 +1,11 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Section, Hr,
+  Body, Container, Head, Heading, Html, Img, Preview, Text, Section, Hr,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Corvera Ibéricos"
+const LOGO_URL = 'https://gdmzfhwmqguextpwbbmg.supabase.co/storage/v1/object/public/email-assets/logo-mc.png'
 
 interface OrderItem {
   name: string
@@ -52,6 +53,7 @@ const OrderConfirmationEmail = ({
       </Preview>
       <Body style={main}>
         <Container style={container}>
+          <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logoStyle} />
           <Heading style={h1}>
             Gracias por tu pedido, {firstName}
           </Heading>
@@ -164,3 +166,4 @@ const itemLine = { fontSize: '14px', color: '#333333', lineHeight: '1.6', margin
 const totalLine = { fontSize: '16px', color: '#1f1f1f', lineHeight: '1.6', margin: '4px 0 0', fontWeight: 'bold' as const }
 const hr = { borderColor: '#e5e5e5', margin: '16px 0' }
 const footer = { fontSize: '12px', color: '#888888', margin: '20px 0 0', lineHeight: '1.5' }
+const logoStyle = { margin: '0 0 20px' }

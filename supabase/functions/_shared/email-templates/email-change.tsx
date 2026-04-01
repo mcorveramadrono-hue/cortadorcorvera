@@ -9,10 +9,13 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
 } from 'npm:@react-email/components@0.0.22'
+
+const LOGO_URL = 'https://gdmzfhwmqguextpwbbmg.supabase.co/storage/v1/object/public/email-assets/logo-mc.png'
 
 interface EmailChangeEmailProps {
   siteName: string
@@ -32,6 +35,7 @@ export const EmailChangeEmail = ({
     <Preview>Confirma el cambio de email en {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Confirma el cambio de email</Heading>
         <Text style={text}>
           Has solicitado cambiar tu email en {siteName} de{' '}
@@ -83,3 +87,4 @@ const button = {
   textDecoration: 'none',
 }
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const logo = { margin: '0 0 20px' }

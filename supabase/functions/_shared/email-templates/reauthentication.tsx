@@ -8,9 +8,12 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Preview,
   Text,
 } from 'npm:@react-email/components@0.0.22'
+
+const LOGO_URL = 'https://gdmzfhwmqguextpwbbmg.supabase.co/storage/v1/object/public/email-assets/logo-mc.png'
 
 interface ReauthenticationEmailProps {
   token: string
@@ -22,6 +25,7 @@ export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => 
     <Preview>Tu código de verificación</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Confirmar identidad</Heading>
         <Text style={text}>Usa el siguiente código para confirmar tu identidad:</Text>
         <Text style={codeStyle}>{token}</Text>
@@ -58,3 +62,4 @@ const codeStyle = {
   margin: '0 0 30px',
 }
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const logo = { margin: '0 0 20px' }

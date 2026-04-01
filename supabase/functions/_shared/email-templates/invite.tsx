@@ -9,10 +9,13 @@ import {
   Head,
   Heading,
   Html,
+  Img,
   Link,
   Preview,
   Text,
 } from 'npm:@react-email/components@0.0.22'
+
+const LOGO_URL = 'https://gdmzfhwmqguextpwbbmg.supabase.co/storage/v1/object/public/email-assets/logo-mc.png'
 
 interface InviteEmailProps {
   siteName: string
@@ -30,6 +33,7 @@ export const InviteEmail = ({
     <Preview>Has sido invitado a {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Has sido invitado</Heading>
         <Text style={text}>
           Has sido invitado a unirte a{' '}
@@ -76,3 +80,4 @@ const button = {
   textDecoration: 'none',
 }
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const logo = { margin: '0 0 20px' }
