@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, subtotal, totalWeight, shippingCost, total, clearCart } = useCart();
+  const { items, subtotal, totalWeight, shippingCost, total, clearCart, promoApplied, promoCode } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
