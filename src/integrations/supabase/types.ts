@@ -150,6 +150,7 @@ export type Database = {
           accept_privacy: boolean
           address: string
           city: string
+          confirmation_token: string | null
           created_at: string
           dni: string
           email: string
@@ -175,6 +176,7 @@ export type Database = {
           accept_privacy?: boolean
           address: string
           city: string
+          confirmation_token?: string | null
           created_at?: string
           dni: string
           email: string
@@ -200,6 +202,7 @@ export type Database = {
           accept_privacy?: boolean
           address?: string
           city?: string
+          confirmation_token?: string | null
           created_at?: string
           dni?: string
           email?: string

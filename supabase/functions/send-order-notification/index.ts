@@ -168,6 +168,10 @@ serve(async (req) => {
     const concept = `${order.first_name} ${order.last_name} - ${order.order_number}`;
     const paymentInstructions = buildPaymentInstructions(order.payment_method, concept, Number(order.total));
 
+    // Build confirmation link for bizum/transfer payments
+    const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+    const confirmPaymentUrl = `${supabaseUrl}/functions/v1/confirm-payment?orderId=${order.id}&token=${order.confirmation_token}`;
+
     const itemsListText = safeItems
       .map((item) => {
         const lineBase = Number(item.price) * Number(item.quantity);
@@ -210,7 +214,7 @@ Peso total: ${Number(order.total_weight).toFixed(1)}kg
 INSTRUCCIONES DE PAGO:
 ${paymentInstructions.text}
 
-Notas: ${order.notes || "Sin notas"}
+${!isCard ? `CONFIRMAR PAGO RECIBIDO:\n${confirmPaymentUrl}\n` : ""}Notas: ${order.notes || "Sin notas"}
     `.trim();
 
     const formspreePayload = {
@@ -228,11 +232,12 @@ Notas: ${order.notes || "Sin notas"}
       await sendToFormspreeWithRetry(formspreePayload);
     } catch (formspreeError) {
       console.error("Formspree order notification failed, using fallback:", formspreeError);
+      const ownerHtml = `<pre>${ownerText}</pre>${!isCard ? `<br/><a href="${confirmPaymentUrl}" style="display:inline-block;padding:12px 24px;background:#16a34a;color:#fff;text-decoration:none;font-weight:bold;border-radius:6px;">✅ Confirmar pago recibido</a>` : ""}`;
       await sendWithResend({
         to: OWNER_EMAIL,
         subject: ownerSubject,
         text: ownerText,
-        html: `<pre>${ownerText}</pre>`,
+        html: ownerHtml,
       });
       ownerProvider = "resend_fallback";
     }
