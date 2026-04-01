@@ -9,6 +9,8 @@ import jamonCeboCampo502 from "@/assets/products/jamon-cebo-campo-50-2.jpg";
 import jamonCebo50 from "@/assets/products/jamon-cebo-50.jpg";
 import jamonCebo502 from "@/assets/products/jamon-cebo-50-2.jpg";
 import paletaBellota100 from "@/assets/products/paleta-bellota-100.webp";
+import paletaBellota100Dop from "@/assets/products/paleta-bellota-100-dop-new.png";
+import paletaBellota75Dop from "@/assets/products/paleta-bellota-75-dop-new.png";
 import paletaBellota1002 from "@/assets/products/paleta-bellota-100-2.jpg";
 import paletaBellota50 from "@/assets/products/paleta-bellota-50.jpg";
 import paletaBellota502 from "@/assets/products/paleta-bellota-50-2.jpg";
