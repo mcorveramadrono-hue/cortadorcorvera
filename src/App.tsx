@@ -29,6 +29,7 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/pedido-confirmado/:orderId" element={<PedidoConfirmado />} />
             <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/unsubscribe" element={<Unsubscribe />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
