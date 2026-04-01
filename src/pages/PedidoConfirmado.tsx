@@ -30,9 +30,24 @@ const PedidoConfirmado = () => {
         .setHeader("x-session-token", sessionToken);
       setOrder(data);
       setLoading(false);
+
+      // Send order notification for card payments after Stripe redirect
+      if (data && paymentSuccess && data.payment_method === "card") {
+        const notifKey = `order_notif_sent_${orderId}`;
+        if (!localStorage.getItem(notifKey)) {
+          localStorage.setItem(notifKey, "true");
+          try {
+            await supabase.functions.invoke("send-order-notification", {
+              body: { orderId },
+            });
+          } catch (e) {
+            console.error("Failed to send order notification:", e);
+          }
+        }
+      }
     };
     fetchOrder();
-  }, [orderId]);
+  }, [orderId, paymentSuccess]);
 
   if (loading) {
     return (

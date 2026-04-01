@@ -94,6 +94,13 @@ async function sendWithResend(params: {
 }
 
 function buildPaymentInstructions(paymentMethod: string, concept: string, total: number) {
+  if (paymentMethod === "card") {
+    return {
+      text: `Pago con tarjeta: Completado correctamente.`,
+      html: `<p><strong>Pago con tarjeta:</strong> ✅ Completado correctamente.</p>`,
+    };
+  }
+
   if (paymentMethod === "bizum") {
     return {
       text: `Bizum\nTeléfono: ${BIZUM_PHONE}\nConcepto: ${concept}\nImporte: ${formatEuro(total)}`,
@@ -171,11 +178,14 @@ serve(async (req) => {
       })
       .join("\n");
 
+    const paymentMethodLabel = order.payment_method === "transfer" ? "Transferencia bancaria" : order.payment_method === "bizum" ? "Bizum" : order.payment_method === "card" ? "Tarjeta (Stripe)" : order.payment_method;
+    const isCard = order.payment_method === "card";
+
     const ownerSubject = `Nuevo Pedido ${order.order_number} - ${order.first_name} ${order.last_name}`;
     const ownerText = `
 NUEVO PEDIDO - ${order.order_number}
 ================================
-Método de pago: ${order.payment_method === "transfer" ? "Transferencia bancaria" : order.payment_method === "bizum" ? "Bizum" : order.payment_method}
+Método de pago: ${paymentMethodLabel}
 Estado: ${order.status}
 
 CLIENTE:
@@ -243,11 +253,21 @@ Notas: ${order.notes || "Sin notas"}
       })
       .join("");
 
-    const customerSubject = `Confirmación de tu pedido ${order.order_number}`;
+    const customerSubject = isCard
+      ? `Pedido confirmado ${order.order_number}`
+      : `Confirmación de tu pedido ${order.order_number}`;
+    const customerStatusText = isCard
+      ? "Tu pago con tarjeta ha sido procesado correctamente. Prepararemos tu pedido en breve."
+      : "Hemos recibido tu pedido y está pendiente de pago.";
+    const customerFooterText = isCard
+      ? "Gracias por tu compra. Prepararemos tu pedido y te avisaremos cuando sea enviado."
+      : "Tu pedido no se preparará hasta confirmar el ingreso.\nGracias por confiar en nosotros.";
     const customerText = `
 Hola ${order.first_name},
 
-Hemos recibido tu pedido ${order.order_number} y está pendiente de pago.
+${customerStatusText}
+
+Pedido: ${order.order_number}
 
 Resumen del pedido:
 ${itemsListText}
@@ -258,16 +278,22 @@ Total: ${formatEuro(Number(order.total))}
 
 ${paymentInstructions.text}
 
-Tu pedido no se preparará hasta confirmar el ingreso.
-Gracias por confiar en nosotros.
+${customerFooterText}
     `.trim();
+
+    const customerStatusHtml = isCard
+      ? `<p>Tu pago con tarjeta ha sido <strong>procesado correctamente</strong>. Prepararemos tu pedido en breve.</p>`
+      : `<p>Hemos recibido tu pedido <strong>${order.order_number}</strong> y está <strong>pendiente de pago</strong>.</p>`;
+    const customerFooterHtml = isCard
+      ? `<p style="margin-top: 20px;">Gracias por tu compra. Prepararemos tu pedido y te avisaremos cuando sea enviado.</p>`
+      : `<p style="margin-top: 20px;">Tu pedido no se preparará hasta confirmar el ingreso.<br />Gracias por confiar en nosotros.</p>`;
 
     const customerHtml = `
       <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #111827;">
         <h2>Gracias por tu pedido, ${order.first_name}</h2>
-        <p>Hemos recibido tu pedido <strong>${order.order_number}</strong> y está <strong>pendiente de pago</strong>.</p>
+        ${customerStatusHtml}
 
-        <h3>Resumen del pedido</h3>
+        <h3>Resumen del pedido (${order.order_number})</h3>
         <ul style="padding-left: 20px;">
           ${customerItemsHtml}
         </ul>
@@ -276,13 +302,10 @@ Gracias por confiar en nosotros.
         <p><strong>Envío:</strong> ${Number(order.shipping_cost) === 0 ? "Gratis" : formatEuro(Number(order.shipping_cost))}</p>
         <p><strong>Total:</strong> ${formatEuro(Number(order.total))}</p>
 
-        <h3>Cómo realizar el pago</h3>
+        ${!isCard ? `<h3>Cómo realizar el pago</h3>` : ""}
         ${paymentInstructions.html}
 
-        <p style="margin-top: 20px;">
-          Tu pedido no se preparará hasta confirmar el ingreso.<br />
-          Gracias por confiar en nosotros.
-        </p>
+        ${customerFooterHtml}
       </div>
     `.trim();
 
