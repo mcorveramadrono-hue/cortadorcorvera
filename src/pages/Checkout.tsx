@@ -165,6 +165,7 @@ const Checkout = () => {
       }
 
       clearCart();
+      localStorage.setItem(`order_token_${order.id}`, sessionToken);
       navigate(`/pedido-confirmado/${order.id}`);
     } catch (err: any) {
       console.error("Checkout error:", err);
