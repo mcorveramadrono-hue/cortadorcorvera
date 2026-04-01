@@ -75,6 +75,7 @@ export type Database = {
           phone: string
           postal_code: string
           province: string
+          session_token: string | null
           shipping_cost: number
           status: string
           stripe_session_id: string | null
@@ -99,6 +100,7 @@ export type Database = {
           phone: string
           postal_code: string
           province: string
+          session_token?: string | null
           shipping_cost?: number
           status?: string
           stripe_session_id?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           phone?: string
           postal_code?: string
           province?: string
+          session_token?: string | null
           shipping_cost?: number
           status?: string
           stripe_session_id?: string | null

@@ -63,8 +63,10 @@ const Checkout = () => {
     setLoading(true);
 
     try {
+      const sessionToken = crypto.randomUUID();
       const orderData = {
         order_number: `TMP-${Date.now()}`,
+        session_token: sessionToken,
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
@@ -132,6 +134,7 @@ const Checkout = () => {
 
         // Clear cart and redirect - use location.assign for maximum mobile compatibility
         clearCart();
+        localStorage.setItem(`order_token_${order.id}`, sessionToken);
         window.location.assign(stripeUrl);
         return;
       }
@@ -163,6 +166,7 @@ const Checkout = () => {
       }
 
       clearCart();
+      localStorage.setItem(`order_token_${order.id}`, sessionToken);
       navigate(`/pedido-confirmado/${order.id}`);
     } catch (err: any) {
       console.error("Checkout error:", err);
