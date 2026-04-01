@@ -90,7 +90,8 @@ const Checkout = () => {
         .from("orders")
         .insert(orderData)
         .select()
-        .single();
+        .single()
+        .setHeader("x-session-token", sessionToken);
 
       if (orderError) throw orderError;
 
@@ -104,7 +105,10 @@ const Checkout = () => {
         knife_supplement_price: item.withKnife ? item.product.knifeSupplementPrice : 0,
       }));
 
-      const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+      const { error: itemsError } = await supabase
+        .from("order_items")
+        .insert(orderItems)
+        .setHeader("x-session-token", sessionToken);
       if (itemsError) throw itemsError;
 
       // If card payment, redirect to Stripe Checkout
