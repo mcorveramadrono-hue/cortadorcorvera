@@ -253,11 +253,21 @@ Notas: ${order.notes || "Sin notas"}
       })
       .join("");
 
-    const customerSubject = `Confirmación de tu pedido ${order.order_number}`;
+    const customerSubject = isCard
+      ? `Pedido confirmado ${order.order_number}`
+      : `Confirmación de tu pedido ${order.order_number}`;
+    const customerStatusText = isCard
+      ? "Tu pago con tarjeta ha sido procesado correctamente. Prepararemos tu pedido en breve."
+      : "Hemos recibido tu pedido y está pendiente de pago.";
+    const customerFooterText = isCard
+      ? "Gracias por tu compra. Prepararemos tu pedido y te avisaremos cuando sea enviado."
+      : "Tu pedido no se preparará hasta confirmar el ingreso.\nGracias por confiar en nosotros.";
     const customerText = `
 Hola ${order.first_name},
 
-Hemos recibido tu pedido ${order.order_number} y está pendiente de pago.
+${customerStatusText}
+
+Pedido: ${order.order_number}
 
 Resumen del pedido:
 ${itemsListText}
@@ -268,8 +278,7 @@ Total: ${formatEuro(Number(order.total))}
 
 ${paymentInstructions.text}
 
-Tu pedido no se preparará hasta confirmar el ingreso.
-Gracias por confiar en nosotros.
+${customerFooterText}
     `.trim();
 
     const customerHtml = `
