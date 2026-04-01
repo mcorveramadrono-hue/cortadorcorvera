@@ -30,6 +30,7 @@ export const MagicLinkEmail = ({
     <Preview>Tu enlace de acceso a {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Tu enlace de acceso</Heading>
         <Text style={text}>
           Haz clic en el botón para iniciar sesión en {siteName}. Este enlace expirará en breve.
