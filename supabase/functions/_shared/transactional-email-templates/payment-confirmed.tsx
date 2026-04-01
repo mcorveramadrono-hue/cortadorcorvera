@@ -5,6 +5,7 @@ import {
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Corvera Ibéricos"
+const LOGO_URL = 'https://gdmzfhwmqguextpwbbmg.supabase.co/storage/v1/object/public/email-assets/logo-mc.png'
 
 interface OrderItem {
   name: string
