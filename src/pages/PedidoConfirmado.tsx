@@ -17,11 +17,17 @@ const PedidoConfirmado = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       if (!orderId) return;
+      const sessionToken = localStorage.getItem(`order_token_${orderId}`);
+      if (!sessionToken) {
+        setLoading(false);
+        return;
+      }
       const { data } = await supabase
         .from("orders")
         .select("*")
         .eq("id", orderId)
-        .single();
+        .single()
+        .setHeader("x-session-token", sessionToken);
       setOrder(data);
       setLoading(false);
     };
