@@ -1,4 +1,6 @@
 import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
+import jamonBellota100Dop from "@/assets/products/jamon-bellota-100-dop-new.png";
+import jamonReservaFamiliar from "@/assets/products/jamon-reserva-familiar-new.png";
 import jamonBellota1002 from "@/assets/products/jamon-bellota-100-2.jpg";
 import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
 import jamonBellota752 from "@/assets/products/jamon-bellota-75-2.jpg";
@@ -55,7 +57,7 @@ export const products: Product[] = [
     name: "Jamón Bellota 100% Ibérico D.O.P.",
     description: "Se obtiene a partir de cerdos de raza 100% ibérica. Se alimentan en exclusiva de hierba y bellotas, estando en libertad total en las Dehesas de Salamanca y Extremadura.",
     pricePerKg: 45.97,
-    images: [jamonBellota100, jamonBellota1002],
+    images: [jamonBellota100Dop, jamonBellota1002],
     weightOptions: generateWeightOptions(6.5, 9.5, 0.5, 45.97),
     curing: "Más de 36 meses",
     campaign: "2020",
@@ -113,7 +115,7 @@ export const products: Product[] = [
     name: "Jamón César Nieto Reserva Familiar <7kg",
     description: "Jamón seleccionado de forma artesanal, elaborado a partir de piezas escogidas por su excelente calidad y equilibrio de grasa infiltrada. Su curación lenta en bodegas naturales potencia un aroma intenso y un sabor suave y persistente en boca.",
     pricePerKg: 21.05,
-    images: [jamonCebo50, jamonCebo502],
+    images: [jamonReservaFamiliar, jamonCebo502],
     weightOptions: generateWeightOptions(7, 7, 0.5, 21.05),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
