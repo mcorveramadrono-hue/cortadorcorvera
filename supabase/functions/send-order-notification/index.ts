@@ -178,11 +178,14 @@ serve(async (req) => {
       })
       .join("\n");
 
+    const paymentMethodLabel = order.payment_method === "transfer" ? "Transferencia bancaria" : order.payment_method === "bizum" ? "Bizum" : order.payment_method === "card" ? "Tarjeta (Stripe)" : order.payment_method;
+    const isCard = order.payment_method === "card";
+
     const ownerSubject = `Nuevo Pedido ${order.order_number} - ${order.first_name} ${order.last_name}`;
     const ownerText = `
 NUEVO PEDIDO - ${order.order_number}
 ================================
-Método de pago: ${order.payment_method === "transfer" ? "Transferencia bancaria" : order.payment_method === "bizum" ? "Bizum" : order.payment_method}
+Método de pago: ${paymentMethodLabel}
 Estado: ${order.status}
 
 CLIENTE:
