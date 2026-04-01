@@ -35,6 +35,7 @@ export const SignupEmail = ({
     <Preview>Confirma tu email en {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Confirma tu email</Heading>
         <Text style={text}>
           Gracias por registrarte en{' '}
