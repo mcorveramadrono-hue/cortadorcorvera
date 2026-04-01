@@ -43,6 +43,43 @@ const PedidoConfirmado = () => {
           } catch (e) {
             console.error("Failed to send order notification:", e);
           }
+
+          // Send customer confirmation via transactional email
+          try {
+            const { data: orderItems } = await supabase
+              .from("order_items")
+              .select("*")
+              .eq("order_id", orderId)
+              .setHeader("x-session-token", sessionToken!);
+
+            const emailItems = (orderItems || []).map((item: any) => ({
+              name: item.product_name,
+              weight: Number(item.weight),
+              quantity: item.quantity,
+              price: Number(item.price),
+              withKnife: item.knife_supplement,
+              knifePrice: Number(item.knife_supplement_price),
+            }));
+
+            await supabase.functions.invoke("send-transactional-email", {
+              body: {
+                templateName: "order-confirmation",
+                recipientEmail: data.email,
+                idempotencyKey: `order-confirm-${orderId}`,
+                templateData: {
+                  firstName: data.first_name,
+                  orderNumber: data.order_number,
+                  items: emailItems,
+                  subtotal: Number(data.subtotal),
+                  shippingCost: Number(data.shipping_cost),
+                  total: Number(data.total),
+                  paymentMethod: data.payment_method,
+                },
+              },
+            });
+          } catch (e) {
+            console.error("Transactional email error:", e);
+          }
         }
       }
     };

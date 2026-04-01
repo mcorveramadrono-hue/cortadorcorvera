@@ -169,6 +169,37 @@ const Checkout = () => {
         });
       }
 
+      // Send customer confirmation via transactional email
+      try {
+        const emailItems = items.map((item) => ({
+          name: item.product.name,
+          weight: item.selectedWeight,
+          quantity: item.quantity,
+          price: item.price,
+          withKnife: item.withKnife,
+          knifePrice: item.withKnife ? item.product.knifeSupplementPrice : 0,
+        }));
+
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "order-confirmation",
+            recipientEmail: formData.email,
+            idempotencyKey: `order-confirm-${order.id}`,
+            templateData: {
+              firstName: formData.firstName,
+              orderNumber: order.order_number,
+              items: emailItems,
+              subtotal,
+              shippingCost,
+              total,
+              paymentMethod,
+            },
+          },
+        });
+      } catch (e) {
+        console.error("Transactional email error:", e);
+      }
+
       clearCart();
       localStorage.setItem(`order_token_${order.id}`, sessionToken);
       navigate(`/pedido-confirmado/${order.id}`);
