@@ -6,6 +6,26 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const OWNER_EMAIL = "mcorveramadrono@gmail.com";
+
+async function enqueueAppEmail(
+  supabase: ReturnType<typeof createClient>,
+  payload: {
+    templateName: string;
+    recipientEmail: string;
+    idempotencyKey: string;
+    templateData: Record<string, unknown>;
+  },
+) {
+  const { error } = await supabase.functions.invoke("send-transactional-email", {
+    body: payload,
+  });
+
+  if (error) {
+    throw new Error(`Failed to enqueue '${payload.templateName}': ${error.message}`);
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -82,20 +102,34 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    // Send payment confirmed email to customer
-    await supabase.functions.invoke("send-transactional-email", {
-      body: {
-        templateName: "payment-confirmed",
-        recipientEmail: order.email,
-        idempotencyKey: `payment-confirmed-${orderId}`,
-        templateData: {
-          firstName: order.first_name,
-          orderNumber: order.order_number,
-          items: emailItems,
-          subtotal: Number(order.subtotal),
-          shippingCost: Number(order.shipping_cost),
-          total: Number(order.total),
-        },
+    await enqueueAppEmail(supabase, {
+      templateName: "payment-confirmed",
+      recipientEmail: order.email,
+      idempotencyKey: `payment-confirmed-${orderId}`,
+      templateData: {
+        firstName: order.first_name,
+        orderNumber: order.order_number,
+        items: emailItems,
+        subtotal: Number(order.subtotal),
+        shippingCost: Number(order.shipping_cost),
+        total: Number(order.total),
+      },
+    });
+
+    await enqueueAppEmail(supabase, {
+      templateName: "owner-payment-confirmed",
+      recipientEmail: OWNER_EMAIL,
+      idempotencyKey: `owner-payment-confirmed-${orderId}`,
+      templateData: {
+        orderNumber: order.order_number,
+        customerFirstName: order.first_name,
+        customerLastName: order.last_name,
+        customerEmail: order.email,
+        paymentMethod: order.payment_method,
+        items: emailItems,
+        subtotal: Number(order.subtotal),
+        shippingCost: Number(order.shipping_cost),
+        total: Number(order.total),
       },
     });
 
@@ -104,7 +138,7 @@ serve(async (req) => {
       <body style="font-family:Arial;text-align:center;padding:60px 20px;">
       <h1 style="color:#16a34a;">✅ Pago confirmado</h1>
       <p>El pedido <strong>${order.order_number}</strong> de <strong>${order.first_name} ${order.last_name}</strong> ha sido marcado como pagado.</p>
-      <p style="color:#666;margin-top:20px;">Se ha enviado un email de confirmación al cliente (${order.email}).</p></body></html>`,
+      <p style="color:#666;margin-top:20px;">Se ha enviado un email de confirmación al cliente (${order.email}) y una notificación interna al administrador.</p></body></html>`,
       { status: 200, headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" } },
     );
   } catch (error) {
