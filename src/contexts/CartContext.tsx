@@ -21,12 +21,18 @@ interface CartContextType {
   totalWeight: number;
   shippingCost: number;
   total: number;
+  promoCode: string;
+  promoApplied: boolean;
+  applyPromoCode: (code: string) => boolean;
+  removePromoCode: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoApplied, setPromoApplied] = useState(false);
 
   const addItem = (newItem: CartItem) => {
     setItems((prev) => {
@@ -71,7 +77,25 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const clearCart = () => setItems([]);
+  const clearCart = () => {
+    setItems([]);
+    setPromoCode("");
+    setPromoApplied(false);
+  };
+
+  const applyPromoCode = (code: string): boolean => {
+    if (code.trim().toUpperCase() === "SEMANASANTA") {
+      setPromoCode(code.trim().toUpperCase());
+      setPromoApplied(true);
+      return true;
+    }
+    return false;
+  };
+
+  const removePromoCode = () => {
+    setPromoCode("");
+    setPromoApplied(false);
+  };
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -82,13 +106,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const totalWeight = items.reduce((sum, i) => sum + i.selectedWeight * i.quantity, 0);
 
-  const shippingCost = totalWeight >= 20 ? 0 : 5;
+  const baseShippingCost = totalWeight >= 20 ? 0 : 5;
+  const shippingCost = promoApplied ? 0 : baseShippingCost;
 
   const total = subtotal + shippingCost;
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, updateKnife, clearCart, totalItems, subtotal, totalWeight, shippingCost, total }}
+      value={{ items, addItem, removeItem, updateQuantity, updateKnife, clearCart, totalItems, subtotal, totalWeight, shippingCost, total, promoCode, promoApplied, applyPromoCode, removePromoCode }}
     >
       {children}
     </CartContext.Provider>
