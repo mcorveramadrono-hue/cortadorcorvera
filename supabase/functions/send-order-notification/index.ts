@@ -281,12 +281,19 @@ ${paymentInstructions.text}
 ${customerFooterText}
     `.trim();
 
+    const customerStatusHtml = isCard
+      ? `<p>Tu pago con tarjeta ha sido <strong>procesado correctamente</strong>. Prepararemos tu pedido en breve.</p>`
+      : `<p>Hemos recibido tu pedido <strong>${order.order_number}</strong> y está <strong>pendiente de pago</strong>.</p>`;
+    const customerFooterHtml = isCard
+      ? `<p style="margin-top: 20px;">Gracias por tu compra. Prepararemos tu pedido y te avisaremos cuando sea enviado.</p>`
+      : `<p style="margin-top: 20px;">Tu pedido no se preparará hasta confirmar el ingreso.<br />Gracias por confiar en nosotros.</p>`;
+
     const customerHtml = `
       <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #111827;">
         <h2>Gracias por tu pedido, ${order.first_name}</h2>
-        <p>Hemos recibido tu pedido <strong>${order.order_number}</strong> y está <strong>pendiente de pago</strong>.</p>
+        ${customerStatusHtml}
 
-        <h3>Resumen del pedido</h3>
+        <h3>Resumen del pedido (${order.order_number})</h3>
         <ul style="padding-left: 20px;">
           ${customerItemsHtml}
         </ul>
@@ -295,13 +302,10 @@ ${customerFooterText}
         <p><strong>Envío:</strong> ${Number(order.shipping_cost) === 0 ? "Gratis" : formatEuro(Number(order.shipping_cost))}</p>
         <p><strong>Total:</strong> ${formatEuro(Number(order.total))}</p>
 
-        <h3>Cómo realizar el pago</h3>
+        ${!isCard ? `<h3>Cómo realizar el pago</h3>` : ""}
         ${paymentInstructions.html}
 
-        <p style="margin-top: 20px;">
-          Tu pedido no se preparará hasta confirmar el ingreso.<br />
-          Gracias por confiar en nosotros.
-        </p>
+        ${customerFooterHtml}
       </div>
     `.trim();
 
