@@ -1,4 +1,6 @@
 import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
+import jamonBellota100Dop from "@/assets/products/jamon-bellota-100-dop-new.png";
+import jamonReservaFamiliar from "@/assets/products/jamon-reserva-familiar-new.png";
 import jamonBellota1002 from "@/assets/products/jamon-bellota-100-2.jpg";
 import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
 import jamonBellota752 from "@/assets/products/jamon-bellota-75-2.jpg";
