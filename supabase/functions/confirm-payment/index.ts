@@ -7,15 +7,13 @@ const corsHeaders = {
 };
 
 const OWNER_EMAIL = "mcorveramadrono@gmail.com";
+const SITE_URL = "https://cortadorcorvera.lovable.app";
 
-function htmlPage(title: string, body: string, status = 200) {
-  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:60px 20px;margin:0;background:#fafafa}h1{margin-bottom:16px}p{color:#444;line-height:1.6}.card{max-width:480px;margin:0 auto;background:#fff;border-radius:12px;padding:40px 30px;box-shadow:0 2px 12px rgba(0,0,0,.08)}</style></head><body><div class="card">${body}</div></body></html>`;
-  const headers = new Headers();
-  headers.set("Content-Type", "text/html; charset=utf-8");
-  headers.set("Access-Control-Allow-Origin", "*");
-  return new Response(html, {
-    status,
-    headers,
+function redirect(params: Record<string, string>) {
+  const qs = new URLSearchParams(params).toString();
+  return new Response(null, {
+    status: 302,
+    headers: { Location: `${SITE_URL}/confirmar-pago?${qs}` },
   });
 }
 
@@ -56,7 +54,7 @@ serve(async (req) => {
     const token = url.searchParams.get("token");
 
     if (!orderId || !token) {
-      return htmlPage("Error", `<h1 style="color:#dc2626;">❌ Enlace inválido</h1><p>Faltan parámetros en el enlace.</p>`, 400);
+      return redirect({ status: "invalid" });
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
@@ -73,11 +71,11 @@ serve(async (req) => {
       .single();
 
     if (orderError || !order) {
-      return htmlPage("Error", `<h1 style="color:#dc2626;">❌ Enlace inválido</h1><p>Este enlace no es válido o el pedido no existe.</p>`, 404);
+      return redirect({ status: "invalid" });
     }
 
     if (order.status === "paid" || order.status === "confirmed") {
-      return htmlPage("Ya confirmado", `<h1 style="color:#16a34a;">✅ Pago ya confirmado</h1><p>El pedido <strong>${order.order_number}</strong> ya fue marcado como pagado.</p>`);
+      return redirect({ status: "already", order: order.order_number });
     }
 
     // Update order status to paid
@@ -137,10 +135,14 @@ serve(async (req) => {
       },
     });
 
-    return htmlPage("Pago confirmado", `<h1 style="color:#16a34a;">✅ Pago confirmado</h1><p>El pedido <strong>${order.order_number}</strong> de <strong>${order.first_name} ${order.last_name}</strong> ha sido marcado como pagado.</p><p style="color:#666;margin-top:20px;">Se ha enviado un email de confirmación al cliente (${order.email}).</p>`);
+    return redirect({
+      status: "success",
+      order: order.order_number,
+      name: `${order.first_name} ${order.last_name}`,
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Confirm payment error:", message);
-    return htmlPage("Error", `<h1 style="color:#dc2626;">❌ Error</h1><p>Hubo un problema al confirmar el pago. Inténtalo de nuevo.</p>`, 500);
+    return redirect({ status: "error" });
   }
 });
