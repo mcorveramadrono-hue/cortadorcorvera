@@ -6,6 +6,34 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const OWNER_EMAIL = "mcorveramadrono@gmail.com";
+
+async function enqueueAppEmail(
+  supabaseUrl: string,
+  anonKey: string,
+  payload: {
+    templateName: string;
+    recipientEmail: string;
+    idempotencyKey: string;
+    templateData: Record<string, unknown>;
+  },
+) {
+  const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${anonKey}`,
+      apikey: anonKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const responseText = await response.text();
+  if (!response.ok) {
+    throw new Error(`Failed to enqueue '${payload.templateName}': HTTP ${response.status} ${responseText}`);
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -27,6 +55,8 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
+
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 
     // Verify order exists and token matches
     const { data: order, error: orderError } = await supabase
@@ -82,20 +112,34 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    // Send payment confirmed email to customer
-    await supabase.functions.invoke("send-transactional-email", {
-      body: {
-        templateName: "payment-confirmed",
-        recipientEmail: order.email,
-        idempotencyKey: `payment-confirmed-${orderId}`,
-        templateData: {
-          firstName: order.first_name,
-          orderNumber: order.order_number,
-          items: emailItems,
-          subtotal: Number(order.subtotal),
-          shippingCost: Number(order.shipping_cost),
-          total: Number(order.total),
-        },
+    await enqueueAppEmail(supabaseUrl, anonKey, {
+      templateName: "payment-confirmed",
+      recipientEmail: order.email,
+      idempotencyKey: `payment-confirmed-${orderId}`,
+      templateData: {
+        firstName: order.first_name,
+        orderNumber: order.order_number,
+        items: emailItems,
+        subtotal: Number(order.subtotal),
+        shippingCost: Number(order.shipping_cost),
+        total: Number(order.total),
+      },
+    });
+
+    await enqueueAppEmail(supabaseUrl, anonKey, {
+      templateName: "owner-payment-confirmed",
+      recipientEmail: OWNER_EMAIL,
+      idempotencyKey: `owner-payment-confirmed-${orderId}`,
+      templateData: {
+        orderNumber: order.order_number,
+        customerFirstName: order.first_name,
+        customerLastName: order.last_name,
+        customerEmail: order.email,
+        paymentMethod: order.payment_method,
+        items: emailItems,
+        subtotal: Number(order.subtotal),
+        shippingCost: Number(order.shipping_cost),
+        total: Number(order.total),
       },
     });
 
@@ -104,7 +148,7 @@ serve(async (req) => {
       <body style="font-family:Arial;text-align:center;padding:60px 20px;">
       <h1 style="color:#16a34a;">✅ Pago confirmado</h1>
       <p>El pedido <strong>${order.order_number}</strong> de <strong>${order.first_name} ${order.last_name}</strong> ha sido marcado como pagado.</p>
-      <p style="color:#666;margin-top:20px;">Se ha enviado un email de confirmación al cliente (${order.email}).</p></body></html>`,
+      <p style="color:#666;margin-top:20px;">Se ha enviado un email de confirmación al cliente (${order.email}) y una notificación interna al administrador.</p></body></html>`,
       { status: 200, headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" } },
     );
   } catch (error) {
