@@ -30,6 +30,7 @@ export const RecoveryEmail = ({
     <Preview>Restablecer contraseña en {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
+        <Img src={LOGO_URL} alt="Corvera Ibéricos" width="60" height="60" style={logo} />
         <Heading style={h1}>Restablecer contraseña</Heading>
         <Text style={text}>
           Hemos recibido una solicitud para restablecer tu contraseña en {siteName}. Haz clic en el botón para elegir una nueva.
