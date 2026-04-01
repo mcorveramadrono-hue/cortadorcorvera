@@ -152,7 +152,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 75% Ibérica D.O.P.",
     description: "Fruto de su prolongada curación de más de 24 meses, y de su alimentación natural a base de bellotas. La proporción superior al 56% de ácido oleico en sus grasas la hacen untuosa a la vez que suave, se \"funde\" en el paladar.",
     pricePerKg: 27.62,
-    images: [paletaBellota50, paletaBellota502],
+    images: [paletaBellota75Dop, paletaBellota502],
     weightOptions: generateWeightOptions(4, 6, 0.5, 27.62),
     curing: "Más de 24 meses",
     campaign: "2021",
