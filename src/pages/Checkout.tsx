@@ -52,6 +52,14 @@ const Checkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!acceptPrivacy) return;
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({ title: "Email inválido", description: "Por favor, introduce un email válido.", variant: "destructive" });
+      return;
+    }
+
     setLoading(true);
 
     try {
