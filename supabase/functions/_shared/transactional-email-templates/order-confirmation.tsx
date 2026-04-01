@@ -166,3 +166,4 @@ const itemLine = { fontSize: '14px', color: '#333333', lineHeight: '1.6', margin
 const totalLine = { fontSize: '16px', color: '#1f1f1f', lineHeight: '1.6', margin: '4px 0 0', fontWeight: 'bold' as const }
 const hr = { borderColor: '#e5e5e5', margin: '16px 0' }
 const footer = { fontSize: '12px', color: '#888888', margin: '20px 0 0', lineHeight: '1.5' }
+const logoStyle = { margin: '0 0 20px' }
