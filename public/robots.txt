@@ -13,4 +13,7 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://cortadorcorvera.lovable.app/sitemap.xml
+Disallow: /checkout
+Disallow: /pedido-confirmado/
+
+Sitemap: https://corveraibericos.com/sitemap.xml

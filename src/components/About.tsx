@@ -4,7 +4,7 @@ import selloCorteOriginal from "@/assets/sello-corte-original.png";
 
 const About = () => {
   return (
-    <section className="relative py-24 bg-corvera-cream overflow-hidden">
+    <section id="sobre-nosotros" className="relative py-24 bg-corvera-cream overflow-hidden" aria-label="Sobre Corvera Ibéricos">
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
