@@ -134,6 +134,7 @@ const Checkout = () => {
 
         // Clear cart and redirect - use location.assign for maximum mobile compatibility
         clearCart();
+        localStorage.setItem(`order_token_${order.id}`, sessionToken);
         window.location.assign(stripeUrl);
         return;
       }
