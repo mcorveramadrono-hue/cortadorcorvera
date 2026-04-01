@@ -10,6 +10,7 @@ import Carrito from "./pages/Carrito";
 import Checkout from "./pages/Checkout";
 import PedidoConfirmado from "./pages/PedidoConfirmado";
 import PoliticaPrivacidad from "./pages/PoliticaPrivacidad";
+import Unsubscribe from "./pages/Unsubscribe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
