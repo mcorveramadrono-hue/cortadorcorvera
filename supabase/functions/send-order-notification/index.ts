@@ -19,7 +19,7 @@ type OrderItem = {
 
 async function enqueueAppEmail(
   supabaseUrl: string,
-  serviceKey: string,
+  anonKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -30,8 +30,8 @@ async function enqueueAppEmail(
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${serviceKey}`,
-      apikey: serviceKey,
+      Authorization: `Bearer ${anonKey}`,
+      apikey: anonKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -63,7 +63,7 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
@@ -114,7 +114,7 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    await enqueueAppEmail(supabaseUrl, serviceKey, {
+    await enqueueAppEmail(supabaseUrl, anonKey, {
       templateName: "owner-new-order",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-new-order-${order.id}`,
@@ -141,7 +141,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(supabaseUrl, serviceKey, {
+    await enqueueAppEmail(supabaseUrl, anonKey, {
       templateName: "order-confirmation",
       recipientEmail: order.email,
       idempotencyKey: `customer-order-confirmation-${order.id}`,
