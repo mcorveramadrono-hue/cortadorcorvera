@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const PROMO_END_KEY = "corvera_promo_end";
 const PROMO_DISMISSED_KEY = "corvera_promo_dismissed";
-const PROMO_DURATION_MS = 5 * 24 * 60 * 60 * 1000; // 5 days
+// Promotion ends Monday April 6, 2026 at 23:59:59 Spanish time (UTC+2)
+const PROMO_END = new Date("2026-04-06T23:59:59+02:00").getTime();
 
 const PromoBanner = () => {
   const navigate = useNavigate();
@@ -21,27 +21,14 @@ const PromoBanner = () => {
     const dismissed = sessionStorage.getItem(PROMO_DISMISSED_KEY);
     if (dismissed) return;
 
-    // Use existing end time from localStorage, or set a new one only once
-    let endTime = localStorage.getItem(PROMO_END_KEY);
-    if (!endTime) {
-      const end = Date.now() + PROMO_DURATION_MS;
-      localStorage.setItem(PROMO_END_KEY, end.toString());
-      endTime = end.toString();
-    }
-
-    const end = Number(endTime);
-    if (Date.now() >= end) {
-      localStorage.removeItem(PROMO_END_KEY);
-      return;
-    }
+    if (Date.now() >= PROMO_END) return;
 
     setVisible(true);
 
     const tick = () => {
-      const diff = end - Date.now();
+      const diff = PROMO_END - Date.now();
       if (diff <= 0) {
         setVisible(false);
-        localStorage.removeItem(PROMO_END_KEY);
         return;
       }
       setTimeLeft({
@@ -80,7 +67,7 @@ const PromoBanner = () => {
         </DialogHeader>
         <div className="space-y-4 py-2">
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Disfruta de <strong className="text-foreground">envío gratuito</strong> en todos tus pedidos durante los próximos días. ¡No dejes pasar esta oportunidad!
+            Disfruta de <strong className="text-foreground">envío gratuito</strong> en todos tus pedidos hasta el <strong className="text-foreground">lunes 6 de abril</strong>. ¡No dejes pasar esta oportunidad!
           </p>
           <div className="flex justify-center gap-3">
             {[
