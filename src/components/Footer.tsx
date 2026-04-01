@@ -60,7 +60,7 @@ const Footer = () => {
             Política de Privacidad
           </Link>
           <p className="text-xs text-background/30 tracking-widest">
-            © {new Date().getFullYear()} Cortador Corvera · Un Corte Original. Todos los derechos reservados.
+            © {new Date().getFullYear()} Corvera Ibéricos · Un Corte Original. Todos los derechos reservados.
           </p>
         </div>
       </div>
