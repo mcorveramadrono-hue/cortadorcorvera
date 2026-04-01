@@ -94,6 +94,13 @@ async function sendWithResend(params: {
 }
 
 function buildPaymentInstructions(paymentMethod: string, concept: string, total: number) {
+  if (paymentMethod === "card") {
+    return {
+      text: `Pago con tarjeta: Completado correctamente.`,
+      html: `<p><strong>Pago con tarjeta:</strong> ✅ Completado correctamente.</p>`,
+    };
+  }
+
   if (paymentMethod === "bizum") {
     return {
       text: `Bizum\nTeléfono: ${BIZUM_PHONE}\nConcepto: ${concept}\nImporte: ${formatEuro(total)}`,
