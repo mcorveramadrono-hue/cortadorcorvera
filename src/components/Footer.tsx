@@ -42,12 +42,12 @@ const Footer = () => {
               Síguenos
             </p>
             <a
-              href="instagram://user?username=cortadormc"
-              onClick={(e) => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }}
+              href="instagram://user?username=corveraibericos"
+              onClick={(e) => { setTimeout(() => { window.open('https://www.instagram.com/corveraibericos/', '_blank'); }, 500); }}
               className="inline-flex items-center gap-2 text-sm text-background/60 hover:text-background transition-colors"
             >
               <Instagram size={18} />
-              @cortadormc
+              @corveraibericos
             </a>
           </div>
         </div>

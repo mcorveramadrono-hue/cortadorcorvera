@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Clock, Building2, Smartphone } from "lucide-react";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { Clock, Building2, Smartphone, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,8 +8,11 @@ import Footer from "@/components/Footer";
 const PedidoConfirmado = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  const paymentSuccess = searchParams.get("payment") === "success";
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -50,22 +53,40 @@ const PedidoConfirmado = () => {
 
   const isBizum = order.payment_method === "bizum";
   const isTransfer = order.payment_method === "transfer";
+  const isCard = order.payment_method === "card";
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-20 pb-16">
         <div className="max-w-2xl mx-auto px-4 md:px-6 text-center space-y-6">
-          <Clock size={64} className="mx-auto text-amber-500" />
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
-            Pedido Pendiente de Pago
-          </h1>
-          <p className="text-muted-foreground">
-            Tu número de pedido es: <strong className="text-foreground">{order.order_number}</strong>
-          </p>
-          <p className="text-sm text-muted-foreground bg-amber-50 border border-amber-200 p-4 rounded">
-            Tu pedido <strong>no se llevará a cabo hasta que se confirme el ingreso</strong>. Una vez recibido el pago, prepararemos tu pedido y te enviaremos un email de confirmación.
-          </p>
+          {isCard && paymentSuccess ? (
+            <>
+              <CheckCircle size={64} className="mx-auto text-green-500" />
+              <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+                ¡Pago Confirmado!
+              </h1>
+              <p className="text-muted-foreground">
+                Tu número de pedido es: <strong className="text-foreground">{order.order_number}</strong>
+              </p>
+              <p className="text-sm text-muted-foreground bg-green-50 border border-green-200 p-4 rounded">
+                Tu pago con tarjeta ha sido procesado correctamente. Prepararemos tu pedido y te enviaremos un email de confirmación con los detalles del envío.
+              </p>
+            </>
+          ) : (
+            <>
+              <Clock size={64} className="mx-auto text-amber-500" />
+              <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+                Pedido Pendiente de Pago
+              </h1>
+              <p className="text-muted-foreground">
+                Tu número de pedido es: <strong className="text-foreground">{order.order_number}</strong>
+              </p>
+              <p className="text-sm text-muted-foreground bg-amber-50 border border-amber-200 p-4 rounded">
+                Tu pedido <strong>no se llevará a cabo hasta que se confirme el ingreso</strong>. Una vez recibido el pago, prepararemos tu pedido y te enviaremos un email de confirmación.
+              </p>
+            </>
+          )}
 
           {isTransfer && (
             <div className="border border-border p-6 text-left space-y-4">

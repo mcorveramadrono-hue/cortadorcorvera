@@ -82,7 +82,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const totalWeight = items.reduce((sum, i) => sum + i.selectedWeight * i.quantity, 0);
 
-  const shippingCost = totalWeight >= 20 ? 0 : 15;
+  const shippingCost = totalWeight >= 20 ? 0 : 5;
 
   const total = subtotal + shippingCost;
 

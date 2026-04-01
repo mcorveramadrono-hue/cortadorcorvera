@@ -24,11 +24,11 @@ const PoliticaPrivacidad = () => {
 
         <div className="prose prose-sm max-w-none text-muted-foreground space-y-6 [&_h2]:text-foreground [&_h2]:font-serif [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-3 [&_strong]:text-foreground">
 
-          <p className="text-sm text-muted-foreground/70">Última actualización: 16 de marzo de 2026</p>
+          <p className="text-sm text-muted-foreground/70">Última actualización: 1 de abril de 2026</p>
 
           <h2>1. Responsable del tratamiento</h2>
           <p>
-            El responsable del tratamiento de los datos personales recogidos a través de este sitio web es <strong>Cortador Corvera (Miguel Corvera Madroño)</strong>, con correo electrónico de contacto: <strong>mcorveramadrono@gmail.com</strong>.
+            El responsable del tratamiento de los datos personales recogidos a través de este sitio web es <strong>Corvera Ibéricos (Marcos Corvera Madroño)</strong>, con correo electrónico de contacto: <strong>mcorveramadrono@gmail.com</strong>.
           </p>
 
           <h2>2. Datos que recopilamos</h2>
@@ -43,8 +43,13 @@ const PoliticaPrivacidad = () => {
             <li>Contenido de mensajes o notas adicionales</li>
           </ul>
           <p>
-            <strong>Datos de pago:</strong> Si elige pagar con tarjeta de crédito/débito, los datos de pago son procesados directamente por <strong>Stripe, Inc.</strong> a través de su plataforma segura. En ningún momento almacenamos ni tenemos acceso a los datos completos de su tarjeta.
+            <strong>Datos de pago:</strong> Ofrecemos tres métodos de pago:
           </p>
+          <ul className="list-disc pl-6 space-y-1">
+            <li><strong>Tarjeta de crédito/débito (incluidos Apple Pay y Google Pay):</strong> Los datos de pago son procesados directamente por <strong>Stripe, Inc.</strong> a través de su plataforma segura. En ningún momento almacenamos ni tenemos acceso a los datos completos de su tarjeta.</li>
+            <li><strong>Transferencia bancaria:</strong> El cliente realiza la transferencia directamente desde su entidad bancaria al IBAN facilitado. No almacenamos datos bancarios del cliente.</li>
+            <li><strong>Bizum:</strong> El pago se realiza a través de la aplicación bancaria del cliente al número de teléfono facilitado. No almacenamos datos bancarios del cliente.</li>
+          </ul>
 
           <h2>3. Finalidad del tratamiento</h2>
           <p>Los datos personales facilitados serán tratados con las siguientes finalidades:</p>
@@ -76,7 +81,7 @@ const PoliticaPrivacidad = () => {
             Los datos proporcionados podrán ser comunicados a los siguientes terceros en calidad de encargados del tratamiento:
           </p>
           <ul className="list-disc pl-6 space-y-1">
-            <li><strong>Stripe, Inc.</strong>: procesamiento seguro de pagos con tarjeta de crédito/débito. Stripe cumple con los estándares PCI DSS nivel 1.</li>
+            <li><strong>Stripe, Inc.</strong>: procesamiento seguro de pagos con tarjeta de crédito/débito, Apple Pay y Google Pay. Stripe cumple con los estándares PCI DSS nivel 1.</li>
             <li><strong>Formspree</strong>: servicio de gestión de formularios para notificaciones de contacto y pedidos.</li>
             <li><strong>Empresas de transporte</strong>: para la entrega de los productos adquiridos, compartiéndose nombre, dirección y teléfono del destinatario.</li>
           </ul>
@@ -111,10 +116,11 @@ const PoliticaPrivacidad = () => {
           <h2>9. Condiciones de compra</h2>
           <ul className="list-disc pl-6 space-y-1">
             <li>Todos los precios mostrados incluyen IVA.</li>
-            <li>El envío es gratuito para pedidos superiores a 20 kg. Para pedidos inferiores, los gastos de envío son de 15 €.</li>
+            <li>El envío es gratuito para pedidos superiores a 20 kg. Para pedidos inferiores, los gastos de envío son de 5 €.</li>
             <li>Los pesos indicados son aproximados, pudiendo existir variaciones propias del producto natural.</li>
-            <li>Los métodos de pago disponibles son tarjeta de crédito/débito (Stripe) y transferencia bancaria.</li>
-            <li>En caso de transferencia bancaria, el pedido se reservará durante 5 días hábiles desde la confirmación del pedido.</li>
+            <li>Los métodos de pago disponibles son: tarjeta de crédito/débito (incluidos Apple Pay y Google Pay a través de Stripe), transferencia bancaria y Bizum.</li>
+            <li>En caso de transferencia bancaria o Bizum, el pedido se reservará durante 5 días hábiles desde la confirmación del pedido.</li>
+            <li>Los pagos con tarjeta se procesan de forma inmediata y segura a través de Stripe.</li>
           </ul>
 
           <h2>10. Cookies</h2>

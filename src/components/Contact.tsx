@@ -182,11 +182,11 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">Madrid</p>
                 </div>
               </div>
-              <a href="instagram://user?username=cortadormc" onClick={() => { setTimeout(() => { window.open('https://www.instagram.com/cortadormc/', '_blank'); }, 500); }} className="flex items-start gap-4 group">
+              <a href="instagram://user?username=corveraibericos" onClick={() => { setTimeout(() => { window.open('https://www.instagram.com/corveraibericos/', '_blank'); }, 500); }} className="flex items-start gap-4 group">
                 <Instagram size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground group-hover:text-primary transition-colors">Instagram</p>
-                  <p className="text-sm text-muted-foreground">@cortadormc</p>
+                  <p className="text-sm text-muted-foreground">@corveraibericos</p>
                 </div>
               </a>
             </div>
