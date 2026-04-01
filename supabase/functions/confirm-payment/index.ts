@@ -48,6 +48,20 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const internalInvokeClient = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      serviceKey,
+      {
+        global: {
+          headers: {
+            Authorization: `Bearer ${serviceKey}`,
+            apikey: serviceKey,
+          },
+        },
+      },
+    );
+
     // Verify order exists and token matches
     const { data: order, error: orderError } = await supabase
       .from("orders")
@@ -102,7 +116,7 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    await enqueueAppEmail(supabase, {
+    await enqueueAppEmail(internalInvokeClient, {
       templateName: "payment-confirmed",
       recipientEmail: order.email,
       idempotencyKey: `payment-confirmed-${orderId}`,
@@ -116,7 +130,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(supabase, {
+    await enqueueAppEmail(internalInvokeClient, {
       templateName: "owner-payment-confirmed",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-payment-confirmed-${orderId}`,
