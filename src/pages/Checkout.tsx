@@ -5,6 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StripeCheckoutDialog from "@/components/StripeCheckoutDialog";
 import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
@@ -12,6 +13,8 @@ const Checkout = () => {
   const { items, subtotal, totalWeight, shippingCost, total, clearCart, promoApplied, promoCode } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+  const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
+  const [stripeOrderId, setStripeOrderId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -133,13 +136,14 @@ const Checkout = () => {
 
         if (checkoutError) throw checkoutError;
 
-        const stripeUrl = checkoutData?.url;
-        if (!stripeUrl) throw new Error("No se pudo crear la sesión de pago");
+        const clientSecret = checkoutData?.clientSecret;
+        if (!clientSecret) throw new Error("No se pudo crear la sesión de pago");
 
-        // Clear cart and redirect - use location.assign for maximum mobile compatibility
         clearCart();
         localStorage.setItem(`order_token_${order.id}`, sessionToken);
-        window.location.assign(stripeUrl);
+        setStripeOrderId(order.id);
+        setStripeClientSecret(clientSecret);
+        setLoading(false);
         return;
       }
 
@@ -424,6 +428,19 @@ const Checkout = () => {
         </div>
       </main>
       <Footer />
+
+      {stripeClientSecret && (
+        <StripeCheckoutDialog
+          open={!!stripeClientSecret}
+          onClose={() => {
+            setStripeClientSecret(null);
+            if (stripeOrderId) {
+              navigate(`/pedido-confirmado/${stripeOrderId}?payment=pending`);
+            }
+          }}
+          clientSecret={stripeClientSecret}
+        />
+      )}
     </div>
   );
 };
