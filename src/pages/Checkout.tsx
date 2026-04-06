@@ -428,6 +428,19 @@ const Checkout = () => {
         </div>
       </main>
       <Footer />
+
+      {stripeClientSecret && (
+        <StripeCheckoutDialog
+          open={!!stripeClientSecret}
+          onClose={() => {
+            setStripeClientSecret(null);
+            if (stripeOrderId) {
+              navigate(`/pedido-confirmado/${stripeOrderId}?payment=pending`);
+            }
+          }}
+          clientSecret={stripeClientSecret}
+        />
+      )}
     </div>
   );
 };
