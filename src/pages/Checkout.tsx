@@ -13,6 +13,8 @@ const Checkout = () => {
   const { items, subtotal, totalWeight, shippingCost, total, clearCart, promoApplied, promoCode } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
+  const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
+  const [stripeOrderId, setStripeOrderId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
   const [formData, setFormData] = useState({
     firstName: "",
