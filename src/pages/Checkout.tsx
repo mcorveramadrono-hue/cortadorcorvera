@@ -33,7 +33,7 @@ const Checkout = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  if (items.length === 0) {
+  if (items.length === 0 && !stripeClientSecret) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
