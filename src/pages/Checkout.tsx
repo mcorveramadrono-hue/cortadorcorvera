@@ -5,6 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import StripeCheckoutDialog from "@/components/StripeCheckoutDialog";
 import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
