@@ -136,13 +136,14 @@ const Checkout = () => {
 
         if (checkoutError) throw checkoutError;
 
-        const stripeUrl = checkoutData?.url;
-        if (!stripeUrl) throw new Error("No se pudo crear la sesión de pago");
+        const clientSecret = checkoutData?.clientSecret;
+        if (!clientSecret) throw new Error("No se pudo crear la sesión de pago");
 
-        // Clear cart and redirect - use location.assign for maximum mobile compatibility
         clearCart();
         localStorage.setItem(`order_token_${order.id}`, sessionToken);
-        window.location.assign(stripeUrl);
+        setStripeOrderId(order.id);
+        setStripeClientSecret(clientSecret);
+        setLoading(false);
         return;
       }
 
