@@ -63,6 +63,10 @@ export default {
           dark: "hsl(var(--corvera-dark))",
         },
       },
+      fontFamily: {
+        sans: ["Lora", "Georgia", "serif"],
+        serif: ["Lora", "Georgia", "serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
