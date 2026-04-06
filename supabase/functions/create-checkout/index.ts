@@ -15,7 +15,6 @@ serve(async (req) => {
   try {
     const { orderId, items, shippingCost, customerEmail } = await req.json();
 
-    // Validate email server-side
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!customerEmail || !emailRegex.test(customerEmail)) {
       return new Response(
@@ -82,14 +81,13 @@ serve(async (req) => {
       line_items: lineItems,
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: `${origin}/pedido-confirmado/${orderId}?payment=success`,
-      cancel_url: `${origin}/checkout?payment=cancelled`,
+      ui_mode: "embedded",
+      return_url: `${origin}/pedido-confirmado/${orderId}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       metadata: {
         order_id: orderId,
       },
     });
 
-    // Update order with stripe session id
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -100,7 +98,7 @@ serve(async (req) => {
       .update({ stripe_session_id: session.id })
       .eq("id", orderId);
 
-    return new Response(JSON.stringify({ url: session.url }), {
+    return new Response(JSON.stringify({ clientSecret: session.client_secret }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
