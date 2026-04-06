@@ -12,6 +12,7 @@ import gallery7 from "@/assets/gallery/gallery-7.jpeg";
 import gallery8 from "@/assets/gallery/gallery-8.jpeg";
 import gallery9 from "@/assets/gallery/gallery-9.jpeg";
 import gallery10 from "@/assets/gallery/gallery-10.jpeg";
+import gallery11 from "@/assets/gallery/gallery-11.jpeg";
 
 const images = [
   { src: gallery1, alt: "Plato de jamón ibérico cortado a mano" },
@@ -24,6 +25,7 @@ const images = [
   { src: gallery8, alt: "Rosa de grasa sobre corte de jamón" },
   { src: gallery9, alt: "Cortador profesional en acción" },
   { src: gallery10, alt: "Corte de jamón en blanco y negro" },
+  { src: gallery11, alt: "Lámina de jamón ibérico en cuchillo" },
 ];
 
 const Gallery = () => {
