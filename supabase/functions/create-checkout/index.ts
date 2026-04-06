@@ -80,7 +80,7 @@ serve(async (req) => {
       customer_email: customerEmail,
       line_items: lineItems,
       mode: "payment",
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "link"],
       ui_mode: "embedded",
       return_url: `${origin}/pedido-confirmado/${orderId}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       metadata: {
