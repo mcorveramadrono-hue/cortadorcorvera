@@ -37,7 +37,7 @@ const services = [
     icon: Award,
     title: "Corte de Jamón a Cuchillo con Pieza Incluida",
     description:
-      "El servicio más completo: nosotros ponemos la pieza de jamón ibérico de bellota y el cortador profesional. Solo tienes que disfrutar. Ideal para eventos, celebraciones o reuniones especiales.",
+      "El servicio más completo: nosotros ponemos la pieza de jamón ibérico y el cortador profesional. Solo tienes que disfrutar. Ideal para eventos, celebraciones o reuniones especiales.",
     features: [
       "Pieza de jamón ibérico incluida",
       "Corte a cuchillo",
