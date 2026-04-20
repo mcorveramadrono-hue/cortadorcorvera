@@ -5,6 +5,7 @@ import { useCart } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
+import paymentMethodsImg from "@/assets/payment-methods.png";
 
 const Carrito = () => {
   const navigate = useNavigate();
