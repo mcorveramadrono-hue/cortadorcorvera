@@ -180,6 +180,65 @@ const Carrito = () => {
                 <p className="text-[10px] text-muted-foreground/60 text-right">*IVA incluido</p>
               </div>
 
+              {/* Pagos Seguros */}
+              <div className="border border-border p-4 space-y-4">
+                <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  Pagos 100% Seguros
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {/* Visa */}
+                  <div className="h-8 px-3 bg-white rounded border border-border flex items-center justify-center">
+                    <svg viewBox="0 0 48 16" className="h-4 w-auto">
+                      <path fill="#1A1F71" d="M17.24 1.8l-3.54 10.66h-2.6L14.64 1.8h2.6zm12.28 6.9c0 1.78-1.18 2.62-2.34 2.62-1.15 0-1.97-.68-1.97-1.74 0-1.2.88-1.88 2.2-1.88.6 0 1.16.14 1.6.38v.62h.51zm-1.84-4.56c-1.28 0-2.26.48-2.94 1.14l.4 1.42c.52-.44 1.24-.74 1.94-.74.72 0 1.12.32 1.12.88 0 .34-.2.58-.62.58h-1.26c-1.72 0-2.58.98-2.58 2.26 0 1.42 1.02 2.32 2.56 2.32.94 0 1.68-.34 2.24-.9l.32.74h1.64V7.02c0-1.96-1.2-2.88-2.82-2.88zM8.56 1.8L5.6 12.46H2.9L1.5 5.2c-.08-.44-.16-.6-.44-.78C.56 4.1 0 3.88 0 3.88l.04-2.08h3.44c.48 0 .9.32 1.02.96l.76 4.48L6.6 1.8h1.96zm9.12 0l-2.1 10.66h-2.5l2.08-10.66h2.52z"/>
+                      <path fill="#1A1F71" d="M39.6 1.8l-2.24 10.66h-2.5l2.24-10.66h2.5z"/>
+                      <path fill="#F7B600" d="M44.56 1.8l-3.32 10.66h-2.5l3.32-10.66h2.5z"/>
+                    </svg>
+                  </div>
+                  {/* Mastercard */}
+                  <div className="h-8 px-3 bg-white rounded border border-border flex items-center justify-center">
+                    <svg viewBox="0 0 48 16" className="h-4 w-auto">
+                      <circle cx="14" cy="8" r="6" fill="#EB001B"/>
+                      <circle cx="20" cy="8" r="6" fill="#F79E1B"/>
+                      <path fill="#F79E1B" d="M17 3.5c1.5 1 2.5 2.8 2.5 4.5s-1 3.5-2.5 4.5c1.5-1 2.5-2.8 2.5-4.5s-1-3.5-2.5-4.5z"/>
+                    </svg>
+                  </div>
+                  {/* Apple Pay */}
+                  <div className="h-8 px-3 bg-black rounded border border-border flex items-center justify-center">
+                    <svg viewBox="0 0 48 16" className="h-3 w-auto">
+                      <path fill="white" d="M9.5 3.5c.4 0 .9-.2 1.2-.6.3-.4.5-.9.5-1.4 0 0-.5 0-1 .4-.4.3-.7.8-.7 1.2 0 .2.2.4.5.4h.5zm-1 9.4c.6 0 1-.4 1.8-.4.8 0 1.1.4 1.7.4.7 0 1.2-.6 1.7-1.1.5-.6.8-1.3.8-1.3 0 0-1.5-.6-1.5-2.3 0-1.3 1-1.9 1.5-2.2-.8-1.1-2-1.2-2.5-1.2-.7 0-1.3.4-1.7.4-.4 0-1-.4-1.6-.4-1.2 0-2.5.9-3 2.3-.6 1.7.3 3.3.8 4 .5.6 1.1 1.3 1.9 1.3zm7.5-9.4c.4 0 .9-.2 1.2-.6.3-.4.5-.9.5-1.4 0 0-.5 0-1 .4-.4.3-.7.8-.7 1.2 0 .2.2.4.5.4h.5z"/>
+                    </svg>
+                  </div>
+                  {/* Google Pay */}
+                  <div className="h-8 px-3 bg-white rounded border border-border flex items-center justify-center">
+                    <svg viewBox="0 0 48 16" className="h-3 w-auto">
+                      <path fill="#4285F4" d="M14.5 8.2v1.4h2c-.1.6-.4 1.1-.8 1.4l1.2 1c.7-.7 1.1-1.7 1.1-2.8 0-.3 0-.5-.1-.8h-3.4z"/>
+                      <path fill="#34A853" d="M16.7 10.7c-.8.6-1.8.9-2.8.9-2.2 0-4-1.4-4.6-3.4l-1.3 1c1.2 2.3 3.5 3.9 5.9 3.9 1.8 0 3.3-.6 4.4-1.6l-1.2-1c-.4.3-.9.6-1.4.7z"/>
+                      <path fill="#FBBC05" d="M9.3 6.2c-.3-.9-.3-1.9 0-2.8L8 2.4c-1.2 2.3-1.2 5.1 0 7.4l1.3-1.6z"/>
+                      <path fill="#EA4335" d="M13.9 2.5c1.2 0 2.3.4 3.1 1.2l2.3-2.3C17.8.5 16 0 13.9 0c-2.4 0-4.7 1.6-5.9 3.9l1.3 1c.6-2 2.4-3.4 4.6-3.4z"/>
+                    </svg>
+                  </div>
+                  {/* Bizum */}
+                  <div className="h-8 px-3 bg-[#004481] rounded border border-border flex items-center justify-center">
+                    <span className="text-white text-xs font-bold tracking-wide">BIZUM</span>
+                  </div>
+                  {/* Transferencia */}
+                  <div className="h-8 px-3 bg-muted rounded border border-border flex items-center justify-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-foreground">
+                      <rect x="2" y="5" width="20" height="14" rx="2"/>
+                      <line x1="2" y1="10" x2="22" y2="10"/>
+                    </svg>
+                    <span className="text-xs font-medium text-foreground">Transferencia</span>
+                  </div>
+                </div>
+                <p className="text-[10px] text-muted-foreground text-center">
+                  🔒 Tu pago está protegido con encriptación SSL de 256-bit
+                </p>
+              </div>
+
               <button
                 onClick={() => navigate("/checkout")}
                 className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
