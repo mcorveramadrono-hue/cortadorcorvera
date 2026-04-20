@@ -194,28 +194,28 @@ const Carrito = () => {
                   Pagos 100% Seguros
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-2.5">
-                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center p-1.5 shadow-sm">
-                    <img src={payVisa} alt="Visa" loading="lazy" className="max-h-full max-w-full object-contain" />
+                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center px-1 shadow-sm overflow-hidden">
+                    <img src={payVisa} alt="Visa" loading="lazy" className="h-12 w-auto object-contain" />
                   </div>
-                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center p-1 shadow-sm">
-                    <img src={payMastercard} alt="Mastercard" loading="lazy" className="max-h-full max-w-full object-contain" />
+                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center shadow-sm overflow-hidden">
+                    <img src={payMastercard} alt="Mastercard" loading="lazy" className="h-14 w-auto object-contain" />
                   </div>
                   {/* Apple Pay */}
-                  <div className="h-10 w-16 bg-black rounded-md border border-border flex items-center justify-center gap-0.5 shadow-sm">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-white" xmlns="http://www.w3.org/2000/svg">
+                  <div className="h-10 w-16 bg-black rounded-md border border-border flex items-center justify-center gap-1 shadow-sm">
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 fill-white" xmlns="http://www.w3.org/2000/svg">
                       <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                     </svg>
-                    <span className="text-white text-[11px] font-medium">Pay</span>
+                    <span className="text-white text-sm font-semibold">Pay</span>
                   </div>
-                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center p-1 shadow-sm">
-                    <img src={payGooglePay} alt="Google Pay" loading="lazy" className="max-h-full max-w-full object-contain" />
+                  <div className="h-10 w-16 bg-white rounded-md border border-border flex items-center justify-center shadow-sm overflow-hidden">
+                    <img src={payGooglePay} alt="Google Pay" loading="lazy" className="h-14 w-auto object-contain" />
                   </div>
-                  <div className="h-10 w-16 rounded-md border border-border overflow-hidden shadow-sm">
-                    <img src={payBizum} alt="Bizum" loading="lazy" className="h-full w-full object-cover" />
+                  <div className="h-10 w-16 rounded-md border border-border overflow-hidden shadow-sm bg-white flex items-center justify-center">
+                    <img src={payBizum} alt="Bizum" loading="lazy" className="h-14 w-auto object-contain" />
                   </div>
                   {/* Transferencia */}
                   <div className="h-10 px-3 bg-muted rounded-md border border-border flex items-center justify-center gap-1.5 shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-foreground">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-foreground">
                       <path d="M3 21h18"/>
                       <path d="M3 10h18"/>
                       <path d="M5 6l7-3 7 3"/>
