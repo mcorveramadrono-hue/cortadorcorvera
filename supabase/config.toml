@@ -15,3 +15,11 @@ project_id = "gdmzfhwmqguextpwbbmg"
     verify_jwt = true
   [functions.send-transactional-email]
     verify_jwt = false
+  [functions.mark-as-shipped]
+    verify_jwt = false
+  [functions.create-checkout]
+    verify_jwt = false
+  [functions.send-order-notification]
+    verify_jwt = false
+  [functions.send-contact-email]
+    verify_jwt = false
