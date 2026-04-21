@@ -49,10 +49,10 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId } = await req.json();
+    const { orderId, sessionToken } = await req.json();
 
-    if (!orderId) {
-      return new Response(JSON.stringify({ error: "orderId is required" }), {
+    if (!orderId || !sessionToken) {
+      return new Response(JSON.stringify({ error: "orderId and sessionToken are required" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -72,7 +72,19 @@ serve(async (req) => {
       .single();
 
     if (orderError || !order) {
-      throw new Error("Order not found");
+      return new Response(JSON.stringify({ error: "Order not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Verify session token matches the order — prevents unauthenticated callers
+    // from triggering payment confirmations or spamming emails.
+    if (order.session_token !== sessionToken) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const { data: items, error: itemsError } = await supabase
