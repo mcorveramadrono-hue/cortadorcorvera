@@ -8,7 +8,7 @@ const corsHeaders = {
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mlgwakaa";
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-const OWNER_EMAIL = "mcorveramadrono@gmail.com";
+const OWNER_EMAIL = "corveraibericos@gmail.com";
 const FROM_EMAIL = "Corvera Web <onboarding@resend.dev>";
 
 interface ContactRequest {
