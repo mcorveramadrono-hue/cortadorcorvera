@@ -168,11 +168,11 @@ const Contact = () => {
                   <p className="text-sm text-muted-foreground">+34 676 703 034</p>
                 </div>
               </a>
-              <a href="mailto:mcorveramadrono@gmail.com" className="flex items-start gap-4 group">
+              <a href="mailto:corveraibericos@gmail.com" className="flex items-start gap-4 group">
                 <Mail size={20} className="text-primary mt-1 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-foreground group-hover:text-primary transition-colors">Email</p>
-                  <p className="text-sm text-muted-foreground">mcorveramadrono@gmail.com</p>
+                  <p className="text-sm text-muted-foreground">corveraibericos@gmail.com</p>
                 </div>
               </a>
               <div className="flex items-start gap-4">

@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const OWNER_EMAIL = "mcorveramadrono@gmail.com";
+const OWNER_EMAIL = "corveraibericos@gmail.com";
 const SITE_URL = "https://cortadorcorvera.lovable.app";
 
 function redirect(params: Record<string, string>) {

@@ -28,7 +28,7 @@ const PoliticaPrivacidad = () => {
 
           <h2>1. Responsable del tratamiento</h2>
           <p>
-            El responsable del tratamiento de los datos personales recogidos a través de este sitio web es <strong>Corvera Ibéricos (Marcos Corvera Madroño)</strong>, con correo electrónico de contacto: <strong>mcorveramadrono@gmail.com</strong>.
+            El responsable del tratamiento de los datos personales recogidos a través de este sitio web es <strong>Corvera Ibéricos (Marcos Corvera Madroño)</strong>, con correo electrónico de contacto: <strong>corveraibericos@gmail.com</strong>.
           </p>
 
           <h2>2. Datos que recopilamos</h2>
@@ -99,7 +99,7 @@ const PoliticaPrivacidad = () => {
             <li><strong>Retirar el consentimiento</strong> en cualquier momento sin que ello afecte a la licitud del tratamiento previo.</li>
           </ul>
           <p>
-            Para ejercer cualquiera de estos derechos, puede contactarnos en <strong>mcorveramadrono@gmail.com</strong>, indicando su solicitud y adjuntando copia de su documento de identidad.
+            Para ejercer cualquiera de estos derechos, puede contactarnos en <strong>corveraibericos@gmail.com</strong>, indicando su solicitud y adjuntando copia de su documento de identidad.
           </p>
           <p>
             Asimismo, tiene derecho a presentar una reclamación ante la <strong>Agencia Española de Protección de Datos (AEPD)</strong> en <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">www.aepd.es</a>.
@@ -107,7 +107,7 @@ const PoliticaPrivacidad = () => {
 
           <h2>8. Derecho de desistimiento</h2>
           <p>
-            De conformidad con la normativa vigente en materia de defensa de consumidores y usuarios, el cliente dispone de un plazo de <strong>14 días naturales</strong> desde la recepción del producto para ejercer su derecho de desistimiento sin necesidad de justificación. Para ejercerlo, deberá comunicarlo por escrito a <strong>mcorveramadrono@gmail.com</strong>.
+            De conformidad con la normativa vigente en materia de defensa de consumidores y usuarios, el cliente dispone de un plazo de <strong>14 días naturales</strong> desde la recepción del producto para ejercer su derecho de desistimiento sin necesidad de justificación. Para ejercerlo, deberá comunicarlo por escrito a <strong>corveraibericos@gmail.com</strong>.
           </p>
           <p>
             Debido a la naturaleza perecedera de nuestros productos (jamones y paletas ibéricas), el derecho de desistimiento podrá verse limitado conforme al artículo 103.d) del Real Decreto Legislativo 1/2007, cuando el producto haya sido abierto o cortado.
