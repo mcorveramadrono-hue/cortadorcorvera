@@ -163,7 +163,7 @@ export type Database = {
           phone: string
           postal_code: string
           province: string
-          session_token: string | null
+          session_token: string
           shipped_at: string | null
           shipping_carrier: string | null
           shipping_cost: number
@@ -194,7 +194,7 @@ export type Database = {
           phone: string
           postal_code: string
           province: string
-          session_token?: string | null
+          session_token?: string
           shipped_at?: string | null
           shipping_carrier?: string | null
           shipping_cost?: number
@@ -225,7 +225,7 @@ export type Database = {
           phone?: string
           postal_code?: string
           province?: string
-          session_token?: string | null
+          session_token?: string
           shipped_at?: string | null
           shipping_carrier?: string | null
           shipping_cost?: number
