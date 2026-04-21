@@ -78,10 +78,13 @@ serve(async (req) => {
       return redirect({ status: "already", order: order.order_number });
     }
 
-    // Update order status to paid
+    // Generate shipping token if missing
+    const shippingToken = order.shipping_token || crypto.randomUUID();
+
+    // Update order status to paid + shipping token
     const { error: updateError } = await supabase
       .from("orders")
-      .update({ status: "paid" })
+      .update({ status: "paid", shipping_token: shippingToken })
       .eq("id", orderId)
       .eq("confirmation_token", token);
 
@@ -103,6 +106,8 @@ serve(async (req) => {
       withKnife: item.knife_supplement,
       knifePrice: Number(item.knife_supplement_price),
     }));
+
+    const shippingUrl = `${SITE_URL}/marcar-envio/${orderId}?token=${shippingToken}`;
 
     await enqueueAppEmail(supabaseUrl, anonKey, {
       templateName: "payment-confirmed",
@@ -132,6 +137,23 @@ serve(async (req) => {
         subtotal: Number(order.subtotal),
         shippingCost: Number(order.shipping_cost),
         total: Number(order.total),
+      },
+    });
+
+    await enqueueAppEmail(supabaseUrl, anonKey, {
+      templateName: "owner-shipping-link",
+      recipientEmail: OWNER_EMAIL,
+      idempotencyKey: `owner-shipping-link-${orderId}`,
+      templateData: {
+        orderNumber: order.order_number,
+        customerFirstName: order.first_name,
+        customerLastName: order.last_name,
+        customerEmail: order.email,
+        address: order.address,
+        postalCode: order.postal_code,
+        city: order.city,
+        province: order.province,
+        shippingUrl,
       },
     });
 
