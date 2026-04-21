@@ -147,7 +147,7 @@ const MarcarEnvio = () => {
 
           {done ? (
             <div className="text-center py-6">
-              <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto mb-4" />
+              <CheckCircle2 className="h-16 w-16 text-primary mx-auto mb-4" />
               <h2 className="text-xl font-bold mb-2">Pedido marcado como enviado</h2>
               <p className="text-muted-foreground mb-4">
                 Se ha enviado un email al cliente con los datos del envío.

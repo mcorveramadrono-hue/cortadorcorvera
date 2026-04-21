@@ -100,10 +100,27 @@ serve(async (req) => {
       }
     }
 
+    // Generate shipping token + mark card orders as paid (Stripe redirect)
+    let shippingToken: string | null = order.shipping_token;
+    const updates: Record<string, unknown> = {};
+    if (!shippingToken) {
+      shippingToken = crypto.randomUUID();
+      updates.shipping_token = shippingToken;
+    }
+    if (isCard && order.status !== "paid" && order.status !== "shipped") {
+      updates.status = "paid";
+    }
+    if (Object.keys(updates).length > 0) {
+      await supabase.from("orders").update(updates).eq("id", order.id);
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const confirmPaymentUrl = !isCard && confirmationToken
       ? `${supabaseUrl}/functions/v1/confirm-payment?orderId=${order.id}&token=${confirmationToken}`
       : null;
+
+    const SITE_URL = "https://cortadorcorvera.lovable.app";
+    const shippingUrl = `${SITE_URL}/marcar-envio/${order.id}?token=${shippingToken}`;
 
     const emailItems = safeItems.map((item) => ({
       name: item.product_name,
@@ -155,6 +172,27 @@ serve(async (req) => {
         paymentMethod: order.payment_method,
       },
     });
+
+    // For card payments, payment is already confirmed (Stripe). Send the
+    // "ready to ship" email to the owner immediately.
+    if (isCard) {
+      await enqueueAppEmail(supabaseUrl, anonKey, {
+        templateName: "owner-shipping-link",
+        recipientEmail: OWNER_EMAIL,
+        idempotencyKey: `owner-shipping-link-${order.id}`,
+        templateData: {
+          orderNumber: order.order_number,
+          customerFirstName: order.first_name,
+          customerLastName: order.last_name,
+          customerEmail: order.email,
+          address: order.address,
+          postalCode: order.postal_code,
+          city: order.city,
+          province: order.province,
+          shippingUrl,
+        },
+      });
+    }
 
     return new Response(JSON.stringify({ success: true, ownerEmailSent: true, customerEmailSent: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
