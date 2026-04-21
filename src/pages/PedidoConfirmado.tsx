@@ -38,7 +38,7 @@ const PedidoConfirmado = () => {
           localStorage.setItem(notifKey, "true");
           try {
             await supabase.functions.invoke("send-order-notification", {
-              body: { orderId },
+              body: { orderId, sessionToken },
             });
           } catch (e) {
             console.error("Failed to send order notification:", e);

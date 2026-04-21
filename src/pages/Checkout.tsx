@@ -116,21 +116,9 @@ const Checkout = () => {
 
       // If card payment, redirect to Stripe Checkout
       if (paymentMethod === "card") {
-        const stripeItems = items.map((item) => ({
-          name: item.product.name,
-          weight: item.selectedWeight,
-          price: item.price,
-          quantity: item.quantity,
-          withKnife: item.withKnife,
-          knifePrice: item.withKnife ? item.product.knifeSupplementPrice : 0,
-        }));
-
         const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke("create-checkout", {
           body: {
             orderId: order.id,
-            items: stripeItems,
-            shippingCost,
-            customerEmail: formData.email,
           },
         });
 
@@ -153,7 +141,7 @@ const Checkout = () => {
 
       for (let attempt = 0; attempt < 2; attempt++) {
         const { error: notificationError } = await supabase.functions.invoke("send-order-notification", {
-          body: { orderId: order.id },
+          body: { orderId: order.id, sessionToken },
         });
 
         if (!notificationError) {
