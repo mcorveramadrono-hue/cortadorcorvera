@@ -164,12 +164,17 @@ export type Database = {
           postal_code: string
           province: string
           session_token: string | null
+          shipped_at: string | null
+          shipping_carrier: string | null
           shipping_cost: number
+          shipping_token: string | null
           status: string
           stripe_session_id: string | null
           subtotal: number
           total: number
           total_weight: number
+          tracking_number: string | null
+          tracking_url: string | null
           updated_at: string
         }
         Insert: {
@@ -190,12 +195,17 @@ export type Database = {
           postal_code: string
           province: string
           session_token?: string | null
+          shipped_at?: string | null
+          shipping_carrier?: string | null
           shipping_cost?: number
+          shipping_token?: string | null
           status?: string
           stripe_session_id?: string | null
           subtotal?: number
           total?: number
           total_weight?: number
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -216,12 +226,17 @@ export type Database = {
           postal_code?: string
           province?: string
           session_token?: string | null
+          shipped_at?: string | null
+          shipping_carrier?: string | null
           shipping_cost?: number
+          shipping_token?: string | null
           status?: string
           stripe_session_id?: string | null
           subtotal?: number
           total?: number
           total_weight?: number
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Relationships: []
