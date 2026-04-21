@@ -13,19 +13,59 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId, items, shippingCost, customerEmail } = await req.json();
+    const { orderId } = await req.json();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!customerEmail || !emailRegex.test(customerEmail)) {
+    if (!orderId || typeof orderId !== "string") {
       return new Response(
-        JSON.stringify({ error: "Introduce un email válido" }),
+        JSON.stringify({ error: "orderId requerido" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
       );
     }
 
-    if (!orderId || !items || !Array.isArray(items) || items.length === 0) {
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+    );
+
+    // Fetch order from DB — never trust client-supplied prices
+    const { data: order, error: orderError } = await supabaseAdmin
+      .from("orders")
+      .select("*")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !order) {
       return new Response(
-        JSON.stringify({ error: "Datos de pedido inválidos" }),
+        JSON.stringify({ error: "Pedido no encontrado" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 404 }
+      );
+    }
+
+    // Only allow checkout for orders awaiting Stripe payment
+    if (order.status !== "pending_stripe" && order.status !== "pending_payment") {
+      return new Response(
+        JSON.stringify({ error: "El pedido no está disponible para pago" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    const customerEmail = order.email;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!customerEmail || !emailRegex.test(customerEmail)) {
+      return new Response(
+        JSON.stringify({ error: "Email del pedido inválido" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    const { data: orderItems, error: itemsError } = await supabaseAdmin
+      .from("order_items")
+      .select("*")
+      .eq("order_id", orderId);
+
+    if (itemsError || !orderItems || orderItems.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "El pedido no tiene productos" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
       );
     }
@@ -36,33 +76,39 @@ serve(async (req) => {
 
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-    for (const item of items) {
-      const unitAmount = Math.round(item.price * 100);
+    for (const item of orderItems) {
+      const price = Number(item.price);
+      const quantity = Number(item.quantity) || 1;
+      const weight = Number(item.weight);
+
+      if (!Number.isFinite(price) || price <= 0) continue;
+
       lineItems.push({
         price_data: {
           currency: "eur",
           product_data: {
-            name: `${item.name} (${item.weight.toFixed(1)} kg)`,
+            name: `${item.product_name} (${weight.toFixed(1)} kg)`,
           },
-          unit_amount: unitAmount,
+          unit_amount: Math.round(price * 100),
         },
-        quantity: item.quantity,
+        quantity,
       });
 
-      if (item.withKnife && item.knifePrice > 0) {
+      if (item.knife_supplement && Number(item.knife_supplement_price) > 0) {
         lineItems.push({
           price_data: {
             currency: "eur",
             product_data: {
-              name: `Corte a cuchillo - ${item.name}`,
+              name: `Corte a cuchillo - ${item.product_name}`,
             },
-            unit_amount: Math.round(item.knifePrice * 100),
+            unit_amount: Math.round(Number(item.knife_supplement_price) * 100),
           },
-          quantity: item.quantity,
+          quantity,
         });
       }
     }
 
+    const shippingCost = Number(order.shipping_cost) || 0;
     if (shippingCost > 0) {
       lineItems.push({
         price_data: {
@@ -72,6 +118,13 @@ serve(async (req) => {
         },
         quantity: 1,
       });
+    }
+
+    if (lineItems.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No hay productos válidos en el pedido" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
     }
 
     const origin = req.headers.get("origin") || "https://cortadorcorvera.lovable.app";
@@ -88,11 +141,6 @@ serve(async (req) => {
       },
     });
 
-    const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
-
     await supabaseAdmin
       .from("orders")
       .update({ stripe_session_id: session.id })
@@ -103,8 +151,9 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Checkout error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Checkout error:", message);
+    return new Response(JSON.stringify({ error: message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
