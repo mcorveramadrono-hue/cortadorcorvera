@@ -34,10 +34,10 @@ const About = () => {
               La tradición del buen jamón
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              Corvera Ibéricos nace de la pasión por el jamón ibérico y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad.
+              Corvera Ibéricos nace de la pasión por el <strong>jamón ibérico de bellota</strong> y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad. Bajo la dirección de <strong>César Nieto</strong>, cortador de jamón profesional, ofrecemos producto de máxima calidad y servicio de <strong>corte a cuchillo</strong> para eventos.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo.
+              Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo. Trabajamos con piezas D.O.P. Guijuelo y de Extremadura, seleccionadas una a una.
             </p>
             <p className="text-muted-foreground leading-relaxed font-medium">
               Corvera Ibéricos es tradición, elegancia y respeto por el producto.
