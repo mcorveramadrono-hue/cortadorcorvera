@@ -14,7 +14,7 @@ const Footer = () => {
               <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
             </div>
             <p className="text-sm text-background/50 leading-relaxed max-w-xs">
-              Jamón ibérico de la más alta calidad, seleccionado con la exigencia que mereces.
+              <strong>Corvera Ibéricos</strong> — Jamón ibérico de la más alta calidad, seleccionado con la exigencia que mereces. Tienda oficial Corvera.
             </p>
           </div>
 
