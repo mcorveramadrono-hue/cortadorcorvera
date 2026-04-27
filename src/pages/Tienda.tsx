@@ -18,9 +18,17 @@ const Tienda = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Tienda de Jamón Ibérico | Corvera Ibéricos - Comprar Online";
+    document.title = "Comprar Jamón Ibérico de Bellota Online | Tienda Corvera Ibéricos";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Compra jamón ibérico de bellota 100%, paleta ibérica D.O.P. y más. Envío a toda España. Precios con IVA incluido.");
+    if (meta) meta.setAttribute("content", "Comprar jamón ibérico de bellota 100%, paleta ibérica D.O.P. Guijuelo y Extremadura. Envío a toda España. Corte a cuchillo profesional disponible.");
+    // Canonical
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', 'https://corveraibericos.com/tienda');
   }, []);
 
   const toggleProductImage = (productId: string, totalImages: number) => {
