@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const PROMO_DISMISSED_KEY = "corvera_promo_dismissed";
-// Promotion ends Monday April 6, 2026 at 23:59:59 Spanish time (UTC+2)
-const PROMO_END = new Date("2026-04-06T23:59:59+02:00").getTime();
+const PROMO_DISMISSED_KEY = "corvera_promo_mama3_dismissed";
+// Promotion ends Sunday May 3, 2026 at 23:59:59 Spanish time (UTC+2)
+const PROMO_END = new Date("2026-05-03T23:59:59+02:00").getTime();
 
 const PromoBanner = () => {
   const navigate = useNavigate();
@@ -67,8 +67,25 @@ const PromoBanner = () => {
         </DialogHeader>
         <div className="space-y-4 py-2">
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Disfruta de <strong className="text-foreground">envío gratuito</strong> en todos tus pedidos hasta el <strong className="text-foreground">lunes 6 de abril</strong>. ¡No dejes pasar esta oportunidad!
+            Sorprende a mamá con <strong className="text-foreground">envío gratuito</strong> en todos tus pedidos hasta el <strong className="text-foreground">domingo 3 de mayo</strong>. ¡Celebra el Día de la Madre con Corvera!
           </p>
+          <div className="flex justify-center gap-3">
+            {[
+              { value: timeLeft.days, label: "Días" },
+              { value: timeLeft.hours, label: "Horas" },
+              { value: timeLeft.minutes, label: "Min" },
+              { value: timeLeft.seconds, label: "Seg" },
+            ].map((unit) => (
+              <div key={unit.label} className="bg-primary/10 rounded-lg px-3 py-2 min-w-[60px]">
+                <span className="font-mono text-2xl font-bold text-primary">{pad(unit.value)}</span>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{unit.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-accent/50 border border-border rounded-lg p-3">
+            <p className="text-xs text-muted-foreground mb-1">Usa el código en tu carrito:</p>
+            <span className="font-mono text-lg font-bold text-primary tracking-wider">MAMA3</span>
+          </div>
           <div className="flex justify-center gap-3">
             {[
               { value: timeLeft.days, label: "Días" },
