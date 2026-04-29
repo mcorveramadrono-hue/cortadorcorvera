@@ -1,47 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://corveraibericos.com/</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://corveraibericos.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://corveraibericos.com/" />
     <image:image>
       <image:loc>https://corveraibericos.com/favicon-192.png</image:loc>
       <image:title>Corvera Ibéricos - Jamón Ibérico de Bellota</image:title>
+      <image:caption>Corvera Ibéricos, tienda oficial de jamón ibérico de bellota y cortador profesional César Nieto</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://corveraibericos.com/tienda</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://corveraibericos.com/#sobre-nosotros</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://corveraibericos.com/#servicios</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://corveraibericos.com/#productos</loc>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://corveraibericos.com/#contacto</loc>
-    <lastmod>2026-04-27</lastmod>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://corveraibericos.com/carrito</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://corveraibericos.com/politica-privacidad</loc>
+    <lastmod>2026-04-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

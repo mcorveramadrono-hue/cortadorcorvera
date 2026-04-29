@@ -7,7 +7,8 @@ const Hero = () => {
     <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
       <div className="relative z-10 max-w-5xl mx-auto px-6 w-full flex flex-col items-center text-center space-y-10 py-16">
         {/* CORVERA logo arriba */}
-        <h1 className="sr-only">Corvera Ibéricos — Tienda Oficial Corvera de Jamón Ibérico de Bellota y Cortador Profesional César Nieto</h1>
+        <h1 className="sr-only">Corvera Ibéricos — Tienda Oficial Corvera de Jamón Ibérico de Bellota y Cortador Profesional César Nieto en Madrid, envíos a toda España</h1>
+        <p className="sr-only">Comprar jamón ibérico de bellota online, paleta ibérica D.O.P. Guijuelo y Extremadura, servicio de cortador de jamón a cuchillo para bodas y eventos. Tienda oficial Corvera Ibéricos por César Nieto.</p>
         <img
           src={corveraLogo}
           alt="Corvera Ibéricos - Jamón Ibérico de Bellota"

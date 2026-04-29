@@ -14,8 +14,17 @@ const Footer = () => {
               <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
             </div>
             <p className="text-sm text-background/50 leading-relaxed max-w-xs">
-              <strong>Corvera Ibéricos</strong> — Jamón ibérico de la más alta calidad, seleccionado con la exigencia que mereces. Tienda oficial Corvera.
+              <strong>Corvera Ibéricos</strong> — Jamón ibérico de bellota de la más alta calidad y servicio de cortador profesional por César Nieto. Tienda oficial Corvera con envíos a toda España.
             </p>
+            <address className="not-italic text-xs text-background/40 leading-relaxed space-y-1">
+              <div>Madrid, España</div>
+              <div>
+                <a href="tel:+34676703034" className="hover:text-background transition-colors">Tel: +34 676 70 30 34</a>
+              </div>
+              <div>
+                <a href="mailto:corveraibericos@gmail.com" className="hover:text-background transition-colors">corveraibericos@gmail.com</a>
+              </div>
+            </address>
           </div>
 
           {/* Links */}
