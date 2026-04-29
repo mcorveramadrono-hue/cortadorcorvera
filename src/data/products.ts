@@ -117,7 +117,7 @@ export const products: Product[] = [
     name: "Jamón César Nieto Reserva Familiar <7kg",
     description: "Jamón seleccionado de forma artesanal, elaborado a partir de piezas escogidas por su excelente calidad y equilibrio de grasa infiltrada. Su curación lenta en bodegas naturales potencia un aroma intenso y un sabor suave y persistente en boca.",
     pricePerKg: 21.05,
-    images: [jamonReservaFamiliar, jamonCebo502],
+    images: [jamonReservaFamiliar, jamonBellota1002],
     weightOptions: generateWeightOptions(7, 7, 0.5, 21.05),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
