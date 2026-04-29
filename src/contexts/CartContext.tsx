@@ -85,7 +85,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const applyPromoCode = (code: string): boolean => {
     const normalized = code.trim().toUpperCase();
-    if (normalized === "SEMANASANTA" || normalized === "MAMA3") {
+    if (normalized === "MAMA3") {
       setPromoCode(normalized);
       setPromoApplied(true);
       return true;
