@@ -86,23 +86,6 @@ const PromoBanner = () => {
             <p className="text-xs text-muted-foreground mb-1">Usa el código en tu carrito:</p>
             <span className="font-mono text-lg font-bold text-primary tracking-wider">MAMA3</span>
           </div>
-          <div className="flex justify-center gap-3">
-            {[
-              { value: timeLeft.days, label: "Días" },
-              { value: timeLeft.hours, label: "Horas" },
-              { value: timeLeft.minutes, label: "Min" },
-              { value: timeLeft.seconds, label: "Seg" },
-            ].map((unit) => (
-              <div key={unit.label} className="bg-primary/10 rounded-lg px-3 py-2 min-w-[60px]">
-                <span className="font-mono text-2xl font-bold text-primary">{pad(unit.value)}</span>
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest">{unit.label}</p>
-              </div>
-            ))}
-          </div>
-          <div className="bg-accent/50 border border-border rounded-lg p-3">
-            <p className="text-xs text-muted-foreground mb-1">Usa el código en tu carrito:</p>
-            <span className="font-mono text-lg font-bold text-primary tracking-wider">SEMANASANTA</span>
-          </div>
           <button
             onClick={handleShopNow}
             className="w-full px-6 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded"
