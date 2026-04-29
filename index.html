@@ -18,7 +18,17 @@
     <meta name="language" content="Spanish" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="theme-color" content="#8B2020" />
     <link rel="canonical" href="https://corveraibericos.com/" />
+    <link rel="alternate" hreflang="es-ES" href="https://corveraibericos.com/" />
+    <link rel="alternate" hreflang="es" href="https://corveraibericos.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://corveraibericos.com/" />
+    <link rel="dns-prefetch" href="https://gdmzfhwmqguextpwbbmg.supabase.co" />
+    <link rel="preconnect" href="https://gdmzfhwmqguextpwbbmg.supabase.co" crossorigin />
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -357,10 +367,88 @@
     "sameAs": ["https://www.instagram.com/corveraibericos/"]
   }
   </script>
+
+  <!-- Structured Data: HowTo (Cortar jamón a cuchillo) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Cómo cortar jamón ibérico a cuchillo",
+    "description": "Guía profesional de César Nieto, cortador oficial de Corvera Ibéricos, para cortar jamón ibérico de bellota a cuchillo.",
+    "totalTime": "PT30M",
+    "tool": [
+      {"@type": "HowToTool", "name": "Jamonero"},
+      {"@type": "HowToTool", "name": "Cuchillo jamonero"},
+      {"@type": "HowToTool", "name": "Puntilla"},
+      {"@type": "HowToTool", "name": "Chaira"}
+    ],
+    "step": [
+      {"@type": "HowToStep", "name": "Colocar la pieza", "text": "Coloca el jamón en el jamonero con la pezuña hacia arriba si se va a consumir rápido."},
+      {"@type": "HowToStep", "name": "Limpiar la pieza", "text": "Retira la corteza y el tocino exterior con la puntilla hasta dejar a la vista la carne."},
+      {"@type": "HowToStep", "name": "Cortar lonchas finas", "text": "Realiza lonchas muy finas, casi traslúcidas, de unos 4-6 cm de largo, siempre en dirección hacia la pezuña."},
+      {"@type": "HowToStep", "name": "Cambiar de cara", "text": "Cuando se acabe la cara principal, gira el jamón para aprovechar toda la pieza."}
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: Service (Cortador para eventos) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Cortador de jamón profesional para eventos",
+    "name": "Servicio de cortador de jamón a cuchillo",
+    "provider": {
+      "@type": "Organization",
+      "name": "Corvera Ibéricos",
+      "url": "https://corveraibericos.com"
+    },
+    "areaServed": {"@type": "Country", "name": "España"},
+    "description": "Cortador profesional de jamón ibérico a cuchillo para bodas, eventos corporativos, celebraciones, catas y reuniones privadas en toda España.",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "EUR",
+      "url": "https://corveraibericos.com/#servicios"
+    }
+  }
+  </script>
 </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- SEO fallback content (visible to crawlers, replaced by React on hydration) -->
+      <header>
+        <h1>Corvera Ibéricos — Jamón Ibérico de Bellota y Cortador Profesional César Nieto</h1>
+        <p>
+          <strong>Corvera Ibéricos</strong> es la tienda oficial de jamón ibérico de bellota online de
+          <strong>César Nieto</strong>, cortador de jamón profesional. Compra <strong>jamón ibérico 100% de bellota</strong>,
+          <strong>paleta ibérica D.O.P. Guijuelo</strong> y de <strong>Extremadura</strong>, con envío a toda España.
+          Ofrecemos servicio de <strong>corte a cuchillo</strong> para bodas, eventos corporativos y celebraciones.
+        </p>
+        <nav>
+          <ul>
+            <li><a href="/">Inicio Corvera</a></li>
+            <li><a href="/tienda">Tienda Corvera — Comprar jamón ibérico online</a></li>
+            <li><a href="/#sobre-nosotros">Sobre Corvera Ibéricos</a></li>
+            <li><a href="/#servicios">Cortador de jamón para eventos</a></li>
+            <li><a href="/#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+        <h2>¿Por qué elegir Corvera?</h2>
+        <ul>
+          <li>Jamón ibérico de bellota seleccionado de Guijuelo y Extremadura.</li>
+          <li>Curación superior a 36 meses en jamón de bellota.</li>
+          <li>Servicio de cortador profesional para bodas y eventos en toda España.</li>
+          <li>Envío gratuito en pedidos superiores a 20 kg.</li>
+          <li>Pago seguro con tarjeta, transferencia y Bizum.</li>
+        </ul>
+        <p>
+          Palabras clave: Corvera, Corvera Ibéricos, Corvera jamón, jamón Corvera, cortador Corvera,
+          César Nieto cortador, jamón ibérico de bellota, comprar jamón online, paleta ibérica D.O.P. Guijuelo,
+          cortador de jamón para bodas, jamón Madrid.
+        </p>
+      </header>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
