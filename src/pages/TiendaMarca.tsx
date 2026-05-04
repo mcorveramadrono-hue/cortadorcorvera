@@ -7,7 +7,8 @@ import { useCart } from "@/contexts/CartContext";
 import ProductDetailDialog from "@/components/ProductDetailDialog";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { toast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { CheckCircle2 } from "lucide-react";
 
 const TiendaMarca = () => {
   const navigate = useNavigate();
