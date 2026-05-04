@@ -332,3 +332,5 @@ export const products: Product[] = [
     category: "paleta",
     brand: "la-joya",
   },
+];
+
