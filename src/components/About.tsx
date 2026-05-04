@@ -8,8 +8,8 @@ const About = () => {
           <img
             src={cajaZonas}
             alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
-            className="w-full lg:w-[55%] h-auto object-contain mb-6 lg:mb-4 lg:ml-8 lg:float-right shape-outside-image"
-            style={{ shapeOutside: `url(${cajaZonas})`, shapeMargin: "16px" }}
+            className="w-full lg:w-[55%] h-auto object-contain mb-6 lg:mb-4 lg:ml-12 lg:float-right shape-outside-image"
+            style={{ shapeOutside: `url(${cajaZonas})`, shapeMargin: "32px" }}
           />
 
           <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium mb-4">
