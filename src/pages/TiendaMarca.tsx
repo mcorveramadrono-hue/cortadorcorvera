@@ -54,11 +54,7 @@ const TiendaMarca = () => {
       quantity: 1,
       withKnife: false,
     });
-    toast({
-      title: "Añadido al carrito",
-      description: `${product.name} (${option.weight.toFixed(1).replace('.', ',')} kg)`,
-      duration: 5000,
-    });
+    setAddedProduct({ name: product.name, weight: option.weight });
   };
 
   const renderProductCard = (product: Product) => {
