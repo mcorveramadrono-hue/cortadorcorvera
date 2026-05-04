@@ -10,7 +10,7 @@ const About = () => {
             <img
               src={cajaZonas}
               alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
-              className="w-full h-auto object-contain max-w-xl"
+              className="w-full h-auto object-contain"
             />
           </div>
 
