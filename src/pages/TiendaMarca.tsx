@@ -178,6 +178,37 @@ const TiendaMarca = () => {
         onClose={() => setDetailProduct(null)}
         product={detailProduct}
       />
+
+      <Dialog open={!!addedProduct} onOpenChange={(open) => !open && setAddedProduct(null)}>
+        <DialogContent className="max-w-md bg-corvera-cream">
+          <DialogHeader className="items-center text-center">
+            <CheckCircle2 className="text-primary mb-2" size={40} />
+            <DialogTitle className="font-serif text-2xl text-foreground">¡Gracias por tu compra!</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">
+              {addedProduct && (
+                <>Hemos añadido <strong>{addedProduct.name}</strong> ({addedProduct.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col sm:flex-row gap-3 mt-2">
+            <button
+              onClick={() => setAddedProduct(null)}
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary/5 transition-colors"
+            >
+              Seguir comprando
+            </button>
+            <button
+              onClick={() => {
+                setAddedProduct(null);
+                navigate("/carrito");
+              }}
+              className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
+            >
+              Ir al carrito
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
