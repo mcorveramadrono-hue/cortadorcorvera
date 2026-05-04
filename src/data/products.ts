@@ -1,5 +1,6 @@
 import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
-import jamonBellota100Dop from "@/assets/products/jamon-bellota-100-dop-new.png";
+import jamonBellota100DopCN from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
+import jamonBellota100DopCN2 from "@/assets/products/jamon-bellota-100-dop-cn-2.jpg";
 import jamonReservaFamiliar from "@/assets/products/jamon-reserva-familiar-new.png";
 import jamonBellota1002 from "@/assets/products/jamon-bellota-100-2.jpg";
 import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
@@ -21,11 +22,22 @@ import paletaCebo502 from "@/assets/products/paleta-cebo-50-2.jpg";
 
 // La Joya
 import lajoyaJamonBellota100 from "@/assets/products/lajoya/jamon-bellota-100.png";
+import lajoyaJamonBellota100Alt from "@/assets/products/lajoya/jamon-bellota-100-alt.png";
 import lajoyaJamonBellota50 from "@/assets/products/lajoya/jamon-bellota-50.png";
+import lajoyaJamonBellota50Alt from "@/assets/products/lajoya/jamon-bellota-50-alt.png";
 import lajoyaJamonCebo50 from "@/assets/products/lajoya/jamon-cebo-50.png";
+import lajoyaJamonCebo50Alt from "@/assets/products/lajoya/jamon-cebo-50-alt.png";
 import lajoyaPaletaBellota100 from "@/assets/products/lajoya/paleta-bellota-100.png";
 import lajoyaPaletaBellota50 from "@/assets/products/lajoya/paleta-bellota-50.png";
+import lajoyaPaletaBellota50Alt from "@/assets/products/lajoya/paleta-bellota-50-alt.png";
 import lajoyaPaletaCebo50 from "@/assets/products/lajoya/paleta-cebo-50.png";
+import lajoyaAmbient1 from "@/assets/products/lajoya/ambient-1.jpg";
+import lajoyaAmbient2 from "@/assets/products/lajoya/ambient-2.jpg";
+import lajoyaAmbient3 from "@/assets/products/lajoya/ambient-3.jpg";
+import lajoyaAmbient4 from "@/assets/products/lajoya/ambient-4.jpg";
+import lajoyaAmbient5 from "@/assets/products/lajoya/ambient-5.jpg";
+import lajoyaAmbient6 from "@/assets/products/lajoya/ambient-6.jpg";
+import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 
 export type Brand = "cesar-nieto" | "la-joya";
 
@@ -75,7 +87,7 @@ export const products: Product[] = [
     name: "Jamón Bellota 100% Ibérico D.O.P.",
     description: "Se obtiene a partir de cerdos de raza 100% ibérica. Se alimentan en exclusiva de hierba y bellotas, estando en libertad total en las Dehesas de Salamanca y Extremadura.",
     pricePerKg: 45.97,
-    images: [jamonBellota100Dop, jamonBellota1002],
+    images: [jamonBellota100DopCN, jamonBellota100DopCN2, jamonBellota1002],
     weightOptions: generateWeightOptions(6.5, 9.5, 0.5, 45.97),
     curing: "Más de 36 meses",
     campaign: "2020",
@@ -227,7 +239,7 @@ export const products: Product[] = [
     name: "Jamón Bellota 100% Ibérico D.O.P. Jabugo",
     description: "La máxima expresión del ibérico de Jabugo. Curación lenta, aroma profundo, textura sedosa y ese brillo natural que solo dan los años. Una joya que transforma cada corte en celebración.",
     pricePerKg: 43.45,
-    images: [lajoyaJamonBellota100],
+    images: [lajoyaJamonBellota100, lajoyaJamonBellota100Alt, lajoyaAmbient1, lajoyaCaja],
     weightOptions: generateWeightOptions(7, 9, 0.5, 43.45),
     curing: "Más de 36 meses",
     knifeSupplementPrice: 50,
@@ -239,7 +251,7 @@ export const products: Product[] = [
     name: "Jamón Bellota 100% Ibérico Jabugo",
     description: "Jamón de bellota 100% ibérico desde El Repilado, Jabugo. Curación lenta y aroma profundo, con textura sedosa y sabor elegante en cada corte.",
     pricePerKg: 40.7,
-    images: [lajoyaJamonBellota100],
+    images: [lajoyaJamonBellota100Alt, lajoyaJamonBellota100, lajoyaAmbient1, lajoyaCaja],
     weightOptions: generateWeightOptions(7, 9, 0.5, 40.7),
     curing: "Más de 36 meses",
     knifeSupplementPrice: 50,
@@ -251,7 +263,7 @@ export const products: Product[] = [
     name: "Jamón Bellota 50% Ibérico Jabugo",
     description: "Una pieza generosa, de sabor amable y persistente. La mejor puerta de entrada al universo de La Joya. Ideal para compartir, disfrutar y sorprender.",
     pricePerKg: 32.45,
-    images: [lajoyaJamonBellota50],
+    images: [lajoyaJamonBellota50, lajoyaJamonBellota50Alt, lajoyaAmbient2, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(7, 9, 0.5, 32.45),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
@@ -263,7 +275,7 @@ export const products: Product[] = [
     name: "Jamón Cebo 50% Ibérico Jabugo",
     description: "Una opción versátil para el día a día. Textura melosa, sabor redondo y un perfil amable que seduce a todos. Ideal para quienes buscan iniciarse en los ibéricos sin renunciar a la calidad.",
     pricePerKg: 20.32,
-    images: [lajoyaJamonCebo50],
+    images: [lajoyaJamonCebo50, lajoyaJamonCebo50Alt, lajoyaAmbient4, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(7, 9, 0.5, 20.32),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 50,
@@ -277,7 +289,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 100% Ibérica D.O.P. Jabugo",
     description: "Paleta de bellota 100% ibérica con D.O.P. Jabugo. Curación lenta y sabor profundo en cada loncha.",
     pricePerKg: 22.55,
-    images: [lajoyaPaletaBellota100],
+    images: [lajoyaPaletaBellota100, lajoyaAmbient5, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(4.5, 6, 0.5, 22.55),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
@@ -289,7 +301,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 100% Ibérica Jabugo",
     description: "Paleta de bellota 100% ibérica de Jabugo. Aroma envolvente, sabor elegante y textura fundente.",
     pricePerKg: 23.65,
-    images: [lajoyaPaletaBellota100],
+    images: [lajoyaPaletaBellota100, lajoyaAmbient5, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(4.5, 6, 0.5, 23.65),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
@@ -301,7 +313,7 @@ export const products: Product[] = [
     name: "Paleta Bellota 50% Ibérica Jabugo",
     description: "Paleta de bellota 50% ibérica. Sabor equilibrado y textura sedosa, ideal para compartir.",
     pricePerKg: 23.10,
-    images: [lajoyaPaletaBellota50],
+    images: [lajoyaPaletaBellota50, lajoyaPaletaBellota50Alt, lajoyaAmbient6, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(4.5, 6, 0.5, 23.10),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
@@ -313,7 +325,7 @@ export const products: Product[] = [
     name: "Paleta Cebo 50% Ibérica Jabugo",
     description: "Paleta de cebo 50% ibérica. Perfil delicado y sabor accesible, perfecto para iniciarse en el mundo ibérico.",
     pricePerKg: 18.09,
-    images: [lajoyaPaletaCebo50],
+    images: [lajoyaPaletaCebo50, lajoyaAmbient4, lajoyaAmbient3, lajoyaCaja],
     weightOptions: generateWeightOptions(4.5, 6, 0.5, 18.09),
     curing: "Más de 20 meses",
     knifeSupplementPrice: 35,

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BRANDS } from "@/data/products";
-import cesarNietoImg from "@/assets/products/cesar-nieto-hero.jpg";
+import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
 import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
 
 const brandImages: Record<string, string> = {
