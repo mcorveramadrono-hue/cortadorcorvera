@@ -19,9 +19,19 @@ import paletaCeboCampo502 from "@/assets/products/paleta-cebo-campo-50-2.jpg";
 import paletaCebo50 from "@/assets/products/paleta-cebo-50.jpg";
 import paletaCebo502 from "@/assets/products/paleta-cebo-50-2.jpg";
 
+// La Joya
+import lajoyaJamonBellota100 from "@/assets/products/lajoya/jamon-bellota-100.png";
+import lajoyaJamonBellota50 from "@/assets/products/lajoya/jamon-bellota-50.png";
+import lajoyaJamonCebo50 from "@/assets/products/lajoya/jamon-cebo-50.png";
+import lajoyaPaletaBellota100 from "@/assets/products/lajoya/paleta-bellota-100.png";
+import lajoyaPaletaBellota50 from "@/assets/products/lajoya/paleta-bellota-50.png";
+import lajoyaPaletaCebo50 from "@/assets/products/lajoya/paleta-cebo-50.png";
+
+export type Brand = "cesar-nieto" | "la-joya";
+
 export interface WeightOption {
-  weight: number; // kg
-  price: number;  // euros
+  weight: number;
+  price: number;
   label: string;
 }
 
@@ -36,7 +46,13 @@ export interface Product {
   campaign?: string;
   knifeSupplementPrice: number;
   category: "jamon" | "paleta";
+  brand: Brand;
 }
+
+export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
+  { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
+  { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico de bellota desde Jabugo" },
+];
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
   const options: WeightOption[] = [];
@@ -53,7 +69,7 @@ function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pri
 }
 
 export const products: Product[] = [
-  // JAMONES
+  // ====== CÉSAR NIETO — JAMONES ======
   {
     id: "jamon-bellota-100-dop",
     name: "Jamón Bellota 100% Ibérico D.O.P.",
@@ -65,6 +81,7 @@ export const products: Product[] = [
     campaign: "2020",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
   {
     id: "jamon-bellota-100",
@@ -77,6 +94,7 @@ export const products: Product[] = [
     campaign: "2020",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
   {
     id: "jamon-bellota-75-dop",
@@ -89,6 +107,7 @@ export const products: Product[] = [
     campaign: "2019",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
   {
     id: "jamon-cebo-campo-50",
@@ -100,6 +119,7 @@ export const products: Product[] = [
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
   {
     id: "jamon-cebo-50",
@@ -111,6 +131,7 @@ export const products: Product[] = [
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
   {
     id: "jamon-reserva-familiar",
@@ -122,8 +143,9 @@ export const products: Product[] = [
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
+    brand: "cesar-nieto",
   },
-  // PALETAS
+  // ====== CÉSAR NIETO — PALETAS ======
   {
     id: "paleta-bellota-100-dop",
     name: "Paleta Bellota 100% Ibérica D.O.P.",
@@ -135,6 +157,7 @@ export const products: Product[] = [
     campaign: "2021",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
   },
   {
     id: "paleta-bellota-100",
@@ -146,6 +169,7 @@ export const products: Product[] = [
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
   },
   {
     id: "paleta-bellota-75-dop",
@@ -158,6 +182,7 @@ export const products: Product[] = [
     campaign: "2021",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
   },
   {
     id: "paleta-bellota-50",
@@ -169,6 +194,7 @@ export const products: Product[] = [
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
   },
   {
     id: "paleta-cebo-campo-50",
@@ -180,6 +206,7 @@ export const products: Product[] = [
     curing: "Más de 20 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
   },
   {
     id: "paleta-cebo-50",
@@ -191,5 +218,106 @@ export const products: Product[] = [
     curing: "Más de 20 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
+    brand: "cesar-nieto",
+  },
+
+  // ====== LA JOYA — JAMONES ======
+  {
+    id: "lajoya-jamon-bellota-100-dop",
+    name: "Jamón Bellota 100% Ibérico D.O.P. Jabugo",
+    description: "La máxima expresión del ibérico de Jabugo. Curación lenta, aroma profundo, textura sedosa y ese brillo natural que solo dan los años. Una joya que transforma cada corte en celebración.",
+    pricePerKg: 43.45,
+    images: [lajoyaJamonBellota100],
+    weightOptions: generateWeightOptions(7, 9, 0.5, 43.45),
+    curing: "Más de 36 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-jamon-bellota-100",
+    name: "Jamón Bellota 100% Ibérico Jabugo",
+    description: "Jamón de bellota 100% ibérico desde El Repilado, Jabugo. Curación lenta y aroma profundo, con textura sedosa y sabor elegante en cada corte.",
+    pricePerKg: 40.7,
+    images: [lajoyaJamonBellota100],
+    weightOptions: generateWeightOptions(7, 9, 0.5, 40.7),
+    curing: "Más de 36 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-jamon-bellota-50",
+    name: "Jamón Bellota 50% Ibérico Jabugo",
+    description: "Una pieza generosa, de sabor amable y persistente. La mejor puerta de entrada al universo de La Joya. Ideal para compartir, disfrutar y sorprender.",
+    pricePerKg: 32.45,
+    images: [lajoyaJamonBellota50],
+    weightOptions: generateWeightOptions(7, 9, 0.5, 32.45),
+    curing: "Más de 30 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-jamon-cebo-50",
+    name: "Jamón Cebo 50% Ibérico Jabugo",
+    description: "Una opción versátil para el día a día. Textura melosa, sabor redondo y un perfil amable que seduce a todos. Ideal para quienes buscan iniciarse en los ibéricos sin renunciar a la calidad.",
+    pricePerKg: 20.32,
+    images: [lajoyaJamonCebo50],
+    weightOptions: generateWeightOptions(7, 9, 0.5, 20.32),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "la-joya",
+  },
+
+  // ====== LA JOYA — PALETAS ======
+  {
+    id: "lajoya-paleta-bellota-100-dop",
+    name: "Paleta Bellota 100% Ibérica D.O.P. Jabugo",
+    description: "Paleta de bellota 100% ibérica con D.O.P. Jabugo. Curación lenta y sabor profundo en cada loncha.",
+    pricePerKg: 22.55,
+    images: [lajoyaPaletaBellota100],
+    weightOptions: generateWeightOptions(4.5, 6, 0.5, 22.55),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-paleta-bellota-100",
+    name: "Paleta Bellota 100% Ibérica Jabugo",
+    description: "Paleta de bellota 100% ibérica de Jabugo. Aroma envolvente, sabor elegante y textura fundente.",
+    pricePerKg: 23.65,
+    images: [lajoyaPaletaBellota100],
+    weightOptions: generateWeightOptions(4.5, 6, 0.5, 23.65),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-paleta-bellota-50",
+    name: "Paleta Bellota 50% Ibérica Jabugo",
+    description: "Paleta de bellota 50% ibérica. Sabor equilibrado y textura sedosa, ideal para compartir.",
+    pricePerKg: 23.10,
+    images: [lajoyaPaletaBellota50],
+    weightOptions: generateWeightOptions(4.5, 6, 0.5, 23.10),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "la-joya",
+  },
+  {
+    id: "lajoya-paleta-cebo-50",
+    name: "Paleta Cebo 50% Ibérica Jabugo",
+    description: "Paleta de cebo 50% ibérica. Perfil delicado y sabor accesible, perfecto para iniciarse en el mundo ibérico.",
+    pricePerKg: 18.09,
+    images: [lajoyaPaletaCebo50],
+    weightOptions: generateWeightOptions(4.5, 6, 0.5, 18.09),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "la-joya",
   },
 ];
