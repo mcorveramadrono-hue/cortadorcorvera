@@ -1,4 +1,4 @@
-import cajaZonas from "@/assets/corvera-caja-zonas.jpg";
+import cajaZonas from "@/assets/corvera-caja-zonas.png";
 
 const About = () => {
   return (
