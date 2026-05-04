@@ -13,9 +13,6 @@ const Footer = () => {
               <img src={corveraLogo} alt="Corvera" className="h-10 w-auto invert" />
               <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
             </div>
-            <p className="text-sm text-background/50 leading-relaxed max-w-xs">
-              <strong>Corvera Ibéricos</strong> — Jamón ibérico de bellota de la más alta calidad y servicio de cortador profesional por César Nieto. Tienda oficial Corvera con envíos a toda España.
-            </p>
             <address className="not-italic text-xs text-background/40 leading-relaxed space-y-1">
               <div>Madrid, España</div>
               <div>
