@@ -1,5 +1,6 @@
 import jamonBellota100 from "@/assets/products/jamon-bellota-100.jpg";
-import jamonBellota100Dop from "@/assets/products/jamon-bellota-100-dop-new.png";
+import jamonBellota100DopCN from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
+import jamonBellota100DopCN2 from "@/assets/products/jamon-bellota-100-dop-cn-2.jpg";
 import jamonReservaFamiliar from "@/assets/products/jamon-reserva-familiar-new.png";
 import jamonBellota1002 from "@/assets/products/jamon-bellota-100-2.jpg";
 import jamonBellota75 from "@/assets/products/jamon-bellota-75.jpg";
@@ -21,11 +22,22 @@ import paletaCebo502 from "@/assets/products/paleta-cebo-50-2.jpg";
 
 // La Joya
 import lajoyaJamonBellota100 from "@/assets/products/lajoya/jamon-bellota-100.png";
+import lajoyaJamonBellota100Alt from "@/assets/products/lajoya/jamon-bellota-100-alt.png";
 import lajoyaJamonBellota50 from "@/assets/products/lajoya/jamon-bellota-50.png";
+import lajoyaJamonBellota50Alt from "@/assets/products/lajoya/jamon-bellota-50-alt.png";
 import lajoyaJamonCebo50 from "@/assets/products/lajoya/jamon-cebo-50.png";
+import lajoyaJamonCebo50Alt from "@/assets/products/lajoya/jamon-cebo-50-alt.png";
 import lajoyaPaletaBellota100 from "@/assets/products/lajoya/paleta-bellota-100.png";
 import lajoyaPaletaBellota50 from "@/assets/products/lajoya/paleta-bellota-50.png";
+import lajoyaPaletaBellota50Alt from "@/assets/products/lajoya/paleta-bellota-50-alt.png";
 import lajoyaPaletaCebo50 from "@/assets/products/lajoya/paleta-cebo-50.png";
+import lajoyaAmbient1 from "@/assets/products/lajoya/ambient-1.jpg";
+import lajoyaAmbient2 from "@/assets/products/lajoya/ambient-2.jpg";
+import lajoyaAmbient3 from "@/assets/products/lajoya/ambient-3.jpg";
+import lajoyaAmbient4 from "@/assets/products/lajoya/ambient-4.jpg";
+import lajoyaAmbient5 from "@/assets/products/lajoya/ambient-5.jpg";
+import lajoyaAmbient6 from "@/assets/products/lajoya/ambient-6.jpg";
+import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 
 export type Brand = "cesar-nieto" | "la-joya";
 
