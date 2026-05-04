@@ -1,4 +1,4 @@
-import cajaZonas from "@/assets/corvera-caja-zonas.jpg";
+import cajaZonas from "@/assets/corvera-caja-zonas.png";
 
 const About = () => {
   return (
@@ -10,7 +10,7 @@ const About = () => {
             <img
               src={cajaZonas}
               alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
-              className="w-full h-auto object-contain max-w-xl"
+              className="w-full h-auto object-contain"
             />
           </div>
 
@@ -20,7 +20,7 @@ const About = () => {
               Sobre Nosotros
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-              La tradición del buen jamón
+              Un corte original
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
               En <strong>Corvera Ibéricos</strong> no solo vendemos jamón, creamos una experiencia gastronómica distinta. Sabemos que cada pieza es única y que el sabor no es igual en todas sus partes, por eso respetamos esa diferencia y la convertimos en el centro de nuestra propuesta.
