@@ -6,7 +6,7 @@ const About = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-5 gap-12 items-center">
           {/* Image */}
-          <div className="lg:col-span-3 flex items-center justify-center lg:-ml-8">
+          <div className="lg:col-span-3 flex items-center justify-center">
             <img
               src={cajaZonas}
               alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
