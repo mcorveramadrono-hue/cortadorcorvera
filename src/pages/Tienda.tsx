@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BRANDS } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-new.png";
+import cesarNietoImg from "@/assets/products/cesar-nieto-hero.jpg";
 import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
 
 const brandImages: Record<string, string> = {
