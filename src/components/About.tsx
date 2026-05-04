@@ -3,25 +3,23 @@ import cajaZonas from "@/assets/corvera-caja-zonas.png";
 const About = () => {
   return (
     <section id="sobre-nosotros" className="relative py-24 bg-corvera-cream overflow-hidden" aria-label="Sobre Corvera Ibéricos">
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-5 gap-12 items-center">
-          {/* Image */}
-          <div className="lg:col-span-3 flex items-center justify-center">
-            <img
-              src={cajaZonas}
-              alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
-              className="w-full h-auto object-contain scale-110"
-            />
-          </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        <div className="lg:clear-both">
+          <img
+            src={cajaZonas}
+            alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
+            className="w-full lg:w-[55%] h-auto object-contain mb-6 lg:mb-4 lg:ml-8 lg:float-right shape-outside-image"
+            style={{ shapeOutside: `url(${cajaZonas})`, shapeMargin: "16px" }}
+          />
 
-          {/* Text */}
-          <div className="lg:col-span-2 space-y-6 lg:pr-8">
-            <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
-              Sobre Nosotros
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">
-              Un corte original
-            </h2>
+          <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium mb-4">
+            Sobre Nosotros
+          </p>
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Un corte original
+          </h2>
+
+          <div className="space-y-5">
             <p className="text-muted-foreground leading-relaxed text-lg">
               En <strong>Corvera Ibéricos</strong> no solo vendemos jamón, creamos una experiencia gastronómica distinta. Sabemos que cada pieza es única y que el sabor no es igual en todas sus partes, por eso respetamos esa diferencia y la convertimos en el centro de nuestra propuesta.
             </p>
