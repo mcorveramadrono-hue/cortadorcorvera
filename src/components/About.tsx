@@ -4,18 +4,18 @@ const About = () => {
   return (
     <section id="sobre-nosotros" className="relative py-24 bg-corvera-cream overflow-hidden" aria-label="Sobre Corvera Ibéricos">
       <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-5 gap-12 items-center">
           {/* Image */}
-          <div className="flex items-center justify-center">
+          <div className="lg:col-span-3 flex items-center justify-center lg:-ml-8">
             <img
               src={cajaZonas}
               alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-contain scale-110"
             />
           </div>
 
           {/* Text */}
-          <div className="space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
               Sobre Nosotros
             </p>
