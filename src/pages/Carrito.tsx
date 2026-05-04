@@ -9,10 +9,13 @@ import payVisa from "@/assets/pay-visa.png";
 import payMastercard from "@/assets/pay-mastercard.png";
 import payGooglePay from "@/assets/pay-googlepay.png";
 import payBizum from "@/assets/pay-bizum.png";
+import cajaZonas from "@/assets/corvera-caja-zonas.png";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const Carrito = () => {
   const navigate = useNavigate();
   const [promoInput, setPromoInput] = useState("");
+  const [showUpsell, setShowUpsell] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
