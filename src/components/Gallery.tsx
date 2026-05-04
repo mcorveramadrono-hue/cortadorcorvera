@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 import gallery1 from "@/assets/gallery/gallery-1.jpeg";
 import gallery2 from "@/assets/gallery/gallery-2.jpeg";
@@ -31,19 +38,13 @@ const images = [
 const Gallery = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const openImage = (index: number) => setSelectedIndex(index);
   const closeImage = () => setSelectedIndex(null);
 
   const goNext = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex + 1) % images.length);
-    }
+    if (selectedIndex !== null) setSelectedIndex((selectedIndex + 1) % images.length);
   };
-
   const goPrev = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
-    }
+    if (selectedIndex !== null) setSelectedIndex((selectedIndex - 1 + images.length) % images.length);
   };
 
   return (
@@ -58,22 +59,30 @@ const Gallery = () => {
           </p>
         </div>
 
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className="break-inside-avoid cursor-pointer group overflow-hidden rounded-lg"
-              onClick={() => openImage(index)}
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          className="max-w-6xl mx-auto px-8 md:px-12"
+        >
+          <CarouselContent>
+            {images.map((image, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                <div
+                  className="cursor-pointer group overflow-hidden rounded-lg aspect-square"
+                  onClick={() => setSelectedIndex(index)}
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
       </div>
 
       <Dialog open={selectedIndex !== null} onOpenChange={closeImage}>
@@ -86,13 +95,11 @@ const Gallery = () => {
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
-
               <img
                 src={images[selectedIndex].src}
                 alt={images[selectedIndex].alt}
                 className="max-w-full max-h-[85vh] object-contain"
               />
-
               <button
                 onClick={(e) => { e.stopPropagation(); goNext(); }}
                 className="absolute right-2 md:right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition"

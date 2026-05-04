@@ -1,28 +1,17 @@
-import corvera2 from "@/assets/corvera-2.jpeg";
-import cerdo2 from "@/assets/cerdo-2.png";
-import selloCorteOriginal from "@/assets/sello-corte-original.png";
+import cajaZonas from "@/assets/corvera-caja-zonas.jpg";
 
 const About = () => {
   return (
     <section id="sobre-nosotros" className="relative py-24 bg-corvera-cream overflow-hidden" aria-label="Sobre Corvera Ibéricos">
-
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Images */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Image */}
+          <div className="flex items-center justify-center">
             <img
-              src={corvera2}
-              alt="Anatomía del jamón ibérico"
-              className="w-full h-64 object-cover col-span-2"
+              src={cajaZonas}
+              alt="Caja Corvera Ibéricos con jamón separado por zonas: maza, babilla, punta y jarrete"
+              className="w-full h-auto object-contain max-w-xl"
             />
-            <img
-              src={cerdo2}
-              alt="Cerdo ibérico"
-              className="w-full h-48 object-contain bg-corvera-cream"
-            />
-            <div className="flex items-center justify-center p-6 bg-background">
-              <img src={selloCorteOriginal} alt="Un Corte Original" className="w-28 h-28 object-contain" />
-            </div>
           </div>
 
           {/* Text */}
@@ -34,13 +23,13 @@ const About = () => {
               La tradición del buen jamón
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              Corvera Ibéricos nace de la pasión por el <strong>jamón ibérico de bellota</strong> y del profundo respeto por un oficio que combina tradición, técnica y sensibilidad. Bajo la dirección de <strong>César Nieto</strong>, cortador de jamón profesional, ofrecemos producto de máxima calidad y servicio de <strong>corte a cuchillo</strong> para eventos.
+              En <strong>Corvera Ibéricos</strong> no solo vendemos jamón, creamos una experiencia gastronómica distinta. Sabemos que cada pieza es única y que el sabor no es igual en todas sus partes, por eso respetamos esa diferencia y la convertimos en el centro de nuestra propuesta.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Nuestro objetivo es claro: convertir cada oportunidad en un momento especial, donde los invitados no solo disfruten del jamón, sino también del arte de cortarlo. Trabajamos con piezas D.O.P. Guijuelo y de Extremadura, seleccionadas una a una.
+              En lugar de presentar el jamón "todo mezclado", lo cortamos y envasamos separando sus zonas: <strong>maza, babilla, punta y jarrete</strong>. Así, el cliente puede descubrir cómo cambian la textura, el aroma y la intensidad dentro de la misma pieza, convirtiendo cada degustación en un auténtico recorrido por el jamón.
             </p>
-            <p className="text-muted-foreground leading-relaxed font-medium">
-              Corvera Ibéricos es tradición, elegancia y respeto por el producto.
+            <p className="text-muted-foreground leading-relaxed">
+              Nuestra forma de presentar el producto transforma algo tradicional en una experiencia nueva. No se trata solo de abrir una caja de sobres, sino de entender, disfrutar y compartir el jamón de una manera que, una vez descubierta, ya no se vuelve a ver igual.
             </p>
           </div>
         </div>
