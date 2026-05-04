@@ -237,7 +237,15 @@ const Carrito = () => {
               </div>
 
               <button
-                onClick={() => setShowUpsell(true)}
+                onClick={() => {
+                  const totalQty = items.reduce((s, i) => s + i.quantity, 0);
+                  const anyKnife = items.some((i) => i.withKnife);
+                  if (totalQty === 1 && !anyKnife) {
+                    setShowUpsell(true);
+                  } else {
+                    navigate("/checkout");
+                  }
+                }}
                 className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
               >
                 Realizar Pedido
