@@ -15,7 +15,7 @@ const About = () => {
           </div>
 
           {/* Text */}
-          <div className="space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">
               Sobre Nosotros
             </p>
