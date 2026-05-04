@@ -9,10 +9,13 @@ import payVisa from "@/assets/pay-visa.png";
 import payMastercard from "@/assets/pay-mastercard.png";
 import payGooglePay from "@/assets/pay-googlepay.png";
 import payBizum from "@/assets/pay-bizum.png";
+import cajaZonas from "@/assets/corvera-caja-zonas.png";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const Carrito = () => {
   const navigate = useNavigate();
   const [promoInput, setPromoInput] = useState("");
+  const [showUpsell, setShowUpsell] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -234,11 +237,57 @@ const Carrito = () => {
               </div>
 
               <button
-                onClick={() => navigate("/checkout")}
+                onClick={() => setShowUpsell(true)}
                 className="w-full inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
               >
                 Realizar Pedido
               </button>
+
+              <Dialog open={showUpsell} onOpenChange={setShowUpsell}>
+                <DialogContent className="max-w-2xl bg-corvera-cream">
+                  <DialogHeader>
+                    <p className="text-xs tracking-[0.3em] uppercase text-primary font-medium">Antes de continuar</p>
+                    <DialogTitle className="font-serif text-2xl md:text-3xl text-foreground">Un corte original</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid md:grid-cols-2 gap-6 items-center">
+                    <img
+                      src={cajaZonas}
+                      alt="Caja Corvera Ibéricos por zonas"
+                      className="w-full h-auto object-contain"
+                    />
+                    <div className="space-y-4">
+                      <DialogDescription className="text-sm text-muted-foreground leading-relaxed">
+                        En <strong>Corvera Ibéricos</strong> separamos el jamón por zonas (<strong>maza, babilla, punta y jarrete</strong>) para que descubras cómo cambian textura, aroma e intensidad en cada bocado.
+                      </DialogDescription>
+                      <p className="font-serif text-lg text-foreground italic">
+                        ¿Te lo vas a perder?
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                    <button
+                      onClick={() => {
+                        items.forEach((_, i) => updateKnife(i, true));
+                        setShowUpsell(false);
+                        navigate("/checkout");
+                      }}
+                      className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                    >
+                      <Scissors size={14} />
+                      Añadir corte a cuchillo
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowUpsell(false);
+                        navigate("/checkout");
+                      }}
+                      className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary/5 transition-colors"
+                    >
+                      Realizar el pago
+                    </button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           )}
         </div>
