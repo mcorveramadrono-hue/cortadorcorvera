@@ -63,7 +63,7 @@ export interface Product {
 
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
-  { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico de bellota desde Jabugo" },
+  { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico desde Jabugo" },
 ];
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
