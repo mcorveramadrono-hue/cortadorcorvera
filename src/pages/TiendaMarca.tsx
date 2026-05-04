@@ -17,6 +17,7 @@ const TiendaMarca = () => {
   const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
   const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
+  const [addedProduct, setAddedProduct] = useState<{ name: string; weight: number } | null>(null);
 
   const brandInfo = BRANDS.find((b) => b.id === brand);
 
