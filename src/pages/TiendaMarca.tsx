@@ -183,10 +183,10 @@ const TiendaMarca = () => {
         <DialogContent className="max-w-md bg-corvera-cream">
           <DialogHeader className="items-center text-center">
             <CheckCircle2 className="text-primary mb-2" size={40} />
-            <DialogTitle className="font-serif text-2xl text-foreground">¡Gracias por tu compra!</DialogTitle>
+            <DialogTitle className="font-serif text-2xl text-foreground">Producto añadido al carrito</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               {addedProduct && (
-                <>Hemos añadido <strong>{addedProduct.name}</strong> ({addedProduct.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
+                <>Se ha añadido <strong>{addedProduct.name}</strong> ({addedProduct.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
               )}
             </DialogDescription>
           </DialogHeader>
