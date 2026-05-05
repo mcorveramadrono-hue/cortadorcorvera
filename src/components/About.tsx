@@ -1,6 +1,10 @@
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import cajaZonas from "@/assets/corvera-caja-zonas.png";
 
 const About = () => {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <section id="sobre-nosotros" className="relative py-24 bg-corvera-cream overflow-hidden" aria-label="Sobre Corvera Ibéricos">
       <div className="relative z-10 max-w-6xl mx-auto px-6">
@@ -23,12 +27,23 @@ const About = () => {
             <p className="text-muted-foreground leading-relaxed text-lg">
               En <strong>Corvera Ibéricos</strong> no solo vendemos jamón, creamos una experiencia gastronómica distinta. Sabemos que cada pieza es única y que el sabor no es igual en todas sus partes, por eso respetamos esa diferencia y la convertimos en el centro de nuestra propuesta.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
-              En lugar de presentar el jamón "todo mezclado", lo cortamos y envasamos separando sus zonas: <strong>maza, babilla, punta y jarrete</strong>. Así, el cliente puede descubrir cómo cambian la textura, el aroma y la intensidad dentro de la misma pieza, convirtiendo cada degustación en un auténtico recorrido por el jamón.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Nuestra forma de presentar el producto transforma algo tradicional en una experiencia nueva. No se trata solo de abrir una caja de sobres, sino de entender, disfrutar y compartir el jamón de una manera que, una vez descubierta, ya no se vuelve a ver igual.
-            </p>
+            <div className={`space-y-5 ${expanded ? "block" : "hidden lg:block"}`}>
+              <p className="text-muted-foreground leading-relaxed">
+                En lugar de presentar el jamón "todo mezclado", lo cortamos y envasamos separando sus zonas: <strong>maza, babilla, punta y jarrete</strong>. Así, el cliente puede descubrir cómo cambian la textura, el aroma y la intensidad dentro de la misma pieza, convirtiendo cada degustación en un auténtico recorrido por el jamón.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Nuestra forma de presentar el producto transforma algo tradicional en una experiencia nueva. No se trata solo de abrir una caja de sobres, sino de entender, disfrutar y compartir el jamón de una manera que, una vez descubierta, ya no se vuelve a ver igual.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setExpanded(!expanded)}
+              className="lg:hidden inline-flex items-center gap-1 text-primary font-medium text-sm"
+              aria-expanded={expanded}
+            >
+              {expanded ? "Ver menos" : "Ver más"}
+              {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
       </div>
