@@ -41,7 +41,6 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // GET → fetch order info (for the page to show)
@@ -133,7 +132,7 @@ serve(async (req) => {
     }
 
     // Send email to customer
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "order-shipped",
       recipientEmail: order.email,
       idempotencyKey: `order-shipped-${orderId}`,
