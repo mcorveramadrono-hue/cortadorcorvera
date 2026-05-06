@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import Index from "./pages/Index";
 import Tienda from "./pages/Tienda";
 import TiendaMarca from "./pages/TiendaMarca";
+import Producto from "./pages/Producto";
 import Carrito from "./pages/Carrito";
 import Checkout from "./pages/Checkout";
 import PedidoConfirmado from "./pages/PedidoConfirmado";
