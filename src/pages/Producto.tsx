@@ -60,8 +60,28 @@ const Producto = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div className="space-y-4">
-              <div className="bg-corvera-cream/30 p-6">
-                <img src={product.images[imageIdx]} alt={product.name} className="w-full h-96 object-contain" />
+              <div
+                className="bg-corvera-cream/30 p-6 overflow-hidden cursor-zoom-in group"
+                onMouseMove={(e) => {
+                  const r = e.currentTarget.getBoundingClientRect();
+                  const x = ((e.clientX - r.left) / r.width) * 100;
+                  const y = ((e.clientY - r.top) / r.height) * 100;
+                  const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                  if (img) {
+                    img.style.transformOrigin = `${x}% ${y}%`;
+                    img.style.transform = 'scale(2)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  const img = e.currentTarget.querySelector('img') as HTMLImageElement | null;
+                  if (img) img.style.transform = 'scale(1)';
+                }}
+              >
+                <img
+                  src={product.images[imageIdx]}
+                  alt={product.name}
+                  className="w-full h-96 object-contain transition-transform duration-200 ease-out"
+                />
               </div>
               {product.images.length > 1 && (
                 <div className="flex gap-2">
