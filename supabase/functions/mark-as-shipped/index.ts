@@ -9,7 +9,7 @@ const corsHeaders = {
 
 async function enqueueAppEmail(
   supabaseUrl: string,
-  anonKey: string,
+  serviceKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -20,8 +20,8 @@ async function enqueueAppEmail(
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${anonKey}`,
-      apikey: anonKey,
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -41,7 +41,6 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // GET → fetch order info (for the page to show)
@@ -129,11 +128,12 @@ serve(async (req) => {
       .eq("shipping_token", token);
 
     if (updateErr) {
-      throw new Error("No se pudo actualizar el pedido: " + updateErr.message);
+      console.error("mark-as-shipped update failed:", updateErr.message);
+      throw new Error("No se pudo actualizar el pedido");
     }
 
     // Send email to customer
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "order-shipped",
       recipientEmail: order.email,
       idempotencyKey: `order-shipped-${orderId}`,
@@ -153,7 +153,7 @@ serve(async (req) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("mark-as-shipped error:", message);
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: "No se pudo procesar la solicitud. Inténtalo de nuevo." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

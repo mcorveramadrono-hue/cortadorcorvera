@@ -19,7 +19,7 @@ function redirect(params: Record<string, string>) {
 
 async function enqueueAppEmail(
   supabaseUrl: string,
-  anonKey: string,
+  serviceKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -30,8 +30,8 @@ async function enqueueAppEmail(
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${anonKey}`,
-      apikey: anonKey,
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -59,7 +59,6 @@ serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // Verify order exists and token matches
@@ -109,7 +108,7 @@ serve(async (req) => {
 
     const shippingUrl = `${SITE_URL}/marcar-envio/${orderId}?token=${shippingToken}`;
 
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "payment-confirmed",
       recipientEmail: order.email,
       idempotencyKey: `payment-confirmed-${orderId}`,
@@ -123,7 +122,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "owner-payment-confirmed",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-payment-confirmed-${orderId}`,
@@ -140,7 +139,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "owner-shipping-link",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-shipping-link-${orderId}`,
