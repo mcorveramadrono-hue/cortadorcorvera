@@ -1,23 +1,14 @@
-import { useEffect, useState } from "react";
-import { ArrowLeft, ShoppingCart, Info } from "lucide-react";
-import { useNavigate, useParams, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate, useParams, Navigate, Link } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import type { Product, Brand } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
-import ProductDetailDialog from "@/components/ProductDetailDialog";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { CheckCircle2 } from "lucide-react";
 
 const TiendaMarca = () => {
   const navigate = useNavigate();
   const { brand } = useParams<{ brand: string }>();
-  const { addItem } = useCart();
-  const [imageIndices, setImageIndices] = useState<Record<string, number>>({});
-  const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
-  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
-  const [addedProduct, setAddedProduct] = useState<{ name: string; weight: number } | null>(null);
 
   const brandInfo = BRANDS.find((b) => b.id === brand);
 
@@ -36,90 +27,40 @@ const TiendaMarca = () => {
   const jamones = brandProducts.filter((p) => p.category === "jamon");
   const paletas = brandProducts.filter((p) => p.category === "paleta");
 
-  const toggleProductImage = (productId: string, totalImages: number) => {
-    if (totalImages <= 1) return;
-    setImageIndices((prev) => ({
-      ...prev,
-      [productId]: ((prev[productId] || 0) + 1) % totalImages,
-    }));
-  };
-
-  const handleAddToCart = (product: Product) => {
-    const weightIdx = selectedWeights[product.id] ?? 0;
-    const option = product.weightOptions[weightIdx];
-    addItem({
-      product,
-      selectedWeight: option.weight,
-      price: option.price,
-      quantity: 1,
-      withKnife: false,
-    });
-    setAddedProduct({ name: product.name, weight: option.weight });
-  };
-
   const renderProductCard = (product: Product) => {
-    const weightIdx = selectedWeights[product.id] ?? 0;
-    const option = product.weightOptions[weightIdx];
-    const totalPrice = option.price;
+    const minPrice = product.weightOptions.reduce(
+      (min, opt) => (opt.price < min ? opt.price : min),
+      product.weightOptions[0].price
+    );
+    const hoverImage = product.images[1] ?? product.images[0];
 
     return (
-      <article key={product.id} className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col">
-        <div className="overflow-hidden bg-corvera-cream/30 cursor-pointer relative" onClick={() => toggleProductImage(product.id, product.images.length)}>
+      <Link
+        to={`/tienda/${brand}/${product.id}`}
+        key={product.id}
+        className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col"
+      >
+        <div className="overflow-hidden bg-corvera-cream/30 relative">
           <img
-            src={product.images[imageIndices[product.id] || 0]}
+            src={product.images[0]}
             alt={product.name}
-            className="w-full h-72 object-contain group-hover:scale-105 transition-transform duration-500 p-4"
+            className="w-full h-72 object-contain p-4 transition-opacity duration-300 group-hover:opacity-0"
           />
-          {product.images.length > 1 && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
-              {product.images.map((_, imgIdx) => (
-                <span
-                  key={imgIdx}
-                  className={`w-2 h-2 rounded-full transition-colors ${(imageIndices[product.id] || 0) === imgIdx ? "bg-primary" : "bg-muted-foreground/30"}`}
-                />
-              ))}
-            </div>
-          )}
+          <img
+            src={hoverImage}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-72 object-contain p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
         </div>
-        <div className="p-5 space-y-3 flex-1 flex flex-col">
+        <div className="p-5 space-y-2 flex-1 flex flex-col items-center text-center">
           <h3 className="font-serif text-base font-semibold text-foreground leading-tight">{product.name}</h3>
-          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{product.description}</p>
-
-          <div>
-            <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-1.5">Peso</label>
-            <select
-              value={weightIdx}
-              onChange={(e) => setSelectedWeights((prev) => ({ ...prev, [product.id]: Number(e.target.value) }))}
-              className="w-full border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
-            >
-              {product.weightOptions.map((opt, idx) => (
-                <option key={idx} value={idx}>{opt.label}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="pt-3 border-t border-border mt-auto space-y-2">
-            <div className="flex items-baseline justify-between">
-              <span className="font-serif text-lg font-bold text-primary">{totalPrice.toFixed(2).replace('.', ',')} €</span>
-              <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
-            </div>
-            <button
-              onClick={() => setDetailProduct(product)}
-              className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 border border-border text-foreground text-xs tracking-widest uppercase hover:border-primary hover:text-primary transition-colors"
-            >
-              <Info size={14} />
-              Más Información
-            </button>
-            <button
-              onClick={() => handleAddToCart(product)}
-              className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
-            >
-              <ShoppingCart size={14} />
-              Añadir al Carrito
-            </button>
-          </div>
+          <p className="font-serif text-lg font-bold text-primary mt-auto">
+            Desde {minPrice.toFixed(2).replace('.', ',')} €
+          </p>
+          <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
         </div>
-      </article>
+      </Link>
     );
   };
 
@@ -172,43 +113,6 @@ const TiendaMarca = () => {
         </div>
       </main>
       <Footer />
-
-      <ProductDetailDialog
-        isOpen={!!detailProduct}
-        onClose={() => setDetailProduct(null)}
-        product={detailProduct}
-      />
-
-      <Dialog open={!!addedProduct} onOpenChange={(open) => !open && setAddedProduct(null)}>
-        <DialogContent className="max-w-md bg-corvera-cream">
-          <DialogHeader className="items-center text-center">
-            <CheckCircle2 className="text-primary mb-2" size={40} />
-            <DialogTitle className="font-serif text-2xl text-foreground">Producto añadido al carrito</DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
-              {addedProduct && (
-                <>Se ha añadido <strong>{addedProduct.name}</strong> ({addedProduct.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
-              )}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col sm:flex-row gap-3 mt-2">
-            <button
-              onClick={() => setAddedProduct(null)}
-              className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-primary text-primary text-xs tracking-widest uppercase hover:bg-primary/5 transition-colors"
-            >
-              Seguir comprando
-            </button>
-            <button
-              onClick={() => {
-                setAddedProduct(null);
-                navigate("/carrito");
-              }}
-              className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
-            >
-              Ir al carrito
-            </button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
