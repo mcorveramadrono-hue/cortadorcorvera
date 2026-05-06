@@ -19,7 +19,7 @@ type OrderItem = {
 
 async function enqueueAppEmail(
   supabaseUrl: string,
-  anonKey: string,
+  serviceKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -30,8 +30,8 @@ async function enqueueAppEmail(
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${anonKey}`,
-      apikey: anonKey,
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
@@ -63,7 +63,7 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
+    // Internal calls to send-transactional-email require service_role auth.
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
