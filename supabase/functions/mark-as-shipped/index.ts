@@ -128,7 +128,8 @@ serve(async (req) => {
       .eq("shipping_token", token);
 
     if (updateErr) {
-      throw new Error("No se pudo actualizar el pedido: " + updateErr.message);
+      console.error("mark-as-shipped update failed:", updateErr.message);
+      throw new Error("No se pudo actualizar el pedido");
     }
 
     // Send email to customer
@@ -152,7 +153,7 @@ serve(async (req) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("mark-as-shipped error:", message);
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: "No se pudo procesar la solicitud. Inténtalo de nuevo." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

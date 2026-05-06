@@ -13,11 +13,18 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId } = await req.json();
+    const { orderId, sessionToken } = await req.json();
 
     if (!orderId || typeof orderId !== "string") {
       return new Response(
         JSON.stringify({ error: "orderId requerido" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+      );
+    }
+
+    if (!sessionToken || typeof sessionToken !== "string") {
+      return new Response(
+        JSON.stringify({ error: "sessionToken requerido" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
       );
     }
@@ -38,6 +45,14 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({ error: "Pedido no encontrado" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 404 }
+      );
+    }
+
+    // Verify caller owns the order via session token (matches RLS pattern)
+    if (!order.session_token || order.session_token !== sessionToken) {
+      return new Response(
+        JSON.stringify({ error: "No autorizado" }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 403 }
       );
     }
 
@@ -153,7 +168,7 @@ serve(async (req) => {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Checkout error:", message);
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: "No se pudo iniciar el pago. Inténtalo de nuevo." }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
