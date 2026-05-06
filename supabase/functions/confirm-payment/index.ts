@@ -19,7 +19,7 @@ function redirect(params: Record<string, string>) {
 
 async function enqueueAppEmail(
   supabaseUrl: string,
-  anonKey: string,
+  serviceKey: string,
   payload: {
     templateName: string;
     recipientEmail: string;
@@ -30,8 +30,8 @@ async function enqueueAppEmail(
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${anonKey}`,
-      apikey: anonKey,
+      Authorization: `Bearer ${serviceKey}`,
+      apikey: serviceKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
