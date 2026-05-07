@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate, useParams, Navigate, Link } from "react-router-dom";
+import { useNavigate, useParams, Navigate, Link, useSearchParams } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import type { Product, Brand } from "@/data/products";
 import Header from "@/components/Header";
@@ -10,6 +10,8 @@ import PromoBadge from "@/components/PromoBadge";
 const TiendaMarca = () => {
   const navigate = useNavigate();
   const { brand } = useParams<{ brand: string }>();
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get("from");
 
   const brandInfo = BRANDS.find((b) => b.id === brand);
 
@@ -73,11 +75,19 @@ const TiendaMarca = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate("/tienda")}
+              onClick={() => {
+                if (from === "home") {
+                  navigate("/#productos");
+                } else if (window.history.length > 1) {
+                  navigate(-1);
+                } else {
+                  navigate("/tienda");
+                }
+              }}
               className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft size={16} />
-              Volver a marcas
+              {from === "home" ? "Volver" : "Volver a marcas"}
             </button>
           </div>
 
