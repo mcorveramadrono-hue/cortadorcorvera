@@ -34,7 +34,7 @@ const Products = () => {
               onClick={() => navigate(`/tienda/${brand.id}`)}
               className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left"
             >
-              <div className="aspect-[4/3] bg-corvera-cream/30 overflow-hidden flex items-center justify-center p-8">
+              <div className="aspect-square md:aspect-[4/3] bg-corvera-cream/30 overflow-hidden flex items-center justify-center p-2 md:p-8">
                 <img
                   src={brandImages[brand.id]}
                   alt={brand.name}
@@ -42,12 +42,12 @@ const Products = () => {
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-6 space-y-2">
-                <h3 className="font-serif text-2xl md:text-3xl font-bold text-foreground">{brand.name}</h3>
-                <p className="text-sm text-muted-foreground">{brand.tagline}</p>
-                <div className="pt-3 inline-flex items-center gap-2 text-sm tracking-widest uppercase text-primary font-medium">
+              <div className="p-3 md:p-6 space-y-1 md:space-y-2">
+                <h3 className="font-serif text-base md:text-3xl font-bold text-foreground">{brand.name}</h3>
+                <p className="text-[11px] md:text-sm text-muted-foreground">{brand.tagline}</p>
+                <div className="pt-2 md:pt-3 inline-flex items-center gap-2 text-[10px] md:text-sm tracking-widest uppercase text-primary font-medium">
                   Ver catálogo
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </button>
