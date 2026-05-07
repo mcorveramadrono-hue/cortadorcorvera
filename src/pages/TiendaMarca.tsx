@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
-import { useNavigate, useParams, Navigate, Link } from "react-router-dom";
+import { useNavigate, useParams, Navigate, Link, useSearchParams } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import type { Product, Brand } from "@/data/products";
 import Header from "@/components/Header";

@@ -31,7 +31,7 @@ const Products = () => {
           {BRANDS.map((brand) => (
             <button
               key={brand.id}
-              onClick={() => navigate(`/tienda/${brand.id}`)}
+            onClick={() => navigate(`/tienda/${brand.id}?from=home`)}
               className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left"
             >
               <div className="aspect-square md:aspect-[4/3] bg-corvera-cream/30 overflow-hidden flex items-center justify-center p-2 md:p-8">
