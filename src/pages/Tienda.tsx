@@ -60,13 +60,31 @@ function defaultSort(list: Product[]): Product[] {
 
 const Tienda = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<CategoryFilter>("all");
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedQualities, setSelectedQualities] = useState<Quality[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
-  const [sortBy, setSortBy] = useState<SortOption>("default");
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const STORAGE_KEY = "tienda:filters";
+  const saved = (() => {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  })();
+  const [search, setSearch] = useState<string>(saved?.search ?? "");
+  const [category, setCategory] = useState<CategoryFilter>(saved?.category ?? "all");
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(saved?.selectedBrands ?? []);
+  const [selectedQualities, setSelectedQualities] = useState<Quality[]>(saved?.selectedQualities ?? []);
+  const [priceRange, setPriceRange] = useState<[number, number]>(saved?.priceRange ?? [PRICE_MIN, PRICE_MAX]);
+  const [sortBy, setSortBy] = useState<SortOption>(saved?.sortBy ?? "default");
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(saved?.filtersOpen ?? false);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ search, category, selectedBrands, selectedQualities, priceRange, sortBy, filtersOpen })
+      );
+    } catch {}
+  }, [search, category, selectedBrands, selectedQualities, priceRange, sortBy, filtersOpen]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
