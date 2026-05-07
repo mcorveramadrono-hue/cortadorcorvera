@@ -5,6 +5,7 @@ import { products, BRANDS } from "@/data/products";
 import type { Product, Brand } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PromoBadge from "@/components/PromoBadge";
 
 const TiendaMarca = () => {
   const navigate = useNavigate();
@@ -36,11 +37,12 @@ const TiendaMarca = () => {
 
     return (
       <Link
-        to={`/tienda/${brand}/${product.id}`}
+        to={`/tienda/${brand}/${product.id}?from=marca`}
         key={product.id}
         className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col"
       >
         <div className="overflow-hidden bg-corvera-cream/30 relative">
+          <PromoBadge productId={product.id} className="absolute top-2 left-2 z-10" />
           <img
             src={product.images[0]}
             alt={product.name}
