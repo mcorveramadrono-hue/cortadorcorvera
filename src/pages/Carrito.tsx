@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Trash2, Plus, Minus, ShoppingCart, Scissors, Tag, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { getPromotion } from "@/data/promotions";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
