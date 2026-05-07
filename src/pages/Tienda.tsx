@@ -6,10 +6,14 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
 import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
+import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpeg";
+import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpeg";
 
 const brandImages: Record<string, string> = {
   "cesar-nieto": cesarNietoImg,
   "la-joya": laJoyaImg,
+  "epicum": epicumImg,
+  "finura": finuraImg,
 };
 
 const Tienda = () => {
@@ -52,7 +56,7 @@ const Tienda = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {BRANDS.map((brand) => (
               <button
                 key={brand.id}
