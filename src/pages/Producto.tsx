@@ -93,10 +93,10 @@ const Producto = () => {
     } else if (from === "tienda") {
       navigate("/tienda");
     } else if (from === "ofertas") {
-      navigate("/ofertas");
+      navigate("/#ofertas");
     } else {
       if (window.history.length > 1) navigate(-1);
-      else navigate("/tienda");
+      else navigate("/");
     }
   };
 
