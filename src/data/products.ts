@@ -68,13 +68,15 @@ export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
   const options: WeightOption[] = [];
-  for (let w = minKg; w <= maxKg + 0.01; w += stepKg) {
-    const rounded = Math.round(w * 10) / 10;
-    const price = Math.round(rounded * pricePerKg * 100) / 100;
+  for (let upper = minKg + stepKg; upper <= maxKg + 0.01; upper += stepKg) {
+    const upperRounded = Math.round(upper * 10) / 10;
+    const lowerRounded = Math.round((upper - stepKg) * 10) / 10;
+    const price = Math.round(upperRounded * pricePerKg * 100) / 100;
+    const fmt = (n: number) => n.toFixed(1).replace('.', ',');
     options.push({
-      weight: rounded,
+      weight: upperRounded,
       price,
-      label: `${rounded.toFixed(1).replace('.', ',')} kg — ${price.toFixed(2).replace('.', ',')} €`,
+      label: `${fmt(lowerRounded)}-${fmt(upperRounded)} kg — ${price.toFixed(2).replace('.', ',')} €`,
     });
   }
   return options;
@@ -151,7 +153,7 @@ export const products: Product[] = [
     description: "Jamón seleccionado de forma artesanal, elaborado a partir de piezas escogidas por su excelente calidad y equilibrio de grasa infiltrada. Su curación lenta en bodegas naturales potencia un aroma intenso y un sabor suave y persistente en boca.",
     pricePerKg: 22.74,
     images: [jamonReservaFamiliar, jamonBellota1002],
-    weightOptions: generateWeightOptions(7, 7, 0.5, 22.74),
+    weightOptions: generateWeightOptions(6.5, 7, 0.5, 22.74),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
