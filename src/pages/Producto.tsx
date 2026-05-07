@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ShoppingCart, Tag } from "lucide-react";
-import { useNavigate, useParams, Navigate } from "react-router-dom";
+import { useNavigate, useParams, Navigate, useSearchParams } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
 import { useCart } from "@/contexts/CartContext";
@@ -12,6 +12,8 @@ import { CheckCircle2 } from "lucide-react";
 
 const Producto = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get("from");
   const { brand, productId } = useParams<{ brand: string; productId: string }>();
   const { addItem } = useCart();
   const [imageIdx, setImageIdx] = useState(0);
@@ -85,6 +87,19 @@ const Producto = () => {
   const knifeCost = withKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
   const totalPrice = option.price + knifeCost;
 
+  const handleBack = () => {
+    if (from === "marca" && brand) {
+      navigate(`/tienda/${brand}`);
+    } else if (from === "tienda") {
+      navigate("/tienda");
+    } else if (from === "ofertas") {
+      navigate("/ofertas");
+    } else {
+      if (window.history.length > 1) navigate(-1);
+      else navigate("/tienda");
+    }
+  };
+
   const handleAdd = () => {
     addItem({
       product,
@@ -102,10 +117,7 @@ const Producto = () => {
       <main className="pt-28 pb-16">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <button
-            onClick={() => {
-              if (window.history.length > 1) navigate(-1);
-              else navigate("/tienda");
-            }}
+            onClick={handleBack}
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft size={16} />
