@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import type { Product } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
 import { supabase } from "@/integrations/supabase/client";
