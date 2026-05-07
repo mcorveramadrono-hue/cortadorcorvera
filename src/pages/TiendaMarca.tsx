@@ -75,11 +75,19 @@ const TiendaMarca = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate("/tienda")}
+              onClick={() => {
+                if (from === "home") {
+                  navigate("/#productos");
+                } else if (window.history.length > 1) {
+                  navigate(-1);
+                } else {
+                  navigate("/tienda");
+                }
+              }}
               className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft size={16} />
-              Volver a marcas
+              {from === "home" ? "Volver" : "Volver a marcas"}
             </button>
           </div>
 
