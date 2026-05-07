@@ -76,7 +76,7 @@ function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pri
     options.push({
       weight: upperRounded,
       price,
-      label: `${fmt(lowerRounded)}-${fmt(upperRounded)} kg — ${price.toFixed(2).replace('.', ',')} €`,
+      label: `${fmt(lowerRounded)} – ${fmt(upperRounded)} kg   ·   ${price.toFixed(2).replace('.', ',')} €`,
     });
   }
   return options;
