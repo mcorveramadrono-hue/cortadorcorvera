@@ -91,7 +91,7 @@ const Producto = () => {
       selectedWeight: option.weight,
       price: option.price,
       quantity: 1,
-      withKnife: effectiveWithKnife,
+      withKnife,
     });
     setAdded({ name: product.name, weight: option.weight });
   };
