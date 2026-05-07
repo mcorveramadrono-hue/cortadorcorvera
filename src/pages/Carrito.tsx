@@ -66,7 +66,10 @@ const Carrito = () => {
           ) : (
             <div className="space-y-6">
               {items.map((item, index) => {
-                const itemTotal = (item.price + (item.withKnife ? item.product.knifeSupplementPrice : 0)) * item.quantity;
+                const itemPromo = getPromotion(item.product.id);
+                const itemKnifeFree = itemPromo?.type === "free-knife";
+                const itemKnifeCost = item.withKnife && !itemKnifeFree ? item.product.knifeSupplementPrice : 0;
+                const itemTotal = (item.price + itemKnifeCost) * item.quantity;
 
                 return (
                   <div key={index} className="flex gap-4 p-4 border border-border bg-card">
