@@ -68,3 +68,5 @@ export const PROMOTIONS: Promotion[] = [
 export function getPromotion(productId: string): Promotion | undefined {
   return PROMOTIONS.find((p) => p.productId === productId);
 }
+
+export const FEATURED_PROMOTIONS = PROMOTIONS.filter((p) => p.featured);
