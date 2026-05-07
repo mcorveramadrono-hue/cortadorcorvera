@@ -87,6 +87,19 @@ const Producto = () => {
   const knifeCost = withKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
   const totalPrice = option.price + knifeCost;
 
+  const handleBack = () => {
+    if (from === "marca" && brand) {
+      navigate(`/tienda/${brand}`);
+    } else if (from === "tienda") {
+      navigate("/tienda");
+    } else if (from === "ofertas") {
+      navigate("/ofertas");
+    } else {
+      if (window.history.length > 1) navigate(-1);
+      else navigate("/tienda");
+    }
+  };
+
   const handleAdd = () => {
     addItem({
       product,
