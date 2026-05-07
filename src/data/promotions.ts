@@ -9,10 +9,20 @@ export interface Promotion {
   badge: string;        // texto del badge corto
   title: string;        // título largo en página de ofertas
   description: string;  // descripción para tarjeta
+  featured?: boolean;   // se muestra en el home (las demás solo en /ofertas)
   cta?: string;
 }
 
 export const PROMOTIONS: Promotion[] = [
+  {
+    productId: "lajoya-jamon-bellota-100",
+    type: "free-knife",
+    badge: "CORTE A CUCHILLO GRATIS",
+    title: "Corte a cuchillo gratis con el Jamón Bellota 100% Ibérico Jabugo La Joya",
+    description:
+      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+    featured: true,
+  },
   {
     productId: "lajoya-jamon-cebo-50",
     type: "coupon-10",
