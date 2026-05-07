@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Tag, ArrowRight } from "lucide-react";
-import { PROMOTIONS } from "@/data/promotions";
+import { FEATURED_PROMOTIONS } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
 
