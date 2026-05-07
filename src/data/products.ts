@@ -74,15 +74,14 @@ export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
   const options: WeightOption[] = [];
-  for (let upper = minKg + stepKg; upper <= maxKg + 0.01; upper += stepKg) {
-    const upperRounded = Math.round(upper * 10) / 10;
-    const lowerRounded = Math.round((upper - stepKg) * 10) / 10;
-    const price = Math.round(upperRounded * pricePerKg * 100) / 100;
+  for (let w = minKg; w <= maxKg + 0.01; w += stepKg) {
+    const weight = Math.round(w * 10) / 10;
+    const price = Math.round(weight * pricePerKg * 100) / 100;
     const fmt = (n: number) => n.toFixed(1).replace('.', ',');
     options.push({
-      weight: upperRounded,
+      weight,
       price,
-      label: `${fmt(lowerRounded)} – ${fmt(upperRounded)} kg   ·   ${price.toFixed(2).replace('.', ',')} €`,
+      label: `${fmt(weight)} kg (aproximado)   ·   ${price.toFixed(2).replace('.', ',')} €`,
     });
   }
   return options;
@@ -298,7 +297,7 @@ export const products: Product[] = [
     description: "Paleta de bellota 100% ibérica con D.O.P. Jabugo. Curación lenta y sabor profundo en cada loncha.",
     pricePerKg: 52.222,
     images: [lajoyaPaletaBellota100, lajoyaAmbient5, lajoyaAmbient3, lajoyaCaja],
-    weightOptions: generateWeightOptions(4.5, 5.5, 0.5, 52.222),
+    weightOptions: generateWeightOptions(4.5, 5.5, 0.5, 52.22),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
@@ -348,7 +347,7 @@ export const products: Product[] = [
     description: "Jamón de cebo ibérico 50% raza ibérica con más de 28 meses de curación. Sabor equilibrado, textura melosa y un perfil amable, ideal para el día a día y para iniciarse en el ibérico sin renunciar a la calidad.",
     pricePerKg: 34.98,
     images: [epicumJamonCebo50],
-    weightOptions: generateWeightOptions(8, 9, 0.5, 34.98),
+    weightOptions: generateWeightOptions(7.5, 9.5, 0.5, 34.98),
     curing: "Más de 28 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
@@ -362,7 +361,7 @@ export const products: Product[] = [
     description: "Jamón de cebo ibérico 50% raza ibérica de Finura de Ibérico, con sistema integral de producción y ganadería propia. Curación tradicional que aporta un sabor redondo y una textura suave en boca.",
     pricePerKg: 34.98,
     images: [finuraJamonCebo50],
-    weightOptions: generateWeightOptions(8, 9, 0.5, 34.98),
+    weightOptions: generateWeightOptions(7.5, 9.5, 0.5, 34.98),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 50,
     category: "jamon",

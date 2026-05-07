@@ -160,28 +160,30 @@ const Tienda = () => {
 
   const hasActiveFilters = !!search || category !== "all" || selectedBrands.length > 0 || selectedQualities.length > 0 || priceRange[0] !== PRICE_MIN || priceRange[1] !== PRICE_MAX || sortBy !== "default";
 
+  const searchInput = (
+    <div className="relative">
+      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Busca por nombre, tipo o descripción…"
+        className="w-full pl-10 pr-10 py-3 bg-background border border-border focus:border-primary outline-none text-sm"
+      />
+      {search && (
+        <button
+          onClick={() => setSearch("")}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          aria-label="Limpiar búsqueda"
+        >
+          <X size={16} />
+        </button>
+      )}
+    </div>
+  );
+
   const filtersContent = (
     <>
-      {/* Search */}
-      <div className="relative">
-        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Busca por nombre, tipo o descripción…"
-          className="w-full pl-10 pr-10 py-3 bg-background border border-border focus:border-primary outline-none text-sm"
-        />
-        {search && (
-          <button
-            onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Limpiar búsqueda"
-          >
-            <X size={16} />
-          </button>
-        )}
-      </div>
 
       {/* Ordenar */}
       <div className="flex flex-wrap items-center gap-2">
@@ -318,8 +320,9 @@ const Tienda = () => {
             </p>
           </div>
 
-          {/* Mobile: filters toggle */}
-          <div className="md:hidden mb-4">
+          {/* Mobile: search above filters toggle */}
+          <div className="md:hidden mb-4 space-y-3">
+            {searchInput}
             <button
               onClick={() => setFiltersOpen((v) => !v)}
               className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-corvera-cream/30 border border-border text-sm tracking-widest uppercase text-foreground"
@@ -335,7 +338,7 @@ const Tienda = () => {
               <ChevronDown size={18} className={`transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
             </button>
             {filtersOpen && (
-              <div className="bg-corvera-cream/30 border border-t-0 border-border p-4 space-y-4">
+              <div className="bg-corvera-cream/30 border border-border p-4 space-y-4">
                 {filtersContent}
               </div>
             )}
@@ -344,6 +347,7 @@ const Tienda = () => {
           {/* Desktop: filters always visible */}
           <div className="hidden md:block">
             <div className="bg-corvera-cream/30 border border-border p-6 mb-8 space-y-4">
+              {searchInput}
               {filtersContent}
             </div>
           </div>
