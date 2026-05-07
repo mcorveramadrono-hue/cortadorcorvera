@@ -160,28 +160,30 @@ const Tienda = () => {
 
   const hasActiveFilters = !!search || category !== "all" || selectedBrands.length > 0 || selectedQualities.length > 0 || priceRange[0] !== PRICE_MIN || priceRange[1] !== PRICE_MAX || sortBy !== "default";
 
+  const searchInput = (
+    <div className="relative">
+      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Busca por nombre, tipo o descripción…"
+        className="w-full pl-10 pr-10 py-3 bg-background border border-border focus:border-primary outline-none text-sm"
+      />
+      {search && (
+        <button
+          onClick={() => setSearch("")}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          aria-label="Limpiar búsqueda"
+        >
+          <X size={16} />
+        </button>
+      )}
+    </div>
+  );
+
   const filtersContent = (
     <>
-      {/* Search */}
-      <div className="relative">
-        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Busca por nombre, tipo o descripción…"
-          className="w-full pl-10 pr-10 py-3 bg-background border border-border focus:border-primary outline-none text-sm"
-        />
-        {search && (
-          <button
-            onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            aria-label="Limpiar búsqueda"
-          >
-            <X size={16} />
-          </button>
-        )}
-      </div>
 
       {/* Ordenar */}
       <div className="flex flex-wrap items-center gap-2">
