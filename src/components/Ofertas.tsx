@@ -3,6 +3,35 @@ import { Tag, ArrowRight } from "lucide-react";
 import { FEATURED_PROMOTIONS } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
+const PromoCard = ({ promo }: { promo: typeof FEATURED_PROMOTIONS[number] }) => {
+  const product = products.find((p) => p.id === promo.productId);
+  if (!product) return null;
+  return (
+    <Link
+      to={`/tienda/${product.brand}/${product.id}?from=ofertas`}
+      className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left flex flex-col h-full"
+    >
+      <div className="relative aspect-square bg-background overflow-hidden flex items-center justify-center p-4 md:p-6">
+        <img
+          src={product.images[0]}
+          alt={product.name}
+          loading="lazy"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+        />
+        <PromoBadge productId={product.id} className="absolute top-2 left-2" />
+      </div>
+      <div className="p-4 md:p-5 space-y-2 flex-1 flex flex-col">
+        <h3 className="font-serif text-base font-bold text-foreground leading-tight">{product.name}</h3>
+        <p className="text-xs md:text-sm text-muted-foreground flex-1 line-clamp-3">{promo.description}</p>
+        <div className="pt-2 inline-flex items-center gap-2 text-[10px] md:text-xs tracking-widest uppercase text-primary font-medium">
+          Ver oferta →
+        </div>
+      </div>
+    </Link>
+  );
+};
 
 const Ofertas = () => {
   const navigate = useNavigate();
