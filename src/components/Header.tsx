@@ -30,16 +30,21 @@ const Header = () => {
 
   const links = [
     { label: "Inicio", href: "#inicio" },
-    { label: "Tienda", href: "#productos" },
+    { label: "Tienda", href: "/tienda" },
     { label: "Corte Original", href: "#sobre-nosotros" },
     { label: "Servicios", href: "#servicios" },
     { label: "Contacto", href: "#contacto" },
   ];
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, e: React.MouseEvent) => {
     setIsOpen(false);
-    // If we're not on the home page, navigate there first
+    if (href.startsWith("/")) {
+      e.preventDefault();
+      navigate(href);
+      return;
+    }
     if (window.location.pathname !== "/") {
+      e.preventDefault();
       navigate("/" + href);
     }
   };
@@ -61,8 +66,8 @@ const Header = () => {
           {links.map((link) => (
             <a
               key={link.href}
-              href={window.location.pathname === "/" ? link.href : `/${link.href}`}
-              onClick={() => handleNavClick(link.href)}
+              href={link.href.startsWith("/") ? link.href : (window.location.pathname === "/" ? link.href : `/${link.href}`)}
+              onClick={(e) => handleNavClick(link.href, e)}
               className="text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors duration-300"
             >
               {link.label}
@@ -103,8 +108,8 @@ const Header = () => {
             {links.map((link) => (
               <a
                 key={link.href}
-                href={window.location.pathname === "/" ? link.href : `/${link.href}`}
-                onClick={() => handleNavClick(link.href)}
+                href={link.href.startsWith("/") ? link.href : (window.location.pathname === "/" ? link.href : `/${link.href}`)}
+                onClick={(e) => handleNavClick(link.href, e)}
                 className="text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors"
               >
                 {link.label}
