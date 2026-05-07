@@ -40,8 +40,8 @@ import lajoyaAmbient6 from "@/assets/products/lajoya/ambient-6.jpg";
 import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 
 // Epicum & Finura
-import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpeg";
-import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpeg";
+import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpg";
+import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
 export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura";
 
