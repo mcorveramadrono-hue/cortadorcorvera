@@ -7,6 +7,7 @@ import Gallery from "@/components/Gallery";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import PromoBanner from "@/components/PromoBanner";
+import Ofertas from "@/components/Ofertas";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <Ofertas />
         <Products />
         <About />
         <Services />

@@ -53,7 +53,7 @@ const Services = () => {
   const [selectedService, setSelectedService] = useState("");
 
   return (
-    <section id="servicios" className="relative py-24 bg-corvera-cream overflow-hidden">
+    <section id="servicios" className="relative py-24 bg-background overflow-hidden">
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 space-y-4">
