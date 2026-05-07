@@ -49,37 +49,26 @@ const Ofertas = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {FEATURED_PROMOTIONS.map((promo) => {
-            const product = products.find((p) => p.id === promo.productId);
-            if (!product) return null;
-            return (
-              <Link
-                key={promo.productId}
-                to={`/tienda/${product.brand}/${product.id}?from=ofertas`}
-                className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left flex flex-col"
-              >
-                <div className="relative aspect-square bg-background overflow-hidden flex items-center justify-center p-2 md:p-6">
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    loading="lazy"
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <PromoBadge productId={product.id} className="absolute top-2 left-2" />
-                </div>
-                <div className="p-3 md:p-5 space-y-2 flex-1 flex flex-col">
-                  <h3 className="font-serif text-sm md:text-base font-bold text-foreground leading-tight">
-                    {product.name}
-                  </h3>
-                  <p className="text-[11px] md:text-sm text-muted-foreground flex-1 line-clamp-3">{promo.description}</p>
-                  <div className="pt-2 inline-flex items-center gap-2 text-[10px] md:text-xs tracking-widest uppercase text-primary font-medium">
-                    Ver oferta →
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+        {/* Mobile: carousel one-by-one */}
+        <div className="md:hidden">
+          <Carousel opts={{ loop: true, align: "start" }} className="w-full">
+            <CarouselContent>
+              {FEATURED_PROMOTIONS.map((promo) => (
+                <CarouselItem key={promo.productId} className="basis-full">
+                  <PromoCard promo={promo} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
+        </div>
+
+        {/* Desktop/tablet: grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
+          {FEATURED_PROMOTIONS.map((promo) => (
+            <PromoCard key={promo.productId} promo={promo} />
+          ))}
         </div>
 
         <div className="text-center mt-10">
