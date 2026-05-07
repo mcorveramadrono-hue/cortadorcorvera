@@ -84,11 +84,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateKnife = (index: number, withKnife: boolean) => {
     setItems((prev) => {
       const updated = [...prev];
-      const item = updated[index];
-      const promo = getPromotion(item.product.id);
-      // Promo de cuchillo gratis: no permitir desactivar
-      if (promo?.type === "free-knife" && !withKnife) return prev;
-      updated[index] = { ...item, withKnife };
+      updated[index] = { ...updated[index], withKnife };
       return updated;
     });
   };
