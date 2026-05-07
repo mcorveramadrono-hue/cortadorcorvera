@@ -127,6 +127,19 @@ serve(async (req) => {
       await supabase.from("orders").update(updates).eq("id", order.id);
     }
 
+    // Marcar cupón como usado cuando el pago de tarjeta se confirma
+    if (isCard) {
+      const couponMatch = (order.notes || "").match(/\[CUPÓN\s+([A-Z0-9-]+)/i);
+      if (couponMatch) {
+        const code = couponMatch[1].toUpperCase();
+        await supabase
+          .from("discount_coupons")
+          .update({ used: true, used_at: new Date().toISOString(), used_order_id: order.id })
+          .eq("code", code)
+          .eq("used", false);
+      }
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
     const confirmPaymentUrl = !isCard && confirmationToken
       ? `${supabaseUrl}/functions/v1/confirm-payment?orderId=${order.id}&token=${confirmationToken}`
