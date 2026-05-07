@@ -41,6 +41,8 @@ const Tienda = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedQualities, setSelectedQualities] = useState<Quality[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,15 +59,18 @@ const Tienda = () => {
   }, []);
 
   const toggleBrand = (id: string) => {
-    setSelectedBrands((prev) =>
-      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
-    );
+    setSelectedBrands((prev) => prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]);
+  };
+  const toggleQuality = (id: Quality) => {
+    setSelectedQualities((prev) => prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]);
   };
 
   const clearFilters = () => {
     setSearch("");
     setCategory("all");
     setSelectedBrands([]);
+    setSelectedQualities([]);
+    setPriceRange([PRICE_MIN, PRICE_MAX]);
   };
 
   const filtered = useMemo(() => {
@@ -73,10 +78,13 @@ const Tienda = () => {
     return products.filter((p) => {
       if (category !== "all" && p.category !== category) return false;
       if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand)) return false;
+      if (selectedQualities.length > 0 && !selectedQualities.includes(getQuality(p))) return false;
+      const price = getMinPrice(p);
+      if (price < priceRange[0] || price > priceRange[1]) return false;
       if (q && !`${p.name} ${p.description}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [search, category, selectedBrands]);
+  }, [search, category, selectedBrands, selectedQualities, priceRange]);
 
   const renderProductCard = (product: Product) => {
     const minPrice = product.weightOptions.reduce(
