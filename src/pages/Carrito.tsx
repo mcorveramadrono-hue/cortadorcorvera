@@ -110,7 +110,12 @@ const Carrito = () => {
                         />
                         <Scissors size={14} className="text-muted-foreground" />
                         <span className="text-xs text-muted-foreground">
-                          Corte a cuchillo (+{item.product.knifeSupplementPrice} €)
+                          Corte a cuchillo{" "}
+                          {itemKnifeFree ? (
+                            <strong className="text-primary">GRATIS</strong>
+                          ) : (
+                            <>(+{item.product.knifeSupplementPrice} €)</>
+                          )}
                         </span>
                       </label>
                     </div>
