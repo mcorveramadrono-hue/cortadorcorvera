@@ -21,18 +21,19 @@ const Carrito = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { items, removeItem, updateQuantity, updateKnife, subtotal, totalWeight, shippingCost, total, promoApplied, promoCode, applyPromoCode, removePromoCode } = useCart();
+  const { items, removeItem, updateQuantity, updateKnife, subtotal, totalWeight, shippingCost, discountAmount, total, promoApplied, promoCode, appliedCoupon, applyPromoCode, removePromoCode, hasPromoFreeShipping } = useCart();
 
-  const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const productSubtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const knifeTotal = subtotal - productSubtotal;
   const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
-  const productSubtotal = subtotal - knifeTotal;
 
-  const handleApplyPromo = () => {
-    if (applyPromoCode(promoInput)) {
-      toast({ title: "¡Código aplicado!", description: "Envío gratuito en tu pedido." });
+  const handleApplyPromo = async () => {
+    const res = await applyPromoCode(promoInput);
+    if (res.ok) {
+      toast({ title: "¡Código aplicado!", description: res.message });
       setPromoInput("");
     } else {
-      toast({ title: "Código inválido", description: "El código promocional no es válido.", variant: "destructive" });
+      toast({ title: "Código inválido", description: res.message, variant: "destructive" });
     }
   };
 
@@ -173,13 +174,25 @@ const Carrito = () => {
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">
                     Envío{" "}
-                    {promoApplied && <span className="text-primary">(Código SEMANASANTA)</span>}
-                    {!promoApplied && totalWeight >= 20 && <span className="text-primary">(¡Gratis!)</span>}
+                    {appliedCoupon?.type === "free-shipping" && <span className="text-primary">(Código {promoCode})</span>}
+                    {!appliedCoupon && hasPromoFreeShipping && <span className="text-primary">(¡Gratis por promoción!)</span>}
+                    {!appliedCoupon && !hasPromoFreeShipping && totalWeight >= 20 && <span className="text-primary">(¡Gratis!)</span>}
                   </span>
                   <span className={`text-foreground font-medium ${shippingCost === 0 ? "text-primary" : ""}`}>
                     {shippingCost === 0 ? "Gratis" : `${shippingCost.toFixed(2).replace('.', ',')} €`}
                   </span>
                 </div>
+                {discountAmount > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Descuento <span className="text-primary">({promoCode})</span></span>
+                    <span className="text-primary font-medium">-{discountAmount.toFixed(2).replace('.', ',')} €</span>
+                  </div>
+                )}
+                {appliedCoupon?.type === "amount-off" && discountAmount === 0 && (
+                  <p className="text-[11px] text-muted-foreground italic">
+                    El cupón {promoCode} se aplicará al alcanzar {appliedCoupon.minOrderTotal}€ en productos.
+                  </p>
+                )}
                 <div className="border-t border-border pt-3 flex justify-between">
                   <span className="font-serif text-lg font-bold text-foreground">Total</span>
                   <span className="font-serif text-lg font-bold text-primary">{total.toFixed(2).replace('.', ',')} €</span>

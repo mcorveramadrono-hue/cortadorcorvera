@@ -1,5 +1,7 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import type { Product } from "@/data/products";
+import { getPromotion } from "@/data/promotions";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface CartItem {
   product: Product;
@@ -7,6 +9,13 @@ export interface CartItem {
   price: number;
   quantity: number;
   withKnife: boolean;
+}
+
+export interface AppliedCoupon {
+  code: string;
+  type: "free-shipping" | "amount-off";
+  amount?: number; // si amount-off
+  minOrderTotal?: number;
 }
 
 interface CartContextType {
@@ -20,11 +29,15 @@ interface CartContextType {
   subtotal: number;
   totalWeight: number;
   shippingCost: number;
+  discountAmount: number;
   total: number;
   promoCode: string;
   promoApplied: boolean;
-  applyPromoCode: (code: string) => boolean;
+  appliedCoupon: AppliedCoupon | null;
+  applyPromoCode: (code: string) => Promise<{ ok: boolean; message: string }>;
   removePromoCode: () => void;
+  hasPromoFreeShipping: boolean;
+  hasPromoFreeKnife: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -33,26 +46,44 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
+
+  // Forzar corte a cuchillo gratuito cuando hay promo "free-knife"
+  useEffect(() => {
+    setItems((prev) => {
+      let changed = false;
+      const updated = prev.map((it) => {
+        const promo = getPromotion(it.product.id);
+        if (promo?.type === "free-knife" && !it.withKnife) {
+          changed = true;
+          return { ...it, withKnife: true };
+        }
+        return it;
+      });
+      return changed ? updated : prev;
+    });
+  }, [items.length]);
 
   const addItem = (newItem: CartItem) => {
+    const promo = getPromotion(newItem.product.id);
+    const finalItem =
+      promo?.type === "free-knife" ? { ...newItem, withKnife: true } : newItem;
     setItems((prev) => {
       const existingIdx = prev.findIndex(
         (i) =>
-          i.product.id === newItem.product.id &&
-          i.selectedWeight === newItem.selectedWeight,
+          i.product.id === finalItem.product.id &&
+          i.selectedWeight === finalItem.selectedWeight,
       );
-
       if (existingIdx >= 0) {
         const updated = [...prev];
         updated[existingIdx] = {
           ...updated[existingIdx],
-          quantity: updated[existingIdx].quantity + newItem.quantity,
-          withKnife: updated[existingIdx].withKnife || newItem.withKnife,
+          quantity: updated[existingIdx].quantity + finalItem.quantity,
+          withKnife: updated[existingIdx].withKnife || finalItem.withKnife,
         };
         return updated;
       }
-
-      return [...prev, newItem];
+      return [...prev, finalItem];
     });
   };
 
@@ -72,7 +103,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateKnife = (index: number, withKnife: boolean) => {
     setItems((prev) => {
       const updated = [...prev];
-      updated[index] = { ...updated[index], withKnife };
+      const item = updated[index];
+      const promo = getPromotion(item.product.id);
+      // Promo de cuchillo gratis: no permitir desactivar
+      if (promo?.type === "free-knife" && !withKnife) return prev;
+      updated[index] = { ...item, withKnife };
       return updated;
     });
   };
@@ -81,40 +116,87 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setItems([]);
     setPromoCode("");
     setPromoApplied(false);
+    setAppliedCoupon(null);
   };
 
-  const applyPromoCode = (code: string): boolean => {
+  const applyPromoCode = async (code: string): Promise<{ ok: boolean; message: string }> => {
     const normalized = code.trim().toUpperCase();
+    if (!normalized) return { ok: false, message: "Introduce un código." };
+
     if (normalized === "MAMA3") {
       setPromoCode(normalized);
       setPromoApplied(true);
-      return true;
+      setAppliedCoupon({ code: normalized, type: "free-shipping" });
+      return { ok: true, message: "Envío gratuito aplicado." };
     }
-    return false;
+
+    // Validar contra el backend (cupones 10€)
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-coupon", {
+        body: { code: normalized },
+      });
+      if (error || !data?.valid) {
+        return { ok: false, message: data?.error || "Código no válido." };
+      }
+      setPromoCode(normalized);
+      setPromoApplied(true);
+      setAppliedCoupon({
+        code: normalized,
+        type: "amount-off",
+        amount: Number(data.amount),
+        minOrderTotal: Number(data.minOrderTotal),
+      });
+      return { ok: true, message: `Descuento de ${data.amount}€ listo para aplicar.` };
+    } catch {
+      return { ok: false, message: "No se pudo validar el código." };
+    }
   };
 
   const removePromoCode = () => {
     setPromoCode("");
     setPromoApplied(false);
+    setAppliedCoupon(null);
   };
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   const subtotal = items.reduce((sum, i) => {
-    const itemPrice = i.price + (i.withKnife ? i.product.knifeSupplementPrice : 0);
-    return sum + itemPrice * i.quantity;
+    // El corte a cuchillo es gratis si el producto tiene promo "free-knife"
+    const promo = getPromotion(i.product.id);
+    const knifeFree = promo?.type === "free-knife";
+    const knifeCost = i.withKnife && !knifeFree ? i.product.knifeSupplementPrice : 0;
+    return sum + (i.price + knifeCost) * i.quantity;
   }, 0);
 
   const totalWeight = items.reduce((sum, i) => sum + i.selectedWeight * i.quantity, 0);
 
-  const baseShippingCost = totalWeight >= 20 ? 0 : 5;
-  const shippingCost = promoApplied ? 0 : baseShippingCost;
+  // Envío gratis si hay producto con promo de envío gratis, peso >= 20, o cupón free-shipping
+  const hasPromoFreeShipping = items.some((i) => getPromotion(i.product.id)?.type === "free-shipping");
+  const hasPromoFreeKnife = items.some((i) => getPromotion(i.product.id)?.type === "free-knife");
 
-  const total = subtotal + shippingCost;
+  const baseShippingCost = totalWeight >= 20 || hasPromoFreeShipping ? 0 : 5;
+  const couponFreeShipping = appliedCoupon?.type === "free-shipping";
+  const shippingCost = couponFreeShipping ? 0 : baseShippingCost;
+
+  // Cupón de importe: solo si subtotal >= mínimo
+  const discountAmount =
+    appliedCoupon?.type === "amount-off" &&
+    appliedCoupon.amount &&
+    subtotal >= (appliedCoupon.minOrderTotal ?? 0)
+      ? Math.min(appliedCoupon.amount, subtotal)
+      : 0;
+
+  const total = Math.max(0, subtotal + shippingCost - discountAmount);
 
   return (
     <CartContext.Provider
-      value={{ items, addItem, removeItem, updateQuantity, updateKnife, clearCart, totalItems, subtotal, totalWeight, shippingCost, total, promoCode, promoApplied, applyPromoCode, removePromoCode }}
+      value={{
+        items, addItem, removeItem, updateQuantity, updateKnife, clearCart,
+        totalItems, subtotal, totalWeight, shippingCost, discountAmount, total,
+        promoCode, promoApplied, appliedCoupon,
+        applyPromoCode, removePromoCode,
+        hasPromoFreeShipping, hasPromoFreeKnife,
+      }}
     >
       {children}
     </CartContext.Provider>

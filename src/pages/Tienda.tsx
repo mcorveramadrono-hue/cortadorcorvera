@@ -6,6 +6,7 @@ import type { Product } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Slider } from "@/components/ui/slider";
+import PromoBadge from "@/components/PromoBadge";
 
 type CategoryFilter = "all" | "jamon" | "paleta";
 type SortOption = "default" | "price-asc" | "price-desc";
@@ -151,11 +152,12 @@ const Tienda = () => {
 
     return (
       <Link
-        to={`/tienda/${product.brand}/${product.id}`}
+        to={`/tienda/${product.brand}/${product.id}?from=tienda`}
         key={product.id}
         className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col"
       >
         <div className="overflow-hidden bg-corvera-cream/30 relative">
+          <PromoBadge productId={product.id} className="absolute top-2 left-2 z-10" />
           <img
             src={product.images[0]}
             alt={product.name}

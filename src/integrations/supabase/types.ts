@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      discount_coupons: {
+        Row: {
+          amount: number
+          code: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          min_order_total: number
+          source_order_id: string | null
+          used: boolean
+          used_at: string | null
+          used_order_id: string | null
+        }
+        Insert: {
+          amount?: number
+          code: string
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          min_order_total?: number
+          source_order_id?: string | null
+          used?: boolean
+          used_at?: string | null
+          used_order_id?: string | null
+        }
+        Update: {
+          amount?: number
+          code?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          min_order_total?: number
+          source_order_id?: string | null
+          used?: boolean
+          used_at?: string | null
+          used_order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discount_coupons_source_order_id_fkey"
+            columns: ["source_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discount_coupons_used_order_id_fkey"
+            columns: ["used_order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_send_log: {
         Row: {
           created_at: string

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, ShoppingCart } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Tag } from "lucide-react";
 import { useNavigate, useParams, Navigate } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
+import { getPromotion } from "@/data/promotions";
 import { useCart } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PromoBadge from "@/components/PromoBadge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CheckCircle2 } from "lucide-react";
 
@@ -77,8 +79,12 @@ const Producto = () => {
 
   if (!product || !brandInfo) return <Navigate to="/tienda" replace />;
 
+  const promo = getPromotion(product.id);
+  const knifeIsFree = promo?.type === "free-knife";
+  const effectiveWithKnife = knifeIsFree ? true : withKnife;
   const option = product.weightOptions[weightIdx];
-  const totalPrice = option.price + (withKnife ? product.knifeSupplementPrice : 0);
+  const knifeCost = effectiveWithKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
+  const totalPrice = option.price + knifeCost;
 
   const handleAdd = () => {
     addItem({
@@ -86,7 +92,7 @@ const Producto = () => {
       selectedWeight: option.weight,
       price: option.price,
       quantity: 1,
-      withKnife,
+      withKnife: effectiveWithKnife,
     });
     setAdded({ name: product.name, weight: option.weight });
   };
@@ -104,13 +110,13 @@ const Producto = () => {
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft size={16} />
-            Volver a la tienda
+            Volver
           </button>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div className="space-y-4">
               <div
-                className="bg-corvera-cream/30 p-6 overflow-hidden cursor-zoom-in group"
+                className="bg-corvera-cream/30 p-6 overflow-hidden cursor-zoom-in group relative"
                 onMouseMove={(e) => {
                   const r = e.currentTarget.getBoundingClientRect();
                   const x = ((e.clientX - r.left) / r.width) * 100;
@@ -126,6 +132,7 @@ const Producto = () => {
                   if (img) img.style.transform = 'scale(1)';
                 }}
               >
+                <PromoBadge productId={product.id} className="absolute top-3 left-3 z-10" size="md" />
                 <img
                   src={product.images[imageIdx]}
                   alt={product.name}
@@ -152,6 +159,16 @@ const Producto = () => {
                 <p className="text-xs tracking-[0.3em] uppercase text-primary mb-2">{brandInfo.name}</p>
                 <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">{product.name}</h1>
               </div>
+
+              {promo && (
+                <div className="border-l-4 border-primary bg-primary/5 px-4 py-3 flex items-start gap-3">
+                  <Tag size={18} className="text-primary flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs tracking-widest uppercase text-primary font-bold">{promo.badge}</p>
+                    <p className="text-sm text-foreground mt-0.5">{promo.description}</p>
+                  </div>
+                </div>
+              )}
 
               <p className="text-muted-foreground leading-relaxed">{product.description}</p>
 
@@ -189,15 +206,24 @@ const Producto = () => {
                 </select>
               </div>
 
-              <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={withKnife}
-                  onChange={(e) => setWithKnife(e.target.checked)}
-                  className="w-4 h-4 accent-primary"
-                />
-                <span className="text-sm text-foreground">Cortado a cuchillo (+{product.knifeSupplementPrice} €)</span>
-              </label>
+              {knifeIsFree ? (
+                <div className="flex items-center gap-3 p-3 border border-primary bg-primary/5">
+                  <input type="checkbox" checked readOnly className="w-4 h-4 accent-primary" />
+                  <span className="text-sm text-foreground">
+                    Cortado a cuchillo <strong className="text-primary">GRATIS</strong> (incluido por promoción)
+                  </span>
+                </div>
+              ) : (
+                <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={withKnife}
+                    onChange={(e) => setWithKnife(e.target.checked)}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <span className="text-sm text-foreground">Cortado a cuchillo (+{product.knifeSupplementPrice} €)</span>
+                </label>
+              )}
 
               <div className="pt-4 border-t border-border">
                 <div className="flex items-baseline justify-between mb-4">

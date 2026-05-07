@@ -58,9 +58,10 @@ serve(async (req) => {
       });
     }
 
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      serviceKey,
     );
 
     // Internal calls to send-transactional-email require service_role auth.
@@ -185,10 +186,27 @@ serve(async (req) => {
       },
     });
 
+    // Emite cupón 10€ si el pedido incluye el Jamón Cebo La Joya
+    const triggers = safeItems.some((it) => it.product_name.includes("Jamón Cebo 50% Ibérico Jabugo"));
+    if (triggers) {
+      const code = `CORV-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+      const { error: couponError } = await supabase.from("discount_coupons").insert({
+        code, email: order.email, amount: 10, min_order_total: 150, source_order_id: order.id,
+      });
+      if (!couponError) {
+        await enqueueAppEmail(supabaseUrl, serviceKey, {
+          templateName: "coupon-issued",
+          recipientEmail: order.email,
+          idempotencyKey: `coupon-issued-${order.id}`,
+          templateData: { firstName: order.first_name, code, amount: 10, minOrderTotal: 150 },
+        });
+      }
+    }
+
     // For card payments, payment is already confirmed (Stripe). Send the
     // "ready to ship" email to the owner immediately.
     if (isCard) {
-      await enqueueAppEmail(supabaseUrl, anonKey, {
+      await enqueueAppEmail(supabaseUrl, serviceKey, {
         templateName: "owner-shipping-link",
         recipientEmail: OWNER_EMAIL,
         idempotencyKey: `owner-shipping-link-${order.id}`,

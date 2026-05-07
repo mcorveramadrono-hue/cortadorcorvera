@@ -15,6 +15,7 @@ import PoliticaPrivacidad from "./pages/PoliticaPrivacidad";
 import Unsubscribe from "./pages/Unsubscribe";
 import ConfirmarPago from "./pages/ConfirmarPago";
 import MarcarEnvio from "./pages/MarcarEnvio";
+import Ofertas from "./pages/Ofertas";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="/confirmar-pago" element={<ConfirmarPago />} />
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />
+            <Route path="/ofertas" element={<Ofertas />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
