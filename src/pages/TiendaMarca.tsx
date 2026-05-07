@@ -10,6 +10,8 @@ import PromoBadge from "@/components/PromoBadge";
 const TiendaMarca = () => {
   const navigate = useNavigate();
   const { brand } = useParams<{ brand: string }>();
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get("from");
 
   const brandInfo = BRANDS.find((b) => b.id === brand);
 
