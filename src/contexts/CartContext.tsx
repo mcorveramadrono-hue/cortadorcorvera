@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import type { Product } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
 import { supabase } from "@/integrations/supabase/client";
@@ -48,42 +48,23 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [promoApplied, setPromoApplied] = useState(false);
   const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
 
-  // Forzar corte a cuchillo gratuito cuando hay promo "free-knife"
-  useEffect(() => {
-    setItems((prev) => {
-      let changed = false;
-      const updated = prev.map((it) => {
-        const promo = getPromotion(it.product.id);
-        if (promo?.type === "free-knife" && !it.withKnife) {
-          changed = true;
-          return { ...it, withKnife: true };
-        }
-        return it;
-      });
-      return changed ? updated : prev;
-    });
-  }, [items.length]);
-
   const addItem = (newItem: CartItem) => {
-    const promo = getPromotion(newItem.product.id);
-    const finalItem =
-      promo?.type === "free-knife" ? { ...newItem, withKnife: true } : newItem;
     setItems((prev) => {
       const existingIdx = prev.findIndex(
         (i) =>
-          i.product.id === finalItem.product.id &&
-          i.selectedWeight === finalItem.selectedWeight,
+          i.product.id === newItem.product.id &&
+          i.selectedWeight === newItem.selectedWeight,
       );
       if (existingIdx >= 0) {
         const updated = [...prev];
         updated[existingIdx] = {
           ...updated[existingIdx],
-          quantity: updated[existingIdx].quantity + finalItem.quantity,
-          withKnife: updated[existingIdx].withKnife || finalItem.withKnife,
+          quantity: updated[existingIdx].quantity + newItem.quantity,
+          withKnife: updated[existingIdx].withKnife || newItem.withKnife,
         };
         return updated;
       }
-      return [...prev, finalItem];
+      return [...prev, newItem];
     });
   };
 
@@ -103,11 +84,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const updateKnife = (index: number, withKnife: boolean) => {
     setItems((prev) => {
       const updated = [...prev];
-      const item = updated[index];
-      const promo = getPromotion(item.product.id);
-      // Promo de cuchillo gratis: no permitir desactivar
-      if (promo?.type === "free-knife" && !withKnife) return prev;
-      updated[index] = { ...item, withKnife };
+      updated[index] = { ...updated[index], withKnife };
       return updated;
     });
   };

@@ -91,6 +91,17 @@ serve(async (req) => {
       throw new Error("Failed to update order status: " + updateError.message);
     }
 
+    // Marcar cupón como usado si el pedido aplicó uno
+    const couponMatch = (order.notes || "").match(/\[CUPÓN\s+([A-Z0-9-]+)/i);
+    if (couponMatch) {
+      const code = couponMatch[1].toUpperCase();
+      await supabase
+        .from("discount_coupons")
+        .update({ used: true, used_at: new Date().toISOString(), used_order_id: orderId })
+        .eq("code", code)
+        .eq("used", false);
+    }
+
     // Fetch order items for the confirmation email
     const { data: items } = await supabase
       .from("order_items")

@@ -81,9 +81,8 @@ const Producto = () => {
 
   const promo = getPromotion(product.id);
   const knifeIsFree = promo?.type === "free-knife";
-  const effectiveWithKnife = knifeIsFree ? true : withKnife;
   const option = product.weightOptions[weightIdx];
-  const knifeCost = effectiveWithKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
+  const knifeCost = withKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
   const totalPrice = option.price + knifeCost;
 
   const handleAdd = () => {
@@ -92,7 +91,7 @@ const Producto = () => {
       selectedWeight: option.weight,
       price: option.price,
       quantity: 1,
-      withKnife: effectiveWithKnife,
+      withKnife,
     });
     setAdded({ name: product.name, weight: option.weight });
   };
@@ -206,24 +205,22 @@ const Producto = () => {
                 </select>
               </div>
 
-              {knifeIsFree ? (
-                <div className="flex items-center gap-3 p-3 border border-primary bg-primary/5">
-                  <input type="checkbox" checked readOnly className="w-4 h-4 accent-primary" />
-                  <span className="text-sm text-foreground">
-                    Cortado a cuchillo <strong className="text-primary">GRATIS</strong> (incluido por promoción)
-                  </span>
-                </div>
-              ) : (
-                <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={withKnife}
-                    onChange={(e) => setWithKnife(e.target.checked)}
-                    className="w-4 h-4 accent-primary"
-                  />
-                  <span className="text-sm text-foreground">Cortado a cuchillo (+{product.knifeSupplementPrice} €)</span>
-                </label>
-              )}
+              <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={withKnife}
+                  onChange={(e) => setWithKnife(e.target.checked)}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span className="text-sm text-foreground">
+                  Cortado a cuchillo{" "}
+                  {knifeIsFree ? (
+                    <strong className="text-primary">GRATIS (incluido por promoción)</strong>
+                  ) : (
+                    <>(+{product.knifeSupplementPrice} €)</>
+                  )}
+                </span>
+              </label>
 
               <div className="pt-4 border-t border-border">
                 <div className="flex items-baseline justify-between mb-4">

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Tag, ArrowRight } from "lucide-react";
-import { PROMOTIONS } from "@/data/promotions";
+import { FEATURED_PROMOTIONS } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
 
@@ -20,8 +20,8 @@ const Ofertas = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
-          {PROMOTIONS.map((promo) => {
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {FEATURED_PROMOTIONS.map((promo) => {
             const product = products.find((p) => p.id === promo.productId);
             if (!product) return null;
             return (
