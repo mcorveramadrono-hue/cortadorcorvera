@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, ShoppingCart, Tag } from "lucide-react";
-import { useNavigate, useParams, Navigate } from "react-router-dom";
+import { useNavigate, useParams, Navigate, useSearchParams } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
 import { useCart } from "@/contexts/CartContext";
@@ -12,6 +12,8 @@ import { CheckCircle2 } from "lucide-react";
 
 const Producto = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get("from");
   const { brand, productId } = useParams<{ brand: string; productId: string }>();
   const { addItem } = useCart();
   const [imageIdx, setImageIdx] = useState(0);
