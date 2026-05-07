@@ -125,7 +125,7 @@ const Tienda = () => {
     );
   };
 
-  const hasActiveFilters = search || category !== "all" || selectedBrands.length > 0;
+  const hasActiveFilters = !!search || category !== "all" || selectedBrands.length > 0 || selectedQualities.length > 0 || priceRange[0] !== PRICE_MIN || priceRange[1] !== PRICE_MAX;
 
   return (
     <div className="min-h-screen bg-background">
