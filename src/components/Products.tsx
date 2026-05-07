@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BRANDS } from "@/data/products";
-import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
-import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
+import cesarNietoImg from "@/assets/products/jamon-cebo-50.jpg";
+import laJoyaImg from "@/assets/products/lajoya/jamon-cebo-50.png";
+import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpg";
+import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpg";
 
 const brandImages: Record<string, string> = {
   "cesar-nieto": cesarNietoImg,
   "la-joya": laJoyaImg,
+  "epicum": epicumImg,
+  "finura": finuraImg,
 };
 
 const Products = () => {
@@ -19,11 +23,11 @@ const Products = () => {
           <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">Catálogo</p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Nuestras Marcas</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Trabajamos con dos casas de referencia del ibérico español. Selecciona una marca para descubrir todos sus jamones y paletas.
+            Trabajamos con varias casas de referencia del ibérico español. Selecciona una marca para descubrir todos sus jamones y paletas.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {BRANDS.map((brand) => (
             <button
               key={brand.id}

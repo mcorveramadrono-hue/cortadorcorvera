@@ -1,29 +1,48 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Search, X } from "lucide-react";
+import { ArrowLeft, Search, X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { BRANDS, products } from "@/data/products";
 import type { Product } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
-import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
-import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpg";
-import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpg";
-
-const brandImages: Record<string, string> = {
-  "cesar-nieto": cesarNietoImg,
-  "la-joya": laJoyaImg,
-  "epicum": epicumImg,
-  "finura": finuraImg,
-};
+import { Slider } from "@/components/ui/slider";
 
 type CategoryFilter = "all" | "jamon" | "paleta";
+
+type Quality = "bellota-100" | "bellota-75" | "bellota-50" | "cebo-campo" | "cebo";
+
+const QUALITIES: { id: Quality; label: string }[] = [
+  { id: "bellota-100", label: "Bellota 100%" },
+  { id: "bellota-75", label: "Bellota 75%" },
+  { id: "bellota-50", label: "Bellota 50%" },
+  { id: "cebo-campo", label: "Cebo de Campo" },
+  { id: "cebo", label: "Cebo" },
+];
+
+function getQuality(p: Product): Quality {
+  const n = p.name.toLowerCase();
+  if (n.includes("bellota") && n.includes("100")) return "bellota-100";
+  if (n.includes("bellota") && n.includes("75")) return "bellota-75";
+  if (n.includes("bellota") && n.includes("50")) return "bellota-50";
+  if (n.includes("cebo de campo") || n.includes("cebo campo")) return "cebo-campo";
+  return "cebo";
+}
+
+function getMinPrice(p: Product): number {
+  return p.weightOptions.reduce((m, o) => (o.price < m ? o.price : m), p.weightOptions[0].price);
+}
+
+const ALL_PRICES = products.map(getMinPrice);
+const PRICE_MIN = Math.floor(Math.min(...ALL_PRICES));
+const PRICE_MAX = Math.ceil(Math.max(...ALL_PRICES));
 
 const Tienda = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedQualities, setSelectedQualities] = useState<Quality[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([PRICE_MIN, PRICE_MAX]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,15 +59,18 @@ const Tienda = () => {
   }, []);
 
   const toggleBrand = (id: string) => {
-    setSelectedBrands((prev) =>
-      prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]
-    );
+    setSelectedBrands((prev) => prev.includes(id) ? prev.filter((b) => b !== id) : [...prev, id]);
+  };
+  const toggleQuality = (id: Quality) => {
+    setSelectedQualities((prev) => prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]);
   };
 
   const clearFilters = () => {
     setSearch("");
     setCategory("all");
     setSelectedBrands([]);
+    setSelectedQualities([]);
+    setPriceRange([PRICE_MIN, PRICE_MAX]);
   };
 
   const filtered = useMemo(() => {
@@ -56,10 +78,13 @@ const Tienda = () => {
     return products.filter((p) => {
       if (category !== "all" && p.category !== category) return false;
       if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand)) return false;
+      if (selectedQualities.length > 0 && !selectedQualities.includes(getQuality(p))) return false;
+      const price = getMinPrice(p);
+      if (price < priceRange[0] || price > priceRange[1]) return false;
       if (q && !`${p.name} ${p.description}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [search, category, selectedBrands]);
+  }, [search, category, selectedBrands, selectedQualities, priceRange]);
 
   const renderProductCard = (product: Product) => {
     const minPrice = product.weightOptions.reduce(
@@ -100,7 +125,7 @@ const Tienda = () => {
     );
   };
 
-  const hasActiveFilters = search || category !== "all" || selectedBrands.length > 0;
+  const hasActiveFilters = !!search || category !== "all" || selectedBrands.length > 0 || selectedQualities.length > 0 || priceRange[0] !== PRICE_MIN || priceRange[1] !== PRICE_MAX;
 
   return (
     <div className="min-h-screen bg-background">
@@ -125,40 +150,8 @@ const Tienda = () => {
             </p>
           </div>
 
-          {/* Marcas */}
-          <div className="mb-12">
-            <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-5 text-center">Comprar por marca</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {BRANDS.map((brand) => (
-                <button
-                  key={brand.id}
-                  onClick={() => navigate(`/tienda/${brand.id}`)}
-                  className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left"
-                >
-                  <div className="aspect-square bg-corvera-cream/30 overflow-hidden flex items-center justify-center p-4">
-                    <img
-                      src={brandImages[brand.id]}
-                      alt={brand.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-4 space-y-1">
-                    <h3 className="font-serif text-lg font-bold text-foreground">{brand.name}</h3>
-                    <p className="text-xs text-muted-foreground">{brand.tagline}</p>
-                    <div className="pt-2 inline-flex items-center gap-1.5 text-[11px] tracking-widest uppercase text-primary font-medium">
-                      Ver catálogo
-                      <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Buscador y filtros */}
-          <div className="border-t border-border pt-10">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">Todos los productos</h2>
-
+          <div>
             <div className="bg-corvera-cream/30 border border-border p-4 md:p-6 mb-8 space-y-4">
               {/* Search */}
               <div className="relative">
@@ -222,6 +215,45 @@ const Tienda = () => {
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Calidad */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs tracking-widest uppercase text-muted-foreground self-center mr-2">Calidad:</span>
+                {QUALITIES.map((q) => {
+                  const active = selectedQualities.includes(q.id);
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => toggleQuality(q.id)}
+                      className={`px-4 py-1.5 text-xs tracking-widest uppercase border transition-colors ${
+                        active
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-background border-border text-muted-foreground hover:border-primary"
+                      }`}
+                    >
+                      {q.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Precio */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs tracking-widest uppercase text-muted-foreground">Precio</span>
+                  <span className="text-xs text-foreground font-medium">
+                    {priceRange[0]} € — {priceRange[1]} €
+                  </span>
+                </div>
+                <Slider
+                  min={PRICE_MIN}
+                  max={PRICE_MAX}
+                  step={1}
+                  value={priceRange}
+                  onValueChange={(v) => setPriceRange([v[0], v[1]] as [number, number])}
+                  className="w-full"
+                />
               </div>
 
               {hasActiveFilters && (
