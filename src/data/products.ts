@@ -153,7 +153,7 @@ export const products: Product[] = [
     description: "Jamón seleccionado de forma artesanal, elaborado a partir de piezas escogidas por su excelente calidad y equilibrio de grasa infiltrada. Su curación lenta en bodegas naturales potencia un aroma intenso y un sabor suave y persistente en boca.",
     pricePerKg: 22.74,
     images: [jamonReservaFamiliar, jamonBellota1002],
-    weightOptions: generateWeightOptions(7, 7, 0.5, 22.74),
+    weightOptions: generateWeightOptions(6.5, 7, 0.5, 22.74),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
