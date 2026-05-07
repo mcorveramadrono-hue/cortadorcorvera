@@ -30,6 +30,7 @@ export const PROMOTIONS: Promotion[] = [
     title: "10€ de regalo con tu Jamón Cebo 50% Ibérico La Joya",
     description:
       "Llévate este jamón y recibirás por email un código único de 10€ de descuento aplicable a tu siguiente compra superior a 150€.",
+    featured: true,
   },
   {
     productId: "lajoya-jamon-bellota-50",
@@ -46,6 +47,7 @@ export const PROMOTIONS: Promotion[] = [
     title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
     description:
       "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
+    featured: true,
   },
   {
     productId: "epicum-jamon-cebo-iberico",
