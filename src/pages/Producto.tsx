@@ -117,10 +117,7 @@ const Producto = () => {
       <main className="pt-28 pb-16">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <button
-            onClick={() => {
-              if (window.history.length > 1) navigate(-1);
-              else navigate("/tienda");
-            }}
+            onClick={handleBack}
             className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft size={16} />
