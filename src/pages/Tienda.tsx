@@ -150,40 +150,8 @@ const Tienda = () => {
             </p>
           </div>
 
-          {/* Marcas */}
-          <div className="mb-12">
-            <h2 className="font-serif text-xl md:text-2xl font-bold text-foreground mb-5 text-center">Comprar por marca</h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {BRANDS.map((brand) => (
-                <button
-                  key={brand.id}
-                  onClick={() => navigate(`/tienda/${brand.id}`)}
-                  className="group relative bg-card border border-border hover:border-primary transition-all duration-300 overflow-hidden text-left"
-                >
-                  <div className="aspect-square bg-corvera-cream/30 overflow-hidden flex items-center justify-center p-4">
-                    <img
-                      src={brandImages[brand.id]}
-                      alt={brand.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-4 space-y-1">
-                    <h3 className="font-serif text-lg font-bold text-foreground">{brand.name}</h3>
-                    <p className="text-xs text-muted-foreground">{brand.tagline}</p>
-                    <div className="pt-2 inline-flex items-center gap-1.5 text-[11px] tracking-widest uppercase text-primary font-medium">
-                      Ver catálogo
-                      <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Buscador y filtros */}
-          <div className="border-t border-border pt-10">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground mb-6 text-center">Todos los productos</h2>
-
+          <div>
             <div className="bg-corvera-cream/30 border border-border p-4 md:p-6 mb-8 space-y-4">
               {/* Search */}
               <div className="relative">
