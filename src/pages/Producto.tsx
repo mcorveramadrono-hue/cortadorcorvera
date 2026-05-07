@@ -81,9 +81,8 @@ const Producto = () => {
 
   const promo = getPromotion(product.id);
   const knifeIsFree = promo?.type === "free-knife";
-  const effectiveWithKnife = knifeIsFree ? true : withKnife;
   const option = product.weightOptions[weightIdx];
-  const knifeCost = effectiveWithKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
+  const knifeCost = withKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
   const totalPrice = option.price + knifeCost;
 
   const handleAdd = () => {
