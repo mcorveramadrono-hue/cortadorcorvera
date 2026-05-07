@@ -2,11 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BRANDS } from "@/data/products";
 import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
-import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
+import laJoyaImg from "@/assets/products/lajoya/jamon-cebo-50.png";
+import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpg";
+import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpg";
 
 const brandImages: Record<string, string> = {
   "cesar-nieto": cesarNietoImg,
   "la-joya": laJoyaImg,
+  "epicum": epicumImg,
+  "finura": finuraImg,
 };
 
 const Products = () => {
