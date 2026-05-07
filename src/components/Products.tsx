@@ -23,11 +23,11 @@ const Products = () => {
           <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium">Catálogo</p>
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Nuestras Marcas</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Trabajamos con dos casas de referencia del ibérico español. Selecciona una marca para descubrir todos sus jamones y paletas.
+            Trabajamos con varias casas de referencia del ibérico español. Selecciona una marca para descubrir todos sus jamones y paletas.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {BRANDS.map((brand) => (
             <button
               key={brand.id}
