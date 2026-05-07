@@ -70,9 +70,9 @@ const Tienda = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Tienda | Jamones Ibéricos - Corvera Ibéricos";
+    document.title = "Tienda Jamón Ibérico Online | César Nieto, La Joya Jabugo, Epicum y Finura - Corvera Ibéricos";
     const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Compra jamón ibérico de bellota online: César Nieto, La Joya, Epicum y Finura. Envío a toda España. Corte a cuchillo.");
+    if (meta) meta.setAttribute("content", "Compra jamón ibérico de bellota y paleta ibérica online: César Nieto (Guijuelo), La Joya (Jabugo), Epicum y Finura. Bellota 100%, 75%, 50%, cebo y reserva familiar. Envío a toda España. Corte a cuchillo.");
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
       canonical = document.createElement('link');

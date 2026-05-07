@@ -22,12 +22,58 @@ const Producto = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (product) {
-      document.title = `${product.name} | Corvera Ibéricos`;
+    if (product && brandInfo) {
+      const minPrice = product.weightOptions.reduce((m, o) => (o.price < m ? o.price : m), product.weightOptions[0].price);
+      const maxPrice = product.weightOptions.reduce((m, o) => (o.price > m ? o.price : m), product.weightOptions[0].price);
+
+      document.title = `${product.name} | ${brandInfo.name} - Comprar online | Corvera Ibéricos`;
       const meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.setAttribute("content", product.description.slice(0, 155));
+      const desc = `${product.name} de ${brandInfo.name}. ${product.description.slice(0, 120)} Compra online con envío a toda España.`;
+      if (meta) meta.setAttribute("content", desc.slice(0, 160));
+
+      // Canonical
+      const canonicalHref = `https://corveraibericos.com/tienda/${product.brand}/${product.id}`;
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', canonicalHref);
+
+      // Product JSON-LD
+      const ldId = 'product-jsonld';
+      let script = document.getElementById(ldId) as HTMLScriptElement | null;
+      if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = ldId;
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        description: product.description,
+        brand: { "@type": "Brand", name: brandInfo.name },
+        category: product.category === "jamon" ? "Jamón Ibérico" : "Paleta Ibérica",
+        url: canonicalHref,
+        offers: {
+          "@type": "AggregateOffer",
+          lowPrice: minPrice.toFixed(2),
+          highPrice: maxPrice.toFixed(2),
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+          seller: { "@type": "Organization", name: "Corvera Ibéricos" },
+        },
+      });
+
+      return () => {
+        const s = document.getElementById(ldId);
+        if (s) s.remove();
+      };
     }
-  }, [product]);
+  }, [product, brandInfo]);
 
   if (!product || !brandInfo) return <Navigate to="/tienda" replace />;
 
