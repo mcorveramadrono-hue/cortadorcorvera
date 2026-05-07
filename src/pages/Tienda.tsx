@@ -320,8 +320,9 @@ const Tienda = () => {
             </p>
           </div>
 
-          {/* Mobile: filters toggle */}
-          <div className="md:hidden mb-4">
+          {/* Mobile: search above filters toggle */}
+          <div className="md:hidden mb-4 space-y-3">
+            {searchInput}
             <button
               onClick={() => setFiltersOpen((v) => !v)}
               className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-corvera-cream/30 border border-border text-sm tracking-widest uppercase text-foreground"
@@ -337,7 +338,7 @@ const Tienda = () => {
               <ChevronDown size={18} className={`transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
             </button>
             {filtersOpen && (
-              <div className="bg-corvera-cream/30 border border-t-0 border-border p-4 space-y-4">
+              <div className="bg-corvera-cream/30 border border-border p-4 space-y-4">
                 {filtersContent}
               </div>
             )}
@@ -346,6 +347,7 @@ const Tienda = () => {
           {/* Desktop: filters always visible */}
           <div className="hidden md:block">
             <div className="bg-corvera-cream/30 border border-border p-6 mb-8 space-y-4">
+              {searchInput}
               {filtersContent}
             </div>
           </div>
