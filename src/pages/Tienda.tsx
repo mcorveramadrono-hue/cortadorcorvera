@@ -1,23 +1,40 @@
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Search, X } from "lucide-react";
+import { ArrowLeft, Search, X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { BRANDS, products } from "@/data/products";
 import type { Product } from "@/data/products";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import cesarNietoImg from "@/assets/products/jamon-bellota-100-dop-cn.jpg";
-import laJoyaImg from "@/assets/products/lajoya/jamon-bellota-100.png";
-import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpg";
-import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpg";
-
-const brandImages: Record<string, string> = {
-  "cesar-nieto": cesarNietoImg,
-  "la-joya": laJoyaImg,
-  "epicum": epicumImg,
-  "finura": finuraImg,
-};
+import { Slider } from "@/components/ui/slider";
 
 type CategoryFilter = "all" | "jamon" | "paleta";
+
+type Quality = "bellota-100" | "bellota-75" | "bellota-50" | "cebo-campo" | "cebo";
+
+const QUALITIES: { id: Quality; label: string }[] = [
+  { id: "bellota-100", label: "Bellota 100%" },
+  { id: "bellota-75", label: "Bellota 75%" },
+  { id: "bellota-50", label: "Bellota 50%" },
+  { id: "cebo-campo", label: "Cebo de Campo" },
+  { id: "cebo", label: "Cebo" },
+];
+
+function getQuality(p: Product): Quality {
+  const n = p.name.toLowerCase();
+  if (n.includes("bellota") && n.includes("100")) return "bellota-100";
+  if (n.includes("bellota") && n.includes("75")) return "bellota-75";
+  if (n.includes("bellota") && n.includes("50")) return "bellota-50";
+  if (n.includes("cebo de campo") || n.includes("cebo campo")) return "cebo-campo";
+  return "cebo";
+}
+
+function getMinPrice(p: Product): number {
+  return p.weightOptions.reduce((m, o) => (o.price < m ? o.price : m), p.weightOptions[0].price);
+}
+
+const ALL_PRICES = products.map(getMinPrice);
+const PRICE_MIN = Math.floor(Math.min(...ALL_PRICES));
+const PRICE_MAX = Math.ceil(Math.max(...ALL_PRICES));
 
 const Tienda = () => {
   const navigate = useNavigate();
