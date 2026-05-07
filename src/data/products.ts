@@ -74,15 +74,14 @@ export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
   const options: WeightOption[] = [];
-  for (let upper = minKg + stepKg; upper <= maxKg + 0.01; upper += stepKg) {
-    const upperRounded = Math.round(upper * 10) / 10;
-    const lowerRounded = Math.round((upper - stepKg) * 10) / 10;
-    const price = Math.round(upperRounded * pricePerKg * 100) / 100;
+  for (let w = minKg; w <= maxKg + 0.01; w += stepKg) {
+    const weight = Math.round(w * 10) / 10;
+    const price = Math.round(weight * pricePerKg * 100) / 100;
     const fmt = (n: number) => n.toFixed(1).replace('.', ',');
     options.push({
-      weight: upperRounded,
+      weight,
       price,
-      label: `${fmt(lowerRounded)} – ${fmt(upperRounded)} kg   ·   ${price.toFixed(2).replace('.', ',')} €`,
+      label: `${fmt(weight)} kg (aproximado)   ·   ${price.toFixed(2).replace('.', ',')} €`,
     });
   }
   return options;
