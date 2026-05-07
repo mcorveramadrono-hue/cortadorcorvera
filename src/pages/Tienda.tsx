@@ -217,6 +217,45 @@ const Tienda = () => {
                 })}
               </div>
 
+              {/* Calidad */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-xs tracking-widest uppercase text-muted-foreground self-center mr-2">Calidad:</span>
+                {QUALITIES.map((q) => {
+                  const active = selectedQualities.includes(q.id);
+                  return (
+                    <button
+                      key={q.id}
+                      onClick={() => toggleQuality(q.id)}
+                      className={`px-4 py-1.5 text-xs tracking-widest uppercase border transition-colors ${
+                        active
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-background border-border text-muted-foreground hover:border-primary"
+                      }`}
+                    >
+                      {q.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Precio */}
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs tracking-widest uppercase text-muted-foreground">Precio</span>
+                  <span className="text-xs text-foreground font-medium">
+                    {priceRange[0]} € — {priceRange[1]} €
+                  </span>
+                </div>
+                <Slider
+                  min={PRICE_MIN}
+                  max={PRICE_MAX}
+                  step={1}
+                  value={priceRange}
+                  onValueChange={(v) => setPriceRange([v[0], v[1]] as [number, number])}
+                  className="w-full"
+                />
+              </div>
+
               {hasActiveFilters && (
                 <div className="flex items-center justify-between pt-2 border-t border-border/60">
                   <span className="text-xs text-muted-foreground">
