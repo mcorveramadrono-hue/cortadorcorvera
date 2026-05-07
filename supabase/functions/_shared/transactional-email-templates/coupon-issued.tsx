@@ -20,7 +20,7 @@ const CouponIssuedEmail = ({ firstName, code = 'XXXX', amount = 10, minOrderTota
           <Text style={codeText}>{code}</Text>
         </Section>
         <Text style={text}>
-          Aplícalo en el carrito al finalizar tu próximo pedido. Es de un solo uso{expiresAt ? ` y caduca el ${new Date(expiresAt).toLocaleDateString('es-ES')}` : ''}.
+          Aplícalo en el carrito al finalizar tu próximo pedido. Es de un solo uso y <strong>solo será válido durante 4 meses</strong>{expiresAt ? ` (caduca el ${new Date(expiresAt).toLocaleDateString('es-ES')})` : ''}. Pasado ese plazo el código se eliminará automáticamente.
         </Text>
         <Text style={footer}>Corvera Ibéricos</Text>
       </Container>
