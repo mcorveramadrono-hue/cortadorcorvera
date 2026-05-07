@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { items, subtotal, totalWeight, shippingCost, total, clearCart, promoApplied, promoCode } = useCart();
+  const { items, subtotal, totalWeight, shippingCost, discountAmount, total, clearCart, promoApplied, promoCode, appliedCoupon } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
@@ -83,7 +83,7 @@ const Checkout = () => {
         shipping_cost: shippingCost,
         total,
         total_weight: totalWeight,
-        notes: formData.notes || null,
+        notes: (formData.notes || "") + (appliedCoupon?.type === "amount-off" && discountAmount > 0 ? `\n[CUPÓN ${promoCode} -${discountAmount}€]` : ""),
         accept_privacy: acceptPrivacy,
         payment_method: paymentMethod,
         status: paymentMethod === "card" ? "pending_stripe" : "pending_payment",
