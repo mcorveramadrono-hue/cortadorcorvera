@@ -39,7 +39,11 @@ import lajoyaAmbient5 from "@/assets/products/lajoya/ambient-5.jpg";
 import lajoyaAmbient6 from "@/assets/products/lajoya/ambient-6.jpg";
 import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 
-export type Brand = "cesar-nieto" | "la-joya";
+// Epicum & Finura
+import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpeg";
+import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpeg";
+
+export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura";
 
 export interface WeightOption {
   weight: number;
@@ -64,6 +68,8 @@ export interface Product {
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
   { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico desde Jabugo" },
+  { id: "epicum", name: "Epicum", tagline: "Cebo ibérico, +28 meses de curación" },
+  { id: "finura", name: "Finura de Ibérico", tagline: "Cebo ibérico de ganadería propia" },
 ];
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
@@ -333,6 +339,34 @@ export const products: Product[] = [
     knifeSupplementPrice: 35,
     category: "paleta",
     brand: "la-joya",
+  },
+
+  // ====== EPICUM ======
+  {
+    id: "epicum-jamon-cebo-iberico",
+    name: "Jamón de Cebo Ibérico Epicum 50%",
+    description: "Jamón de cebo ibérico 50% raza ibérica con más de 28 meses de curación. Sabor equilibrado, textura melosa y un perfil amable, ideal para el día a día y para iniciarse en el ibérico sin renunciar a la calidad.",
+    pricePerKg: 34.98,
+    images: [epicumJamonCebo50],
+    weightOptions: generateWeightOptions(8, 9, 0.5, 34.98),
+    curing: "Más de 28 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "epicum",
+  },
+
+  // ====== FINURA DE IBÉRICO ======
+  {
+    id: "finura-jamon-cebo-iberico",
+    name: "Jamón de Cebo Ibérico Finura 50%",
+    description: "Jamón de cebo ibérico 50% raza ibérica de Finura de Ibérico, con sistema integral de producción y ganadería propia. Curación tradicional que aporta un sabor redondo y una textura suave en boca.",
+    pricePerKg: 34.98,
+    images: [finuraJamonCebo50],
+    weightOptions: generateWeightOptions(8, 9, 0.5, 34.98),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "finura",
   },
 ];
 
