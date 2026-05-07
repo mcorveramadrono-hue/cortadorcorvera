@@ -205,24 +205,22 @@ const Producto = () => {
                 </select>
               </div>
 
-              {knifeIsFree ? (
-                <div className="flex items-center gap-3 p-3 border border-primary bg-primary/5">
-                  <input type="checkbox" checked readOnly className="w-4 h-4 accent-primary" />
-                  <span className="text-sm text-foreground">
-                    Cortado a cuchillo <strong className="text-primary">GRATIS</strong> (incluido por promoción)
-                  </span>
-                </div>
-              ) : (
-                <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={withKnife}
-                    onChange={(e) => setWithKnife(e.target.checked)}
-                    className="w-4 h-4 accent-primary"
-                  />
-                  <span className="text-sm text-foreground">Cortado a cuchillo (+{product.knifeSupplementPrice} €)</span>
-                </label>
-              )}
+              <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={withKnife}
+                  onChange={(e) => setWithKnife(e.target.checked)}
+                  className="w-4 h-4 accent-primary"
+                />
+                <span className="text-sm text-foreground">
+                  Cortado a cuchillo{" "}
+                  {knifeIsFree ? (
+                    <strong className="text-primary">GRATIS (incluido por promoción)</strong>
+                  ) : (
+                    <>(+{product.knifeSupplementPrice} €)</>
+                  )}
+                </span>
+              </label>
 
               <div className="pt-4 border-t border-border">
                 <div className="flex items-baseline justify-between mb-4">
