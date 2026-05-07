@@ -120,10 +120,14 @@ const Tienda = () => {
   }, [search, category, selectedBrands, selectedQualities, priceRange, sortBy]);
 
   const renderProductCard = (product: Product) => {
-    const minPrice = product.weightOptions.reduce(
-      (min, opt) => (opt.price < min ? opt.price : min),
-      product.weightOptions[0].price
-    );
+    const isEightKgBrand = product.brand === "epicum" || product.brand === "finura";
+    const eightKgOption = product.weightOptions.find((o) => o.weight === 8);
+    const displayPrice = isEightKgBrand && eightKgOption
+      ? eightKgOption.price
+      : product.weightOptions.reduce(
+          (min, opt) => (opt.price < min ? opt.price : min),
+          product.weightOptions[0].price
+        );
     const hoverImage = product.images[1] ?? product.images[0];
     const brandName = BRANDS.find((b) => b.id === product.brand)?.name ?? "";
 
@@ -150,7 +154,7 @@ const Tienda = () => {
           <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-primary/80 font-medium">{brandName}</span>
           <h3 className="font-serif text-[11px] md:text-sm font-semibold text-foreground leading-tight line-clamp-2">{product.name}</h3>
           <p className="font-serif text-sm md:text-base font-bold text-primary mt-auto pt-1 md:pt-2">
-            Desde {minPrice.toFixed(2).replace('.', ',')} €
+            Desde {displayPrice.toFixed(2).replace('.', ',')} €
           </p>
           <span className="text-[9px] md:text-[10px] text-muted-foreground/60">*IVA incl.</span>
         </div>
