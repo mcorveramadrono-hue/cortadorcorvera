@@ -21,6 +21,13 @@ const Producto = () => {
   const [withKnife, setWithKnife] = useState(false);
   const [added, setAdded] = useState<{ name: string; weight: number } | null>(null);
 
+  // Reset weight index when product changes
+  useEffect(() => {
+    setWeightIdx(0);
+    setImageIdx(0);
+    setWithKnife(false);
+  }, [productId, brand]);
+
   const product = products.find((p) => p.id === productId && p.brand === brand);
   const brandInfo = BRANDS.find((b) => b.id === brand);
 
