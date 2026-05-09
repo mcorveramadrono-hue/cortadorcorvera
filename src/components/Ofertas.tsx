@@ -53,7 +53,7 @@ const Ofertas = () => {
         <div className="md:hidden">
           <Carousel opts={{ loop: true, align: "start" }} className="w-full">
             <CarouselContent>
-              {FEATURED_PROMOTIONS.map((promo) => (
+              {PROMOTIONS.map((promo) => (
                 <CarouselItem key={promo.productId} className="basis-full">
                   <PromoCard promo={promo} />
                 </CarouselItem>
@@ -66,7 +66,7 @@ const Ofertas = () => {
 
         {/* Desktop/tablet: grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-6">
-          {FEATURED_PROMOTIONS.map((promo) => (
+          {PROMOTIONS.map((promo) => (
             <PromoCard key={promo.productId} promo={promo} />
           ))}
         </div>
