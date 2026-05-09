@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Tag, ArrowRight } from "lucide-react";
-import { FEATURED_PROMOTIONS } from "@/data/promotions";
+import { PROMOTIONS } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
-const PromoCard = ({ promo }: { promo: typeof FEATURED_PROMOTIONS[number] }) => {
+const PromoCard = ({ promo }: { promo: typeof PROMOTIONS[number] }) => {
   const product = products.find((p) => p.id === promo.productId);
   if (!product) return null;
   return (
