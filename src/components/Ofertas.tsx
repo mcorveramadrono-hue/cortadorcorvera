@@ -66,7 +66,7 @@ const Ofertas = () => {
 
         {/* Desktop/tablet: grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-6">
-          {PROMOTIONS.map((promo) => (
+          {FEATURED_PROMOTIONS.map((promo) => (
             <PromoCard key={promo.productId} promo={promo} />
           ))}
         </div>
