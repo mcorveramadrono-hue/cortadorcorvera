@@ -43,6 +43,11 @@ const Ofertas = () => {
             {PROMOTIONS.map((promo) => {
               const product = products.find((p) => p.id === promo.productId);
               if (!product) return null;
+
+              const minPrice = product.weightOptions.length > 0
+                ? Math.min(...product.weightOptions.map((o) => o.price))
+                : null;
+
               return (
                 <Link
                   key={promo.productId}
@@ -56,7 +61,12 @@ const Ofertas = () => {
                   <div className="p-5 space-y-2 flex-1 flex flex-col">
                     <h2 className="font-serif text-lg font-bold text-foreground leading-tight">{promo.title}</h2>
                     <p className="text-sm text-muted-foreground flex-1">{promo.description}</p>
-                    <span className="pt-3 inline-flex items-center gap-2 text-xs tracking-widest uppercase text-primary font-medium">
+                    {minPrice !== null && (
+                      <p className="text-sm font-semibold text-foreground">
+                        Desde {minPrice.toFixed(2).replace('.', ',')} €
+                      </p>
+                    )}
+                    <span className="pt-1 inline-flex items-center gap-2 text-xs tracking-widest uppercase text-primary font-medium">
                       Ver producto →
                     </span>
                   </div>
