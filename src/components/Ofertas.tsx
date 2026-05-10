@@ -8,6 +8,11 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 const PromoCard = ({ promo }: { promo: Promotion }) => {
   const product = products.find((p) => p.id === promo.productId);
   if (!product) return null;
+
+  const minPrice = product.weightOptions.length > 0
+    ? Math.min(...product.weightOptions.map((o) => o.price))
+    : null;
+
   return (
     <Link
       to={`/tienda/${product.brand}/${product.id}?from=ofertas`}
@@ -25,6 +30,11 @@ const PromoCard = ({ promo }: { promo: Promotion }) => {
       <div className="p-4 md:p-5 space-y-2 flex-1 flex flex-col">
         <h3 className="font-serif text-base font-bold text-foreground leading-tight">{product.name}</h3>
         <p className="text-xs md:text-sm text-muted-foreground flex-1 line-clamp-3">{promo.description}</p>
+        {minPrice !== null && (
+          <p className="text-sm font-semibold text-foreground">
+            Desde {minPrice.toFixed(2).replace('.', ',')} €
+          </p>
+        )}
         <div className="pt-2 inline-flex items-center gap-2 text-[10px] md:text-xs tracking-widest uppercase text-primary font-medium">
           Ver oferta →
         </div>
