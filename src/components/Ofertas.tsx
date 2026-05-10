@@ -49,27 +49,17 @@ const Ofertas = () => {
           </p>
         </div>
 
-        {/* Mobile: carousel one-by-one */}
-        <div className="md:hidden">
-          <Carousel opts={{ loop: true, align: "start" }} className="w-full">
-            <CarouselContent>
-              {PROMOTIONS.map((promo) => (
-                <CarouselItem key={promo.productId} className="basis-full">
-                  <PromoCard promo={promo} />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-2" />
-            <CarouselNext className="right-2" />
-          </Carousel>
-        </div>
-
-        {/* Desktop/tablet: grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6">
-          {FEATURED_PROMOTIONS.map((promo) => (
-            <PromoCard key={promo.productId} promo={promo} />
-          ))}
-        </div>
+        <Carousel opts={{ loop: true, align: "start" }} className="w-full">
+          <CarouselContent>
+            {PROMOTIONS.map((promo) => (
+              <CarouselItem key={promo.productId} className="basis-full md:basis-1/3">
+                <PromoCard promo={promo} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-2 md:-left-12" />
+          <CarouselNext className="right-2 md:-right-12" />
+        </Carousel>
 
         <div className="text-center mt-10">
           <button
