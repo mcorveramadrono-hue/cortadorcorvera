@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Tag, ArrowRight } from "lucide-react";
-import { PROMOTIONS, FEATURED_PROMOTIONS, type Promotion } from "@/data/promotions";
+import { PROMOTIONS, type Promotion } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
