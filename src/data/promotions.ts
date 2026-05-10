@@ -24,6 +24,15 @@ export const PROMOTIONS: Promotion[] = [
     featured: true,
   },
   {
+    productId: "jamon-reserva-familiar",
+    type: "free-shipping",
+    badge: "ENVÍO GRATUITO",
+    title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
+    description:
+      "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
+    featured: true,
+  },
+  {
     productId: "lajoya-jamon-cebo-50",
     type: "coupon-10",
     badge: "10€ DE REGALO",
@@ -39,15 +48,6 @@ export const PROMOTIONS: Promotion[] = [
     title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
     description:
       "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
-  },
-  {
-    productId: "jamon-reserva-familiar",
-    type: "free-shipping",
-    badge: "ENVÍO GRATUITO",
-    title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
-    description:
-      "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
-    featured: true,
   },
   {
     productId: "epicum-jamon-cebo-iberico",
