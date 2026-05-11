@@ -12,12 +12,13 @@ const MIN_ORDER_TOTAL = 0;
 
 async function enqueueAppEmail(
   supabaseUrl: string,
+  authKey: string,
   serviceKey: string,
   payload: { templateName: string; recipientEmail: string; idempotencyKey: string; templateData: Record<string, unknown> },
 ) {
   const response = await fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${serviceKey}`, apikey: serviceKey, "Content-Type": "application/json" },
+    headers: { Authorization: `Bearer ${authKey}`, apikey: serviceKey, "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   if (!response.ok) {
