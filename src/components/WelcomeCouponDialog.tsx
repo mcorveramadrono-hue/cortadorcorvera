@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import heroImage from "@/assets/welcome-coupon-hero.jpg";
 
 const STORAGE_KEY = "corvera_welcome_coupon_v2";
-const SHOW_DELAY_MS = 6000;
+const SHOW_DELAY_MS = 5000;
 const HIDDEN_ROUTES = ["/checkout", "/confirmar-pago", "/marcar-envio", "/pedido-confirmado"];
 
 const emailSchema = z
