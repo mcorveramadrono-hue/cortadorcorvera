@@ -7,8 +7,8 @@ const corsHeaders = {
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const AMOUNT = 10;
-const MIN_ORDER_TOTAL = 160;
+const AMOUNT = 5;
+const MIN_ORDER_TOTAL = 0;
 
 async function enqueueAppEmail(
   supabaseUrl: string,
