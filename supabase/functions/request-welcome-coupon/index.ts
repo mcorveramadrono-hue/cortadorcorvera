@@ -42,7 +42,7 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const anonKey = Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? Deno.env.get("SUPABASE_ANON_KEY")!;
-    console.log("keys", { service_prefix: serviceKey?.slice(0, 6), anon_prefix: anonKey?.slice(0, 6) });
+    console.log("env-keys", Object.keys(Deno.env.toObject()).filter(k => k.startsWith("SUPABASE")).map(k => `${k}=${(Deno.env.get(k) ?? "").slice(0,8)}`));
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // Comprueba si ya emitimos un cupón de bienvenida válido para este email
