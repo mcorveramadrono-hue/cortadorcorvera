@@ -11,10 +11,10 @@ const CouponIssuedEmail = ({ firstName, code = 'XXXX', amount = 10, minOrderTota
     <Preview>Tu código de {amount}€ de descuento en Corvera Ibéricos</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>{variant === 'welcome' ? '¡Bienvenido a Corvera Ibéricos!' : (firstName ? `¡Gracias, ${firstName}!` : '¡Gracias por tu compra!')}</Heading>
+        <Heading style={h1}>{variant === 'welcome' ? '¡Te hemos sobornado!' : (firstName ? `¡Gracias, ${firstName}!` : '¡Gracias por tu compra!')}</Heading>
         <Text style={text}>
           {variant === 'welcome'
-            ? <>Gracias por unirte. Como regalo de bienvenida te enviamos un código de <strong>{amount}€ de descuento</strong> para tu primera compra superior a {minOrderTotal}€.</>
+            ? <>Aquí tienes tus <strong>{amount}€ de regalo</strong> para tu primera compra en Corvera Ibéricos{minOrderTotal > 0 ? <> (pedido mínimo {minOrderTotal}€)</> : <>, sin pedido mínimo</>}. Aplícalo en el carrito al pagar.</>
             : <>Como agradecimiento por elegir nuestro Jamón Cebo 50% Ibérico La Joya, te regalamos un código de <strong>{amount}€ de descuento</strong> para tu próxima compra superior a {minOrderTotal}€.</>}
         </Text>
         <Section style={codeBox}>
