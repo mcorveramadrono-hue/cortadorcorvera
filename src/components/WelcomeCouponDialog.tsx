@@ -33,9 +33,8 @@ const WelcomeCouponDialog = () => {
     return () => clearTimeout(t);
   }, [pathname]);
 
-  const close = (markSeen = true) => {
+  const close = () => {
     setOpen(false);
-    if (markSeen) localStorage.setItem(STORAGE_KEY, new Date().toISOString());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
