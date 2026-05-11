@@ -33,9 +33,8 @@ const WelcomeCouponDialog = () => {
     return () => clearTimeout(t);
   }, [pathname]);
 
-  const close = (markSeen = true) => {
+  const close = () => {
     setOpen(false);
-    if (markSeen) localStorage.setItem(STORAGE_KEY, new Date().toISOString());
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,14 +71,14 @@ const WelcomeCouponDialog = () => {
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 animate-in fade-in duration-300"
-      onClick={() => close(true)}
+      onClick={() => close()}
     >
       <div
         className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white shadow-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          onClick={() => close(true)}
+          onClick={() => close()}
           aria-label="Cerrar"
           className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow transition hover:bg-white"
         >
@@ -145,7 +144,7 @@ const WelcomeCouponDialog = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => close(true)}
+                  onClick={() => close()}
                   className="block w-full text-xs text-gray-500 underline underline-offset-4 hover:text-gray-700"
                 >
                   No, prefiero pagar 5€ más
