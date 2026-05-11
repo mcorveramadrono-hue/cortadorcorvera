@@ -15,6 +15,15 @@ export interface Promotion {
 
 export const PROMOTIONS: Promotion[] = [
   {
+    productId: "lajoya-jamon-bellota-50",
+    type: "free-knife",
+    badge: "CORTE A CUCHILLO GRATIS",
+    title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
+    description:
+      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+    featured: true,
+  },
+  {
     productId: "lajoya-jamon-bellota-100",
     type: "free-knife",
     badge: "CORTE A CUCHILLO GRATIS",
@@ -24,13 +33,27 @@ export const PROMOTIONS: Promotion[] = [
     featured: true,
   },
   {
+    productId: "epicum-jamon-cebo-iberico",
+    type: "free-shipping",
+    badge: "ENVÍO GRATUITO",
+    title: "Envío gratuito · Jamón Cebo 50% Ibérico Epicum",
+    description: "Cebo ibérico Epicum con más de 28 meses de curación y envío gratuito incluido.",
+    featured: true,
+  },
+  {
     productId: "jamon-reserva-familiar",
     type: "free-shipping",
     badge: "ENVÍO GRATUITO",
     title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
     description:
       "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
-    featured: true,
+  },
+  {
+    productId: "finura-jamon-cebo-iberico",
+    type: "free-shipping",
+    badge: "ENVÍO GRATUITO",
+    title: "Envío gratuito · Jamón Cebo 50% Ibérico Finura",
+    description: "Cebo ibérico Finura de ganadería propia con envío gratuito incluido.",
   },
   {
     productId: "lajoya-jamon-cebo-50",
@@ -39,29 +62,6 @@ export const PROMOTIONS: Promotion[] = [
     title: "10€ de regalo con tu Jamón Cebo 50% Ibérico La Joya",
     description:
       "Llévate este jamón y recibirás por email un código único de 10€ de descuento aplicable a tu siguiente compra superior a 150€.",
-    featured: true,
-  },
-  {
-    productId: "lajoya-jamon-bellota-50",
-    type: "free-knife",
-    badge: "CORTE A CUCHILLO GRATIS",
-    title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
-    description:
-      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
-  },
-  {
-    productId: "epicum-jamon-cebo-iberico",
-    type: "free-shipping",
-    badge: "ENVÍO GRATUITO",
-    title: "Envío gratuito · Jamón Cebo 50% Ibérico Epicum",
-    description: "Cebo ibérico Epicum con más de 28 meses de curación y envío gratuito incluido.",
-  },
-  {
-    productId: "finura-jamon-cebo-iberico",
-    type: "free-shipping",
-    badge: "ENVÍO GRATUITO",
-    title: "Envío gratuito · Jamón Cebo 50% Ibérico Finura",
-    description: "Cebo ibérico Finura de ganadería propia con envío gratuito incluido.",
   },
 ];
 
