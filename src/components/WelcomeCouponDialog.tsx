@@ -113,7 +113,7 @@ const WelcomeCouponDialog = () => {
             <img
               src={logo}
               alt="Corvera Ibéricos"
-              className="mx-auto mb-4 h-16 w-auto md:hidden"
+              className="mx-auto mb-4 w-40 h-auto object-contain md:hidden"
             />
             <div className="font-serif text-2xl font-bold text-[#8B2020] text-center md:text-left md:text-3xl">
               Te vamos a sobornar
