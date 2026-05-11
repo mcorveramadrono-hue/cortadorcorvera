@@ -41,6 +41,7 @@ serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // Comprueba si ya emitimos un cupón de bienvenida válido para este email
@@ -64,7 +65,7 @@ serve(async (req) => {
     });
     if (insertError) throw insertError;
 
-    await enqueueAppEmail(supabaseUrl, serviceKey, {
+    await enqueueAppEmail(supabaseUrl, anonKey, serviceKey, {
       templateName: "coupon-issued",
       recipientEmail: rawEmail,
       idempotencyKey: `welcome-coupon-${code}`,
@@ -73,7 +74,7 @@ serve(async (req) => {
 
     // Aviso interno al propietario con el email del cliente
     try {
-      await enqueueAppEmail(supabaseUrl, serviceKey, {
+      await enqueueAppEmail(supabaseUrl, anonKey, serviceKey, {
         templateName: "owner-welcome-coupon",
         recipientEmail: "corveraibericos@gmail.com",
         idempotencyKey: `owner-welcome-coupon-${code}`,
