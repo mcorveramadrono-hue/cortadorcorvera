@@ -139,7 +139,7 @@ const Carrito = () => {
                   <div className="flex items-center justify-between bg-primary/10 border border-primary/20 rounded px-4 py-2.5">
                     <span className="text-sm font-mono font-bold text-primary">{promoCode}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-muted-foreground">Envío gratis aplicado</span>
+                      <span className="text-xs text-muted-foreground">{hasPromoFreeShipping ? "Envío gratis aplicado" : "Cupón aplicado"}</span>
                       <button onClick={removePromoCode} className="text-muted-foreground hover:text-destructive transition-colors">
                         <X size={14} />
                       </button>
