@@ -110,7 +110,12 @@ const WelcomeCouponDialog = () => {
 
           {/* RIGHT — form */}
           <div className="flex flex-col justify-center p-8 md:p-10">
-            <div className="font-serif text-2xl font-bold text-[#8B2020] md:text-3xl">
+            <img
+              src={logo}
+              alt="Corvera Ibéricos"
+              className="mx-auto mb-4 h-16 w-auto md:hidden"
+            />
+            <div className="font-serif text-2xl font-bold text-[#8B2020] text-center md:text-left md:text-3xl">
               Te vamos a sobornar
             </div>
             <p className="mt-4 font-serif text-lg font-semibold text-gray-900">
