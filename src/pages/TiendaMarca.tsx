@@ -17,12 +17,95 @@ const TiendaMarca = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (brandInfo) {
-      document.title = `${brandInfo.name} | Jamones y Paletas Ibéricas - Corvera Ibéricos`;
-      const meta = document.querySelector('meta[name="description"]');
-      if (meta) meta.setAttribute("content", `Compra jamones y paletas ibéricas ${brandInfo.name}. ${brandInfo.tagline}. Envío a toda España.`);
+    if (!brandInfo) return;
+
+    const brandProducts = products.filter((p) => p.brand === (brand as Brand));
+    const productNames = brandProducts.map((p) => p.name).join(", ");
+
+    const title = `${brandInfo.name} - Jamones y Paletas Ibéricas | Comprar online | Corvera Ibéricos`;
+    const description = `Compra ${brandInfo.name} online: ${productNames.slice(0, 130)}. ${brandInfo.tagline}. Envío a toda España con corte a cuchillo profesional opcional.`.slice(0, 300);
+
+    document.title = title;
+
+    const setMeta = (selector: string, value: string) => {
+      let el = document.querySelector(selector) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        const propMatch = selector.match(/\[property="([^"]+)"\]/);
+        const nameMatch = selector.match(/\[name="([^"]+)"\]/);
+        if (propMatch) el.setAttribute("property", propMatch[1]);
+        else if (nameMatch) el.setAttribute("name", nameMatch[1]);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", value);
+    };
+
+    setMeta('meta[name="description"]', description.slice(0, 160));
+    setMeta('meta[property="og:title"]', title);
+    setMeta('meta[property="og:description"]', description.slice(0, 200));
+    setMeta('meta[property="og:type"]', "website");
+    setMeta('meta[property="og:url"]', `https://corveraibericos.com/tienda/${brand}`);
+    setMeta('meta[name="twitter:title"]', title);
+    setMeta('meta[name="twitter:description"]', description.slice(0, 200));
+
+    const canonicalHref = `https://corveraibericos.com/tienda/${brand}`;
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
     }
-  }, [brandInfo]);
+    canonical.setAttribute("href", canonicalHref);
+
+    const ldId = "brand-itemlist-jsonld";
+    let script = document.getElementById(ldId) as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.id = ldId;
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${brandInfo.name} - Jamones y Paletas Ibéricas`,
+      description,
+      url: canonicalHref,
+      isPartOf: { "@type": "WebSite", name: "Corvera Ibéricos", url: "https://corveraibericos.com" },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: brandProducts.map((p, idx) => {
+          const minPrice = Math.min(...p.weightOptions.map((o) => o.price));
+          const maxPrice = Math.max(...p.weightOptions.map((o) => o.price));
+          return {
+            "@type": "ListItem",
+            position: idx + 1,
+            item: {
+              "@type": "Product",
+              name: p.name,
+              description: p.description,
+              brand: { "@type": "Brand", name: brandInfo.name },
+              category: p.category === "jamon" ? "Jamón Ibérico" : "Paleta Ibérica",
+              url: `https://corveraibericos.com/tienda/${p.brand}/${p.id}`,
+              offers: {
+                "@type": "AggregateOffer",
+                lowPrice: minPrice.toFixed(2),
+                highPrice: maxPrice.toFixed(2),
+                priceCurrency: "EUR",
+                availability: "https://schema.org/InStock",
+                seller: { "@type": "Organization", name: "Corvera Ibéricos" },
+              },
+            },
+          };
+        }),
+      },
+    });
+
+    return () => {
+      const s = document.getElementById(ldId);
+      if (s) s.remove();
+    };
+  }, [brandInfo, brand]);
 
   if (!brandInfo) return <Navigate to="/tienda" replace />;
 
