@@ -8,6 +8,7 @@ import heroImage from "@/assets/welcome-coupon-hero.jpg";
 import logo from "@/assets/corvera-logo.webp";
 
 const STORAGE_KEY = "corvera_welcome_coupon_v2";
+const SESSION_KEY = "corvera_welcome_coupon_shown";
 const SHOW_DELAY_MS = 5000;
 const HIDDEN_ROUTES = ["/checkout", "/confirmar-pago", "/marcar-envio", "/pedido-confirmado"];
 
@@ -26,13 +27,18 @@ const WelcomeCouponDialog = () => {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (HIDDEN_ROUTES.some((r) => pathname.startsWith(r))) return;
     if (typeof window === "undefined") return;
+    if (HIDDEN_ROUTES.some((r) => pathname.startsWith(r))) return;
     if (localStorage.getItem(STORAGE_KEY)) return;
+    if (sessionStorage.getItem(SESSION_KEY)) return;
 
-    const t = setTimeout(() => setOpen(true), SHOW_DELAY_MS);
+    const t = setTimeout(() => {
+      sessionStorage.setItem(SESSION_KEY, "1");
+      setOpen(true);
+    }, SHOW_DELAY_MS);
     return () => clearTimeout(t);
-  }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const close = () => {
     setOpen(false);
