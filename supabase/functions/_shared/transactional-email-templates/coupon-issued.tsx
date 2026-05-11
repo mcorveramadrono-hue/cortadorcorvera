@@ -31,8 +31,9 @@ const CouponIssuedEmail = ({ firstName, code = 'XXXX', amount = 10, minOrderTota
 
 export const template = {
   component: CouponIssuedEmail,
-  subject: '🎁 Tu código de 10€ de descuento - Corvera Ibéricos',
-  displayName: 'Cupón 10€ regalo',
+  subject: (data: Record<string, any>) =>
+    `🎁 Tu código de ${data?.amount ?? 10}€ de descuento - Corvera Ibéricos`,
+  displayName: 'Cupón descuento regalo',
   previewData: { firstName: 'Jane', code: 'CORV-ABC123', amount: 10, minOrderTotal: 150 },
 } satisfies TemplateEntry
 
