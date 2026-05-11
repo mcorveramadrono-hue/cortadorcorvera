@@ -24,12 +24,12 @@ export const PROMOTIONS: Promotion[] = [
     featured: true,
   },
   {
-    productId: "lajoya-jamon-bellota-100",
-    type: "free-knife",
-    badge: "CORTE A CUCHILLO GRATIS",
-    title: "Corte a cuchillo gratis con el Jamón Bellota 100% Ibérico Jabugo La Joya",
+    productId: "jamon-reserva-familiar",
+    type: "free-shipping",
+    badge: "ENVÍO GRATUITO",
+    title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
     description:
-      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+      "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
     featured: true,
   },
   {
@@ -41,12 +41,12 @@ export const PROMOTIONS: Promotion[] = [
     featured: true,
   },
   {
-    productId: "jamon-reserva-familiar",
-    type: "free-shipping",
-    badge: "ENVÍO GRATUITO",
-    title: "Envío gratuito · Jamón César Nieto Reserva Familiar <7kg",
+    productId: "lajoya-jamon-bellota-100",
+    type: "free-knife",
+    badge: "CORTE A CUCHILLO GRATIS",
+    title: "Corte a cuchillo gratis con el Jamón Bellota 100% Ibérico Jabugo La Joya",
     description:
-      "Tradición y sabor de Guijuelo con envío gratis a toda la península al añadirlo a tu cesta.",
+      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
   },
   {
     productId: "finura-jamon-cebo-iberico",
