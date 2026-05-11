@@ -18,6 +18,7 @@ import MarcarEnvio from "./pages/MarcarEnvio";
 import Ofertas from "./pages/Ofertas";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import WelcomeCouponDialog from "./components/WelcomeCouponDialog";
 
 const queryClient = new QueryClient();
 
