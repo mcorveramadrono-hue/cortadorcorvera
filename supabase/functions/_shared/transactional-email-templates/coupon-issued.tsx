@@ -3,18 +3,19 @@ import * as React from 'npm:react@18.3.1'
 import { Body, Container, Head, Heading, Html, Preview, Text, Section } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
-interface Props { firstName?: string; code?: string; amount?: number; minOrderTotal?: number; expiresAt?: string }
+interface Props { firstName?: string; code?: string; amount?: number; minOrderTotal?: number; expiresAt?: string; variant?: 'purchase' | 'welcome' }
 
-const CouponIssuedEmail = ({ firstName, code = 'XXXX', amount = 10, minOrderTotal = 150, expiresAt }: Props) => (
+const CouponIssuedEmail = ({ firstName, code = 'XXXX', amount = 10, minOrderTotal = 150, expiresAt, variant = 'purchase' }: Props) => (
   <Html lang="es">
     <Head />
     <Preview>Tu código de {amount}€ de descuento en Corvera Ibéricos</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>{firstName ? `¡Gracias, ${firstName}!` : '¡Gracias por tu compra!'}</Heading>
+        <Heading style={h1}>{variant === 'welcome' ? '¡Bienvenido a Corvera Ibéricos!' : (firstName ? `¡Gracias, ${firstName}!` : '¡Gracias por tu compra!')}</Heading>
         <Text style={text}>
-          Como agradecimiento por elegir nuestro Jamón Cebo 50% Ibérico La Joya, te regalamos
-          un código de <strong>{amount}€ de descuento</strong> para tu próxima compra superior a {minOrderTotal}€.
+          {variant === 'welcome'
+            ? <>Gracias por unirte. Como regalo de bienvenida te enviamos un código de <strong>{amount}€ de descuento</strong> para tu primera compra superior a {minOrderTotal}€.</>
+            : <>Como agradecimiento por elegir nuestro Jamón Cebo 50% Ibérico La Joya, te regalamos un código de <strong>{amount}€ de descuento</strong> para tu próxima compra superior a {minOrderTotal}€.</>}
         </Text>
         <Section style={codeBox}>
           <Text style={codeText}>{code}</Text>
