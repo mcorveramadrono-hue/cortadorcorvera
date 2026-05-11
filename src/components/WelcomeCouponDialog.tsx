@@ -101,10 +101,8 @@ const WelcomeCouponDialog = () => {
               <span className="ml-6">QUIEN</span><br />
               <span className="ml-12">SEAS</span>
             </div>
-            <div className="font-serif text-xl font-semibold leading-tight drop-shadow">
-              hay un<br />
-              <span className="text-3xl font-bold">JAMÓN</span><br />
-              <span className="text-sm font-normal italic">esperándote</span>
+            <div className="font-serif text-lg font-semibold leading-tight drop-shadow text-right whitespace-nowrap">
+              hay un <span className="text-2xl font-bold">JAMÓN</span> <span className="text-sm font-normal italic">esperándote</span>
             </div>
           </div>
 
