@@ -70,6 +70,18 @@ serve(async (req) => {
       templateData: { code, amount: AMOUNT, minOrderTotal: MIN_ORDER_TOTAL, variant: "welcome" },
     });
 
+    // Aviso interno al propietario con el email del cliente
+    try {
+      await enqueueAppEmail(supabaseUrl, serviceKey, {
+        templateName: "owner-welcome-coupon",
+        recipientEmail: "corveraibericos@gmail.com",
+        idempotencyKey: `owner-welcome-coupon-${code}`,
+        templateData: { customerEmail: rawEmail, code, amount: AMOUNT },
+      });
+    } catch (notifyErr) {
+      console.error("owner-welcome-coupon notify failed:", notifyErr);
+    }
+
     return new Response(JSON.stringify({ ok: true }), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
