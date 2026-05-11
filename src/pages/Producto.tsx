@@ -37,13 +37,45 @@ const Producto = () => {
       const minPrice = product.weightOptions.reduce((m, o) => (o.price < m ? o.price : m), product.weightOptions[0].price);
       const maxPrice = product.weightOptions.reduce((m, o) => (o.price > m ? o.price : m), product.weightOptions[0].price);
 
-      document.title = `${product.name} | ${brandInfo.name} - Comprar online | Corvera Ibéricos`;
-      const meta = document.querySelector('meta[name="description"]');
-      const desc = `${product.name} de ${brandInfo.name}. ${product.description.slice(0, 120)} Compra online con envío a toda España.`;
-      if (meta) meta.setAttribute("content", desc.slice(0, 160));
+      const origin =
+        product.brand === "cesar-nieto" ? "Guijuelo" :
+        product.brand === "la-joya" ? "Jabugo" :
+        product.brand === "epicum" || product.brand === "finura" ? "Cebo Ibérico" : "";
 
-      // Canonical
+      const title = `${product.name} | ${brandInfo.name}${origin ? ` (${origin})` : ""} - Comprar online | Corvera Ibéricos`;
+      const description = `${product.name} de ${brandInfo.name}. ${product.description.slice(0, 110)} Desde ${minPrice.toFixed(2).replace('.', ',')} €. Envío a toda España.`.slice(0, 300);
       const canonicalHref = `https://corveraibericos.com/tienda/${product.brand}/${product.id}`;
+      const imageUrl = product.images[0]?.startsWith("http")
+        ? product.images[0]
+        : `https://corveraibericos.com${product.images[0] ?? ""}`;
+
+      document.title = title;
+
+      const setMeta = (selector: string, value: string) => {
+        let el = document.querySelector(selector) as HTMLMetaElement | null;
+        if (!el) {
+          el = document.createElement("meta");
+          const propMatch = selector.match(/\[property="([^"]+)"\]/);
+          const nameMatch = selector.match(/\[name="([^"]+)"\]/);
+          if (propMatch) el.setAttribute("property", propMatch[1]);
+          else if (nameMatch) el.setAttribute("name", nameMatch[1]);
+          document.head.appendChild(el);
+        }
+        el.setAttribute("content", value);
+      };
+
+      setMeta('meta[name="description"]', description.slice(0, 160));
+      setMeta('meta[property="og:title"]', title);
+      setMeta('meta[property="og:description"]', description.slice(0, 200));
+      setMeta('meta[property="og:type"]', "product");
+      setMeta('meta[property="og:url"]', canonicalHref);
+      setMeta('meta[property="og:image"]', imageUrl);
+      setMeta('meta[property="product:price:amount"]', minPrice.toFixed(2));
+      setMeta('meta[property="product:price:currency"]', "EUR");
+      setMeta('meta[name="twitter:title"]', title);
+      setMeta('meta[name="twitter:description"]', description.slice(0, 200));
+      setMeta('meta[name="twitter:image"]', imageUrl);
+
       let canonical = document.querySelector('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
@@ -52,7 +84,6 @@ const Producto = () => {
       }
       canonical.setAttribute('href', canonicalHref);
 
-      // Product JSON-LD
       const ldId = 'product-jsonld';
       let script = document.getElementById(ldId) as HTMLScriptElement | null;
       if (!script) {
@@ -66,6 +97,9 @@ const Producto = () => {
         "@type": "Product",
         name: product.name,
         description: product.description,
+        sku: product.id,
+        mpn: product.id,
+        image: product.images.map((img) => img.startsWith("http") ? img : `https://corveraibericos.com${img}`),
         brand: { "@type": "Brand", name: brandInfo.name },
         category: product.category === "jamon" ? "Jamón Ibérico" : "Paleta Ibérica",
         url: canonicalHref,
