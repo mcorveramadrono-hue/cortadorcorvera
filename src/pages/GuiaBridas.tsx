@@ -1,12 +1,57 @@
-import { Helmet } from "react-helmet-async";
 import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PromoBanner from "@/components/PromoBanner";
 
+const setMeta = (name: string, content: string, attr: "name" | "property" = "name") => {
+  let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+};
+
 const GuiaBridas = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
+    const prevTitle = document.title;
+    document.title = "Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra";
+    setMeta(
+      "description",
+      "Aprende a diferenciar las bridas del jamón ibérico (blanca, verde, roja y negra) según el RD 4/2014: raza, alimentación, curación y calidad. Guía de Corvera Ibéricos."
+    );
+    setMeta("og:title", "Guía de las Bridas del Jamón Ibérico", "property");
+    setMeta(
+      "og:description",
+      "Diferencias entre brida blanca, verde, roja y negra del jamón ibérico. Cebo, cebo de campo, bellota y bellota 100% pata negra.",
+      "property"
+    );
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", "https://www.corveraibericos.com/guia-bridas-jamon-iberico");
+
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra",
+      description:
+        "Diferencias entre las cuatro bridas oficiales del jamón ibérico según el RD 4/2014.",
+      author: { "@type": "Organization", name: "Corvera Ibéricos" },
+      publisher: { "@type": "Organization", name: "Corvera Ibéricos" },
+    });
+    document.head.appendChild(ld);
+    return () => {
+      document.title = prevTitle;
+      document.head.removeChild(ld);
+    };
   }, []);
 
   const bridas = [
