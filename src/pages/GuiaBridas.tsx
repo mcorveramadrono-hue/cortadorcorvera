@@ -223,6 +223,13 @@ const GuiaBridas = () => {
             calidad del ibérico (Real Decreto 4/2014), te dicen exactamente qué jamón estás
             comprando. Aprende a reconocerlos antes de elegir.
           </p>
+          <nav aria-label="Índice de la guía" className="mt-10 flex flex-wrap justify-center gap-3 text-sm">
+            <a href="#brida-blanca" className="px-4 py-2 border border-border rounded-sm hover:bg-foreground hover:text-background transition-colors">Brida Blanca · Cebo</a>
+            <a href="#brida-verde" className="px-4 py-2 border border-border rounded-sm hover:bg-foreground hover:text-background transition-colors">Brida Verde · Cebo de Campo</a>
+            <a href="#brida-roja" className="px-4 py-2 border border-border rounded-sm hover:bg-foreground hover:text-background transition-colors">Brida Roja · Bellota</a>
+            <a href="#brida-negra" className="px-4 py-2 border border-border rounded-sm hover:bg-foreground hover:text-background transition-colors">Brida Negra · Bellota 100%</a>
+            <a href="#preguntas-frecuentes" className="px-4 py-2 border border-border rounded-sm hover:bg-foreground hover:text-background transition-colors">Preguntas frecuentes</a>
+          </nav>
         </section>
 
         {/* Por qué importan */}
