@@ -21,40 +21,130 @@ const GuiaBridas = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const prevTitle = document.title;
-    document.title = "Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra";
+    document.title =
+      "Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra | Guía RD 4/2014";
     setMeta(
       "description",
-      "Aprende a diferenciar las bridas del jamón ibérico (blanca, verde, roja y negra) según el RD 4/2014: raza, alimentación, curación y calidad. Guía de Corvera Ibéricos."
+      "Guía oficial de las bridas del jamón ibérico (blanca, verde, roja y negra) según el RD 4/2014. Diferencias entre cebo, cebo de campo, bellota y bellota 100% ibérico: raza, alimentación, curación y precio."
     );
-    setMeta("og:title", "Guía de las Bridas del Jamón Ibérico", "property");
+    setMeta(
+      "keywords",
+      "bridas jamón ibérico, brida blanca, brida verde, brida roja, brida negra, precintos jamón ibérico, etiqueta jamón ibérico, RD 4/2014, norma calidad ibérico, jamón cebo ibérico, jamón cebo de campo ibérico, jamón bellota ibérico, jamón bellota 100% ibérico, diferencias jamón ibérico, cómo elegir jamón ibérico, qué significa la brida negra, qué significa la brida roja, qué significa la brida verde, qué significa la brida blanca, raza ibérica, dehesa, montanera, Corvera Ibéricos"
+    );
+    setMeta("og:title", "Guía de las Bridas del Jamón Ibérico (Blanca, Verde, Roja, Negra)", "property");
     setMeta(
       "og:description",
-      "Diferencias entre brida blanca, verde, roja y negra del jamón ibérico. Cebo, cebo de campo, bellota y bellota 100% ibérico.",
+      "Diferencias entre brida blanca, verde, roja y negra del jamón ibérico según el RD 4/2014. Aprende a elegir antes de comprar.",
       "property"
     );
+    setMeta("og:type", "article", "property");
+    setMeta("og:url", "https://corveraibericos.com/guia-bridas-jamon-iberico", "property");
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", "Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra");
+    setMeta(
+      "twitter:description",
+      "Guía RD 4/2014 para diferenciar las bridas del jamón ibérico antes de comprar."
+    );
+
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
       canonical = document.createElement("link");
       canonical.setAttribute("rel", "canonical");
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute("href", "https://www.corveraibericos.com/guia-bridas-jamon-iberico");
+    canonical.setAttribute("href", "https://corveraibericos.com/guia-bridas-jamon-iberico");
 
-    const ld = document.createElement("script");
-    ld.type = "application/ld+json";
-    ld.text = JSON.stringify({
+    const ldArticle = document.createElement("script");
+    ldArticle.type = "application/ld+json";
+    ldArticle.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Article",
       headline: "Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra",
       description:
-        "Diferencias entre las cuatro bridas oficiales del jamón ibérico según el RD 4/2014.",
-      author: { "@type": "Organization", name: "Corvera Ibéricos" },
-      publisher: { "@type": "Organization", name: "Corvera Ibéricos" },
+        "Diferencias entre las cuatro bridas oficiales del jamón ibérico según el RD 4/2014: raza, alimentación, curación y precio.",
+      author: { "@type": "Organization", name: "Corvera Ibéricos", url: "https://corveraibericos.com" },
+      publisher: {
+        "@type": "Organization",
+        name: "Corvera Ibéricos",
+        logo: { "@type": "ImageObject", url: "https://corveraibericos.com/favicon-192.png" },
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": "https://corveraibericos.com/guia-bridas-jamon-iberico",
+      },
+      inLanguage: "es-ES",
+      about: ["Jamón ibérico", "RD 4/2014", "Norma de calidad del ibérico"],
     });
-    document.head.appendChild(ld);
+    document.head.appendChild(ldArticle);
+
+    const ldFaq = document.createElement("script");
+    ldFaq.type = "application/ld+json";
+    ldFaq.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "¿Qué significa la brida negra del jamón ibérico?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La brida negra identifica al jamón ibérico de bellota 100%: cerdos de raza 100% ibérica certificada, alimentados exclusivamente con bellota y pastos naturales en la dehesa durante la montanera. Es la máxima categoría según el RD 4/2014.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Qué diferencia hay entre la brida roja y la brida negra?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Ambas son jamones de bellota, pero la brida negra exige 100% raza ibérica, mientras que la brida roja se obtiene de cerdos cruzados (50% o 75% ibérico). La alimentación de bellota en montanera es la misma; la diferencia está en la pureza genética.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Qué significa la brida verde?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La brida verde corresponde al jamón ibérico de cebo de campo: cerdos criados al aire libre alimentados con piensos de cereales y legumbres complementados con pastos naturales del campo.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Qué significa la brida blanca?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La brida blanca identifica al jamón ibérico de cebo, alimentado con piensos naturales de cereales y legumbres en granja. Es la categoría de entrada de la gama ibérica.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Cuál es la mejor brida del jamón ibérico?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La brida negra es la categoría más alta (bellota 100% ibérico). La mejor opción depende del paladar y el presupuesto: la roja ofrece bellota a precio más accesible y la verde y blanca son ideales para consumo diario.",
+          },
+        },
+      ],
+    });
+    document.head.appendChild(ldFaq);
+
+    const ldBread = document.createElement("script");
+    ldBread.type = "application/ld+json";
+    ldBread.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Inicio", item: "https://corveraibericos.com/" },
+        { "@type": "ListItem", position: 2, name: "Guías", item: "https://corveraibericos.com/guia-bridas-jamon-iberico" },
+        { "@type": "ListItem", position: 3, name: "Bridas del Jamón Ibérico", item: "https://corveraibericos.com/guia-bridas-jamon-iberico" },
+      ],
+    });
+    document.head.appendChild(ldBread);
+
     return () => {
       document.title = prevTitle;
-      document.head.removeChild(ld);
+      document.head.removeChild(ldArticle);
+      document.head.removeChild(ldFaq);
+      document.head.removeChild(ldBread);
     };
   }, []);
 
