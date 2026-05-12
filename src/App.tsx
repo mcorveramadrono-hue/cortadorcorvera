@@ -16,6 +16,7 @@ import Unsubscribe from "./pages/Unsubscribe";
 import ConfirmarPago from "./pages/ConfirmarPago";
 import MarcarEnvio from "./pages/MarcarEnvio";
 import Ofertas from "./pages/Ofertas";
+import GuiaBridas from "./pages/GuiaBridas";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import WelcomeCouponDialog from "./components/WelcomeCouponDialog";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/confirmar-pago" element={<ConfirmarPago />} />
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />
             <Route path="/ofertas" element={<Ofertas />} />
+            <Route path="/guia-bridas-jamon-iberico" element={<GuiaBridas />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
