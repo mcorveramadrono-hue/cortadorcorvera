@@ -33,6 +33,7 @@ const Header = () => {
     { label: "Tienda", href: "/tienda" },
     { label: "Corte Original", href: "#sobre-nosotros" },
     { label: "Servicios", href: "#servicios" },
+    { label: "Guía Bridas", href: "/guia-bridas-jamon-iberico" },
     { label: "Contacto", href: "#contacto" },
   ];
 
