@@ -111,37 +111,6 @@ const GuiaBridas = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra</title>
-        <meta
-          name="description"
-          content="Aprende a diferenciar las bridas del jamón ibérico (blanca, verde, roja y negra) según el RD 4/2014: raza, alimentación, curación y calidad. Guía completa de Corvera Ibéricos."
-        />
-        <link rel="canonical" href="https://www.corveraibericos.com/guia-bridas-jamon-iberico" />
-        <meta property="og:title" content="Guía de las Bridas del Jamón Ibérico" />
-        <meta
-          property="og:description"
-          content="Diferencias entre brida blanca, verde, roja y negra del jamón ibérico. Cebo, cebo de campo, bellota y bellota 100% pata negra."
-        />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: "Guía de las Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra",
-            description:
-              "Diferencias entre las cuatro bridas oficiales del jamón ibérico según el RD 4/2014.",
-            author: { "@type": "Organization", name: "Corvera Ibéricos" },
-            publisher: {
-              "@type": "Organization",
-              name: "Corvera Ibéricos",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://www.corveraibericos.com/logo.png",
-              },
-            },
-          })}
-        </script>
-      </Helmet>
 
       <PromoBanner />
       <Header />
