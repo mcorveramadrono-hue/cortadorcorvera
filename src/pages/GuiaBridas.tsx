@@ -159,22 +159,22 @@ const GuiaBridas = () => {
           {bridas.map((b, i) => (
             <article key={b.color} className="grid md:grid-cols-12 gap-10 items-start">
               {/* Brida image */}
-              <div className="md:col-span-4">
-                <div className="w-full flex items-center justify-center p-4">
+              <div className="md:col-span-5">
+                <p className="text-center mb-2 text-sm tracking-[0.2em] uppercase text-primary font-medium">
+                  {b.precio}
+                </p>
+                <div className="w-full flex items-center justify-center">
                   <img
                     src={b.image}
                     alt={`Brida ${b.color.toLowerCase()} del jamón ${b.tipo.toLowerCase()}`}
-                    className="w-full h-auto object-contain max-w-xs"
+                    className="w-full h-auto object-contain"
                     loading="lazy"
                   />
                 </div>
-                <p className="text-center mt-4 text-sm tracking-[0.2em] uppercase text-primary font-medium">
-                  {b.precio}
-                </p>
               </div>
 
               {/* Content */}
-              <div className="md:col-span-8">
+              <div className="md:col-span-7">
                 <p className="text-sm tracking-[0.3em] uppercase text-muted-foreground mb-3">
                   Categoría {i + 1} de 4
                 </p>
