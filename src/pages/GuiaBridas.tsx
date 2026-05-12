@@ -2,6 +2,10 @@ import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PromoBanner from "@/components/PromoBanner";
+import bridaBlanca from "@/assets/brida-blanca.png";
+import bridaVerde from "@/assets/brida-verde.png";
+import bridaRoja from "@/assets/brida-roja.png";
+import bridaNegra from "@/assets/brida-negra.png";
 
 const setMeta = (name: string, content: string, attr: "name" | "property" = "name") => {
   let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
@@ -25,7 +29,7 @@ const GuiaBridas = () => {
     setMeta("og:title", "Guía de las Bridas del Jamón Ibérico", "property");
     setMeta(
       "og:description",
-      "Diferencias entre brida blanca, verde, roja y negra del jamón ibérico. Cebo, cebo de campo, bellota y bellota 100% pata negra.",
+      "Diferencias entre brida blanca, verde, roja y negra del jamón ibérico. Cebo, cebo de campo, bellota y bellota 100% ibérico.",
       "property"
     );
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
@@ -58,7 +62,7 @@ const GuiaBridas = () => {
     {
       color: "Blanca",
       hex: "#F5F5F0",
-      border: "border-neutral-300",
+      image: bridaBlanca,
       tipo: "Ibérico de Cebo",
       raza: "50%, 75% o 100% raza ibérica",
       habitat: "Granjas controladas con espacio y cuidados especializados que garantizan su bienestar.",
@@ -71,7 +75,7 @@ const GuiaBridas = () => {
     {
       color: "Verde",
       hex: "#2F5D3A",
-      border: "border-emerald-800",
+      image: bridaVerde,
       tipo: "Ibérico de Cebo de Campo",
       raza: "50%, 75% o 100% raza ibérica",
       habitat: "Cerdos criados al aire libre, en dehesas o campos abiertos, con mayor libertad de movimiento.",
@@ -84,7 +88,7 @@ const GuiaBridas = () => {
     {
       color: "Roja",
       hex: "#8B2020",
-      border: "border-primary",
+      image: bridaRoja,
       tipo: "Ibérico de Bellota",
       raza: "50% o 75% raza ibérica",
       habitat: "Dehesa durante la montanera (octubre a marzo), donde campan en libertad.",
@@ -97,15 +101,15 @@ const GuiaBridas = () => {
     {
       color: "Negra",
       hex: "#111111",
-      border: "border-black",
+      image: bridaNegra,
       tipo: "Ibérico de Bellota 100%",
-      raza: "100% raza ibérica certificada (pata negra)",
+      raza: "100% raza ibérica certificada",
       habitat: "Dehesa pura durante la montanera, en absoluta libertad.",
       alimentacion: "Exclusivamente bellota, hierba y recursos naturales de la dehesa.",
       curacion: "De 36 a 48 meses, e incluso más en piezas de gran reserva",
       precio: "Gama premium",
       descripcion:
-        "La brida negra es la máxima distinción del ibérico: el conocido 'pata negra'. Identifica piezas de cerdos 100% raza ibérica alimentados exclusivamente con bellota durante la montanera. Sabor intenso y persistente, grasa infiltrada brillante y aroma profundo a dehesa.",
+        "La brida negra es la máxima distinción del ibérico. Identifica piezas de cerdos 100% raza ibérica alimentados exclusivamente con bellota durante la montanera. Sabor intenso y persistente, grasa infiltrada brillante y aroma profundo a dehesa.",
     },
   ];
 
@@ -154,30 +158,15 @@ const GuiaBridas = () => {
         <section className="max-w-6xl mx-auto px-6 py-20 space-y-20">
           {bridas.map((b, i) => (
             <article key={b.color} className="grid md:grid-cols-12 gap-10 items-start">
-              {/* Color block */}
+              {/* Brida image */}
               <div className="md:col-span-4">
-                <div
-                  className={`aspect-square w-full rounded-sm border ${b.border} shadow-sm flex flex-col items-center justify-center`}
-                  style={{ backgroundColor: b.hex }}
-                >
-                  <span
-                    className="font-serif text-2xl md:text-3xl font-bold tracking-wide"
-                    style={{
-                      color:
-                        b.color === "Blanca" ? "#111" : "#fff",
-                    }}
-                  >
-                    Brida
-                  </span>
-                  <span
-                    className="font-serif text-4xl md:text-5xl font-bold tracking-wide"
-                    style={{
-                      color:
-                        b.color === "Blanca" ? "#111" : "#fff",
-                    }}
-                  >
-                    {b.color}
-                  </span>
+                <div className="w-full flex items-center justify-center p-4">
+                  <img
+                    src={b.image}
+                    alt={`Brida ${b.color.toLowerCase()} del jamón ${b.tipo.toLowerCase()}`}
+                    className="w-full h-auto object-contain max-w-xs"
+                    loading="lazy"
+                  />
                 </div>
                 <p className="text-center mt-4 text-sm tracking-[0.2em] uppercase text-primary font-medium">
                   {b.precio}
@@ -280,8 +269,8 @@ const GuiaBridas = () => {
             el presupuesto. La <strong>brida blanca</strong> y la <strong>verde</strong> son
             ideales para el consumo diario y para introducirse en el mundo del ibérico. La{" "}
             <strong>roja</strong> ofrece la experiencia bellota a un precio más accesible. La{" "}
-            <strong>negra</strong>, el conocido <em>pata negra</em>, es la cumbre del ibérico:
-            reservada para celebraciones, regalos y momentos especiales.
+            <strong>negra</strong> es la cumbre del ibérico: reservada para celebraciones,
+            regalos y momentos especiales.
           </p>
           <p className="text-muted-foreground leading-relaxed text-lg mb-8">
             En <strong>Corvera Ibéricos</strong> trabajamos cada categoría con piezas
