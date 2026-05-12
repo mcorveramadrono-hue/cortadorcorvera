@@ -247,7 +247,11 @@ const GuiaBridas = () => {
         {/* Bridas */}
         <section className="max-w-6xl mx-auto px-6 py-20 space-y-20">
           {bridas.map((b, i) => (
-            <article key={b.color} className="grid md:grid-cols-12 gap-10 items-start">
+            <article
+              key={b.color}
+              id={`brida-${b.color.toLowerCase()}`}
+              className="grid md:grid-cols-12 gap-10 items-start scroll-mt-28"
+            >
               {/* Brida image */}
               <div className="md:col-span-5">
                 <p className="text-center mb-2 text-sm tracking-[0.2em] uppercase text-primary font-medium">
