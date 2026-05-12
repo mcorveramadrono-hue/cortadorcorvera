@@ -360,6 +360,35 @@ const GuiaBridas = () => {
           </div>
         </section>
 
+        {/* FAQ visible */}
+        <section id="preguntas-frecuentes" className="max-w-4xl mx-auto px-6 py-20 scroll-mt-28">
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-10">
+            Preguntas frecuentes sobre las bridas del jamón ibérico
+          </h2>
+          <div className="space-y-8">
+            <div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Qué significa la brida negra del jamón ibérico?</h3>
+              <p className="text-muted-foreground leading-relaxed">La brida negra identifica al jamón ibérico de bellota 100%: cerdos de raza 100% ibérica certificada, alimentados exclusivamente con bellota y pastos naturales en la dehesa durante la montanera. Es la máxima categoría según el RD 4/2014.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Qué diferencia hay entre la brida roja y la brida negra?</h3>
+              <p className="text-muted-foreground leading-relaxed">Ambas son jamones de bellota, pero la brida negra exige 100% raza ibérica, mientras que la brida roja se obtiene de cerdos cruzados (50% o 75% ibérico). La alimentación de bellota en montanera es la misma; la diferencia está en la pureza genética.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Qué significa la brida verde?</h3>
+              <p className="text-muted-foreground leading-relaxed">La brida verde corresponde al jamón ibérico de cebo de campo: cerdos criados al aire libre alimentados con piensos de cereales y legumbres complementados con pastos naturales del campo.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Qué significa la brida blanca?</h3>
+              <p className="text-muted-foreground leading-relaxed">La brida blanca identifica al jamón ibérico de cebo, alimentado con piensos naturales de cereales y legumbres en granja. Es la categoría de entrada de la gama ibérica.</p>
+            </div>
+            <div>
+              <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Cuál es la mejor brida del jamón ibérico?</h3>
+              <p className="text-muted-foreground leading-relaxed">La brida negra es la categoría más alta (bellota 100% ibérico). La mejor opción depende del paladar y el presupuesto: la roja ofrece bellota a precio más accesible y la verde y blanca son ideales para consumo diario.</p>
+            </div>
+          </div>
+        </section>
+
         {/* Conclusión */}
         <section className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
