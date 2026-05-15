@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import type { Product } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,11 +42,51 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "corvera-cart-v1";
+
+type PersistedCart = {
+  items: CartItem[];
+  promoCode: string;
+  promoApplied: boolean;
+  appliedCoupon: AppliedCoupon | null;
+};
+
+const loadPersisted = (): PersistedCart => {
+  if (typeof window === "undefined") {
+    return { items: [], promoCode: "", promoApplied: false, appliedCoupon: null };
+  }
+  try {
+    const raw = window.localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) return { items: [], promoCode: "", promoApplied: false, appliedCoupon: null };
+    const parsed = JSON.parse(raw) as Partial<PersistedCart>;
+    return {
+      items: Array.isArray(parsed.items) ? parsed.items : [],
+      promoCode: parsed.promoCode ?? "",
+      promoApplied: parsed.promoApplied ?? false,
+      appliedCoupon: parsed.appliedCoupon ?? null,
+    };
+  } catch {
+    return { items: [], promoCode: "", promoApplied: false, appliedCoupon: null };
+  }
+};
+
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [promoCode, setPromoCode] = useState("");
-  const [promoApplied, setPromoApplied] = useState(false);
-  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
+  const initial = loadPersisted();
+  const [items, setItems] = useState<CartItem[]>(initial.items);
+  const [promoCode, setPromoCode] = useState(initial.promoCode);
+  const [promoApplied, setPromoApplied] = useState(initial.promoApplied);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(initial.appliedCoupon);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify({ items, promoCode, promoApplied, appliedCoupon }),
+      );
+    } catch {
+      // ignore quota errors
+    }
+  }, [items, promoCode, promoApplied, appliedCoupon]);
 
   const addItem = (newItem: CartItem) => {
     setItems((prev) => {
