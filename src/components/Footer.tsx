@@ -58,13 +58,21 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-background/10 text-center space-y-2">
-          <Link
-            to="/politica-privacidad"
-            className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors"
-          >
-            Política de Privacidad
-          </Link>
+        <div className="mt-16 pt-8 border-t border-background/10 text-center space-y-3">
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <Link to="/aviso-legal" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+              Aviso Legal
+            </Link>
+            <Link to="/politica-privacidad" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+              Política de Privacidad
+            </Link>
+            <Link to="/terminos-condiciones" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+              Términos y Condiciones
+            </Link>
+            <Link to="/politica-cookies" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+              Política de Cookies
+            </Link>
+          </nav>
           <p className="text-xs text-background/30 tracking-widest">
             © {new Date().getFullYear()} Corvera Ibéricos · Un Corte Original. Todos los derechos reservados.
           </p>
