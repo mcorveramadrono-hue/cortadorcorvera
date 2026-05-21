@@ -42,6 +42,9 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/pedido-confirmado/:orderId" element={<PedidoConfirmado />} />
             <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/aviso-legal" element={<AvisoLegal />} />
+            <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
+            <Route path="/politica-cookies" element={<PoliticaCookies />} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="/confirmar-pago" element={<ConfirmarPago />} />
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />
