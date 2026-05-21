@@ -315,7 +315,10 @@ const Checkout = () => {
                   <Link to="/politica-privacidad" target="_blank" className="text-primary hover:underline">
                     Política de Privacidad
                   </Link>{" "}
-                  y las condiciones de compra. *
+                  y los{" "}
+                  <Link to="/terminos-condiciones" target="_blank" className="text-primary hover:underline">
+                    Términos y Condiciones de Venta
+                  </Link>. *
                 </label>
               </div>
             </div>
