@@ -12,6 +12,9 @@ import Carrito from "./pages/Carrito";
 import Checkout from "./pages/Checkout";
 import PedidoConfirmado from "./pages/PedidoConfirmado";
 import PoliticaPrivacidad from "./pages/PoliticaPrivacidad";
+import AvisoLegal from "./pages/AvisoLegal";
+import TerminosCondiciones from "./pages/TerminosCondiciones";
+import PoliticaCookies from "./pages/PoliticaCookies";
 import Unsubscribe from "./pages/Unsubscribe";
 import ConfirmarPago from "./pages/ConfirmarPago";
 import MarcarEnvio from "./pages/MarcarEnvio";
@@ -39,6 +42,9 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/pedido-confirmado/:orderId" element={<PedidoConfirmado />} />
             <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/aviso-legal" element={<AvisoLegal />} />
+            <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
+            <Route path="/politica-cookies" element={<PoliticaCookies />} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="/confirmar-pago" element={<ConfirmarPago />} />
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />

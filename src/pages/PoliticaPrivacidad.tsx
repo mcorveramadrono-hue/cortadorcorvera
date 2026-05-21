@@ -24,7 +24,7 @@ const PoliticaPrivacidad = () => {
 
         <div className="prose prose-sm max-w-none text-muted-foreground space-y-6 [&_h2]:text-foreground [&_h2]:font-serif [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-3 [&_strong]:text-foreground">
 
-          <p className="text-sm text-muted-foreground/70">Última actualización: 1 de abril de 2026</p>
+          <p className="text-sm text-muted-foreground/70">Última actualización: 21 de mayo de 2026</p>
 
           <h2>1. Responsable del tratamiento</h2>
           <p>
