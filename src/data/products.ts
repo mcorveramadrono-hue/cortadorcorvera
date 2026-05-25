@@ -43,7 +43,19 @@ import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpg";
 import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
-export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura";
+// Angel Martín
+import amJamonBellotaDo75 from "@/assets/products/angelmartin/jamon-bellota-do-75.jpg";
+import amJamonBellota50 from "@/assets/products/angelmartin/jamon-bellota-50.png";
+import amJamonCebo50 from "@/assets/products/angelmartin/jamon-cebo-50.png";
+import amJamonCebo50Alt from "@/assets/products/angelmartin/jamon-cebo-50-alt.png";
+import amJamonCeboCampo50 from "@/assets/products/angelmartin/jamon-cebo-campo-50.jpg";
+import amJamonCeboCampo50Alt from "@/assets/products/angelmartin/jamon-cebo-campo-50-alt.jpg";
+import amPaletaBellotaDo75 from "@/assets/products/angelmartin/paleta-bellota-do-75.png";
+import amPaletaBellotaDo75Alt from "@/assets/products/angelmartin/paleta-bellota-do-75-alt.png";
+import amPaletaCeboCampo50 from "@/assets/products/angelmartin/paleta-cebo-campo-50.jpg";
+import amPaletaCeboCampo50Alt from "@/assets/products/angelmartin/paleta-cebo-campo-50-alt.jpg";
+
+export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin";
 
 export interface WeightOption {
   weight: number;
@@ -68,6 +80,7 @@ export interface Product {
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
   { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico desde Jabugo" },
+  { id: "angel-martin", name: "Ángel Martín e Hijos", tagline: "Elaboración artesanal desde 1923" },
   { id: "epicum", name: "Epicum", tagline: "Cebo ibérico, +28 meses de curación" },
   { id: "finura", name: "Finura de Ibérico", tagline: "Cebo ibérico de ganadería propia" },
 ];
@@ -366,6 +379,92 @@ export const products: Product[] = [
     knifeSupplementPrice: 50,
     category: "jamon",
     brand: "finura",
+  },
+
+  // ====== ÁNGEL MARTÍN E HIJOS ======
+  {
+    id: "am-jamon-bellota-100",
+    name: "Jamón Ibérico Bellota 100% Ángel Martín",
+    description: "Jamón 100% ibérico de bellota elaborado artesanalmente por Ángel Martín e Hijos desde 1923. Cerdos criados en libertad en dehesas de Extremadura, Sierra de Sevilla y Sierra de Córdoba. Curación prolongada que aporta un sabor intenso, dulzón y jugoso.",
+    pricePerKg: 41.87,
+    images: [amJamonBellotaDo75],
+    weightOptions: generateWeightOptions(7.5, 8.5, 0.5, 41.87),
+    curing: "Más de 36 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-jamon-bellota-do-75",
+    name: "Jamón Ibérico Bellota 75% D.O.",
+    description: "Jamón ibérico de bellota 75% con Denominación de Origen. Elaboración artesanal de Ángel Martín e Hijos a partir de cerdos alimentados con bellotas y pastos naturales de la dehesa.",
+    pricePerKg: 40.62,
+    images: [amJamonBellotaDo75],
+    weightOptions: generateWeightOptions(7.5, 8.5, 0.5, 40.62),
+    curing: "Más de 36 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-jamon-bellota-50",
+    name: "Jamón Ibérico Bellota 50%",
+    description: "Jamón ibérico de bellota 50% de Ángel Martín e Hijos. Equilibrio perfecto entre sabor intenso y textura jugosa, elaborado de forma artesanal en la dehesa.",
+    pricePerKg: 33.17,
+    images: [amJamonBellota50],
+    weightOptions: generateWeightOptions(7.5, 8.5, 0.5, 33.17),
+    curing: "Más de 30 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-jamon-cebo-campo-50",
+    name: "Jamón Ibérico Cebo de Campo 50%",
+    description: "Jamón ibérico de cebo de campo 50%. Cerdos criados al aire libre en la dehesa, alimentados con piensos naturales y pastos. Sabor equilibrado y textura melosa.",
+    pricePerKg: 23.84,
+    images: [amJamonCeboCampo50, amJamonCeboCampo50Alt],
+    weightOptions: generateWeightOptions(7.5, 9.5, 0.5, 23.84),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-jamon-cebo-50",
+    name: "Jamón Ibérico Cebo 50%",
+    description: "Jamón ibérico de cebo 50% de Ángel Martín e Hijos. Cerdos alimentados con piensos naturales a base de cereales. Una entrada perfecta al mundo del ibérico.",
+    pricePerKg: 21.36,
+    images: [amJamonCebo50, amJamonCebo50Alt],
+    weightOptions: generateWeightOptions(7.5, 9.5, 0.5, 21.36),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-paleta-bellota-do-75",
+    name: "Paleta Ibérica Bellota 75% D.O.",
+    description: "Paleta ibérica de bellota 75% con Denominación de Origen. Elaboración artesanal de Ángel Martín e Hijos con curación lenta que potencia su aroma y sabor profundo.",
+    pricePerKg: 26.68,
+    images: [amPaletaBellotaDo75, amPaletaBellotaDo75Alt],
+    weightOptions: generateWeightOptions(4.5, 5.5, 0.5, 26.68),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "angel-martin",
+  },
+  {
+    id: "am-paleta-cebo-campo-50",
+    name: "Paleta Ibérica Cebo de Campo 50%",
+    description: "Paleta ibérica de cebo de campo 50%. Cerdos criados al aire libre en la dehesa con alimentación natural. Sabor suave y textura jugosa, ideal para el día a día.",
+    pricePerKg: 20.99,
+    images: [amPaletaCeboCampo50, amPaletaCeboCampo50Alt],
+    weightOptions: generateWeightOptions(4.5, 5.5, 0.5, 20.99),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "angel-martin",
   },
 ];
 
