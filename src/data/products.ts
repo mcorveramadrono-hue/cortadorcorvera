@@ -80,6 +80,7 @@ export interface Product {
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
   { id: "la-joya", name: "La Joya", tagline: "Jamón ibérico desde Jabugo" },
+  { id: "angel-martin", name: "Ángel Martín e Hijos", tagline: "Elaboración artesanal desde 1923" },
   { id: "epicum", name: "Epicum", tagline: "Cebo ibérico, +28 meses de curación" },
   { id: "finura", name: "Finura de Ibérico", tagline: "Cebo ibérico de ganadería propia" },
 ];
