@@ -76,6 +76,8 @@ export interface Product {
   knifeSupplementPrice: number;
   category: "jamon" | "paleta";
   brand: Brand;
+  available?: boolean;
+  unavailableReason?: string;
 }
 
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
