@@ -45,6 +45,7 @@ import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
 // Angel Martín
 import amJamonBellota100 from "@/assets/products/angelmartin/jamon-bellota-100.jpg";
+import amJamonBellota100Alt from "@/assets/products/angelmartin/jamon-bellota-100-alt.jpg";
 import amJamonBellotaDo75 from "@/assets/products/angelmartin/jamon-bellota-do-75.jpg";
 import amJamonBellota50 from "@/assets/products/angelmartin/jamon-bellota-50.png";
 import amJamonCebo50 from "@/assets/products/angelmartin/jamon-cebo-50.png";
@@ -388,7 +389,7 @@ export const products: Product[] = [
     name: "Jamón Ibérico Bellota 100% Ángel Martín",
     description: "Jamón 100% ibérico de bellota elaborado artesanalmente por Ángel Martín e Hijos desde 1923. Cerdos criados en libertad en dehesas de Extremadura, Sierra de Sevilla y Sierra de Córdoba. Curación prolongada que aporta un sabor intenso, dulzón y jugoso.",
     pricePerKg: 41.87,
-    images: [amJamonBellota100],
+    images: [amJamonBellota100, amJamonBellota100Alt],
     weightOptions: generateWeightOptions(7.5, 8.5, 0.5, 41.87),
     curing: "Más de 36 meses",
     knifeSupplementPrice: 50,
