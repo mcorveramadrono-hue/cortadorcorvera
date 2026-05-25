@@ -35,16 +35,65 @@
   </url>
   <url>
     <loc>https://corveraibericos.com/tienda/epicum</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://corveraibericos.com/tienda/finura</loc>
-    <lastmod>2026-05-07</lastmod>
+    <lastmod>2026-05-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-jamon-bellota-100</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-jamon-bellota-do-75</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-jamon-bellota-50</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-jamon-cebo-campo-50</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-jamon-cebo-50</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-paleta-bellota-do-75</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/tienda/angel-martin/am-paleta-cebo-campo-50</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://corveraibericos.com/tienda/cesar-nieto/jamon-bellota-100-dop</loc>
     <lastmod>2026-05-07</lastmod>
