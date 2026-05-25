@@ -43,7 +43,19 @@ import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpg";
 import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
-export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura";
+// Angel Martín
+import amJamonBellotaDo75 from "@/assets/products/angelmartin/jamon-bellota-do-75.jpg";
+import amJamonBellota50 from "@/assets/products/angelmartin/jamon-bellota-50.png";
+import amJamonCebo50 from "@/assets/products/angelmartin/jamon-cebo-50.png";
+import amJamonCebo50Alt from "@/assets/products/angelmartin/jamon-cebo-50-alt.png";
+import amJamonCeboCampo50 from "@/assets/products/angelmartin/jamon-cebo-campo-50.jpg";
+import amJamonCeboCampo50Alt from "@/assets/products/angelmartin/jamon-cebo-campo-50-alt.jpg";
+import amPaletaBellotaDo75 from "@/assets/products/angelmartin/paleta-bellota-do-75.png";
+import amPaletaBellotaDo75Alt from "@/assets/products/angelmartin/paleta-bellota-do-75-alt.png";
+import amPaletaCeboCampo50 from "@/assets/products/angelmartin/paleta-cebo-campo-50.jpg";
+import amPaletaCeboCampo50Alt from "@/assets/products/angelmartin/paleta-cebo-campo-50-alt.jpg";
+
+export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin";
 
 export interface WeightOption {
   weight: number;
