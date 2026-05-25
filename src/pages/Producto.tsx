@@ -282,13 +282,18 @@ const Producto = () => {
                 </div>
                 <button
                   onClick={handleAdd}
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
+                  disabled={product.available === false}
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed disabled:hover:bg-muted"
                 >
                   <ShoppingCart size={18} />
-                  Añadir al Carrito
+                  {product.available === false ? "No disponible" : "Añadir al Carrito"}
                 </button>
+                {product.available === false && product.unavailableReason && (
+                  <p className="text-xs text-center text-muted-foreground mt-2">{product.unavailableReason}</p>
+                )}
                 <p className="text-[10px] text-muted-foreground/60 text-center mt-2">*IVA incluido</p>
               </div>
+
             </div>
           </div>
         </div>
