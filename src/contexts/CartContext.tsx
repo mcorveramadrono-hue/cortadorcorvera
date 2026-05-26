@@ -16,6 +16,8 @@ export interface AppliedCoupon {
   type: "free-shipping" | "amount-off";
   amount?: number; // si amount-off
   minOrderTotal?: number;
+  brandFilter?: string; // si presente, descuento solo aplica a items de esa marca
+  shared?: boolean; // si es un cupón compartido (ANGEL5)
 }
 
 interface CartContextType {
@@ -162,8 +164,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         type: "amount-off",
         amount: Number(data.amount),
         minOrderTotal: Number(data.minOrderTotal),
+        brandFilter: data.brandFilter ?? undefined,
+        shared: data.shared === true,
       });
-      return { ok: true, message: `Descuento de ${data.amount}€ listo para aplicar.` };
+      const msg = data.brandFilter
+        ? `Descuento de ${data.amount}€ aplicable a productos de esa marca.`
+        : `Descuento de ${data.amount}€ listo para aplicar.`;
+      return { ok: true, message: msg };
     } catch {
       return { ok: false, message: "No se pudo validar el código." };
     }
@@ -195,12 +202,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const couponFreeShipping = appliedCoupon?.type === "free-shipping";
   const shippingCost = couponFreeShipping ? 0 : baseShippingCost;
 
-  // Cupón de importe: solo si subtotal >= mínimo
+  // Cupón de importe: solo si subtotal (filtrado por marca si aplica) >= mínimo
+  const couponEligibleSubtotal =
+    appliedCoupon?.type === "amount-off" && appliedCoupon.brandFilter
+      ? items.reduce((sum, i) => {
+          if (i.product.brand !== appliedCoupon.brandFilter) return sum;
+          const promo = getPromotion(i.product.id);
+          const knifeFree = promo?.type === "free-knife";
+          const knifeCost = i.withKnife && !knifeFree ? i.product.knifeSupplementPrice : 0;
+          return sum + (i.price + knifeCost) * i.quantity;
+        }, 0)
+      : subtotal;
+
   const discountAmount =
     appliedCoupon?.type === "amount-off" &&
     appliedCoupon.amount &&
-    subtotal >= (appliedCoupon.minOrderTotal ?? 0)
-      ? Math.min(appliedCoupon.amount, subtotal)
+    couponEligibleSubtotal >= (appliedCoupon.minOrderTotal ?? 0) &&
+    couponEligibleSubtotal > 0
+      ? Math.min(appliedCoupon.amount, couponEligibleSubtotal)
       : 0;
 
   const total = Math.max(0, subtotal + shippingCost - discountAmount);
