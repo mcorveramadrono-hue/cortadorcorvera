@@ -25,3 +25,7 @@ project_id = "gdmzfhwmqguextpwbbmg"
     verify_jwt = false
   [functions.request-welcome-coupon]
     verify_jwt = false
+  [functions.validate-coupon]
+    verify_jwt = false
+  [functions.redeem-shared-promo]
+    verify_jwt = false
