@@ -66,6 +66,24 @@ const Checkout = () => {
     setLoading(true);
 
     try {
+      // If a shared coupon (e.g. ANGEL5) is applied AND it's actually giving a discount,
+      // redeem it before creating the order. One use per email enforced server-side.
+      if (appliedCoupon?.shared && discountAmount > 0) {
+        const { data: redeemData, error: redeemError } = await supabase.functions.invoke(
+          "redeem-shared-promo",
+          { body: { code: appliedCoupon.code, email: formData.email } }
+        );
+        if (redeemError || !redeemData?.ok) {
+          toast({
+            title: "No se pudo aplicar el cupón",
+            description: redeemData?.error || "Inténtalo de nuevo o retira el cupón.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+      }
+
       const sessionToken = crypto.randomUUID();
       const orderData = {
         order_number: `TMP-${Date.now()}`,

@@ -298,6 +298,66 @@ export type Database = {
         }
         Relationships: []
       }
+      shared_promo_codes: {
+        Row: {
+          amount: number
+          brand_filter: string | null
+          code: string
+          created_at: string
+          expires_at: string
+          id: string
+          max_uses: number
+          min_order_total: number
+          used_count: number
+        }
+        Insert: {
+          amount: number
+          brand_filter?: string | null
+          code: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          max_uses: number
+          min_order_total?: number
+          used_count?: number
+        }
+        Update: {
+          amount?: number
+          brand_filter?: string | null
+          code?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          max_uses?: number
+          min_order_total?: number
+          used_count?: number
+        }
+        Relationships: []
+      }
+      shared_promo_redemptions: {
+        Row: {
+          code: string
+          created_at: string
+          email: string
+          id: string
+          order_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          email: string
+          id?: string
+          order_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          email?: string
+          id?: string
+          order_id?: string | null
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
@@ -328,6 +388,7 @@ export type Database = {
     }
     Functions: {
       cleanup_expired_coupons: { Args: never; Returns: undefined }
+      cleanup_expired_shared_promos: { Args: never; Returns: undefined }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
