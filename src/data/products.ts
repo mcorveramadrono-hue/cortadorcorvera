@@ -420,6 +420,8 @@ export const products: Product[] = [
     knifeSupplementPrice: 50,
     category: "jamon",
     brand: "angel-martin",
+    available: false,
+    unavailableReason: "En curación · próximamente disponible",
   },
   {
     id: "am-jamon-cebo-campo-50",
