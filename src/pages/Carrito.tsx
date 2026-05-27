@@ -206,7 +206,7 @@ const Carrito = () => {
                   <span className="font-serif text-lg font-bold text-foreground">Total</span>
                   <span className="font-serif text-lg font-bold text-primary">{total.toFixed(2).replace('.', ',')} €</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground/60 text-right">*IVA incluido</p>
+                <p className="text-[10px] text-muted-foreground text-right">*IVA incluido</p>
               </div>
 
               {/* Pagos Seguros */}

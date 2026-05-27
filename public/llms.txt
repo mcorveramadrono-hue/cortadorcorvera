@@ -1,0 +1,24 @@
+# Corvera Ibéricos
+
+> Tienda online de jamón ibérico de bellota y servicio profesional de cortador de jamón a cuchillo en Madrid, con envíos a toda España. Distribuidor oficial de César Nieto (Guijuelo), La Joya (Jabugo), Ángel Martín e Hijos (desde 1923), Epicum y Finura.
+
+Corvera Ibéricos vende jamones y paletas ibéricas (bellota 100%, 75% D.O., 50%, cebo de campo, cebo y reserva familiar) en pieza entera, con opción de corte a cuchillo profesional y envasado al vacío. También ofrece servicio de cortador profesional para bodas, eventos corporativos y celebraciones.
+
+## Pages
+
+- [Inicio](/): Presentación de Corvera Ibéricos, marcas y servicios.
+- [Tienda](/tienda): Catálogo completo de jamones y paletas ibéricas con filtros por marca, calidad y precio.
+- [César Nieto](/tienda/cesar-nieto): Jamones y paletas D.O.P. Guijuelo de César Nieto.
+- [La Joya](/tienda/la-joya): Jamones y paletas D.O.P. Jabugo de La Joya.
+- [Ángel Martín e Hijos](/tienda/angel-martin): Jamones y paletas artesanas de Ángel Martín e Hijos, secadero centenario fundado en 1923.
+- [Epicum](/tienda/epicum): Jamón ibérico de cebo Epicum.
+- [Finura](/tienda/finura): Jamón ibérico de cebo Finura.
+- [Ofertas](/ofertas): Promociones activas en jamones y paletas seleccionadas.
+- [Guía de Bridas del Jamón Ibérico](/guia-bridas-jamon-iberico): Explicación de los precintos negro, rojo, verde y blanco según el RD 4/2014.
+
+## Optional
+
+- [Política de Privacidad](/politica-privacidad)
+- [Aviso Legal](/aviso-legal)
+- [Términos y Condiciones](/terminos-condiciones)
+- [Política de Cookies](/politica-cookies)

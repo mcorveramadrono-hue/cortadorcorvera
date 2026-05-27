@@ -63,7 +63,7 @@ const ProductDetailDialog = ({ isOpen, onClose, product }: ProductDetailDialogPr
             </div>
           </div>
 
-          <p className="text-xs text-muted-foreground/70 text-center">
+          <p className="text-xs text-muted-foreground text-center">
             * Todos los precios incluyen IVA
           </p>
         </div>

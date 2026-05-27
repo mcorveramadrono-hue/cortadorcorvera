@@ -145,7 +145,7 @@ const TiendaMarca = () => {
           <p className="font-serif text-lg font-bold text-primary mt-auto">
             Desde {minPrice.toFixed(2).replace('.', ',')} €
           </p>
-          <span className="text-[10px] text-muted-foreground/60">*IVA incl.</span>
+          <span className="text-[10px] text-muted-foreground">*IVA incl.</span>
         </div>
       </Link>
     );
@@ -201,7 +201,7 @@ const TiendaMarca = () => {
             <p className="text-sm text-muted-foreground">
               <strong>Envío gratuito</strong> para pedidos superiores a 20 kg de peso.
             </p>
-            <p className="text-xs text-muted-foreground/70">
+            <p className="text-xs text-muted-foreground">
               Para pedidos inferiores a 20 kg, los gastos de envío son de 5 €.
             </p>
           </div>
