@@ -13,8 +13,9 @@ export interface CartItem {
 
 export interface AppliedCoupon {
   code: string;
-  type: "free-shipping" | "amount-off";
+  type: "free-shipping" | "amount-off" | "percent-off";
   amount?: number; // si amount-off
+  percentOff?: number; // si percent-off
   minOrderTotal?: number;
   brandFilter?: string; // si presente, descuento solo aplica a items de esa marca
   shared?: boolean; // si es un cupón compartido (ANGEL5)
