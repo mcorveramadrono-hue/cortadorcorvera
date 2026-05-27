@@ -101,7 +101,7 @@ const Checkout = () => {
         shipping_cost: shippingCost,
         total,
         total_weight: totalWeight,
-        notes: (formData.notes || "") + (appliedCoupon?.type === "amount-off" && discountAmount > 0 ? `\n[CUPÓN ${promoCode} -${discountAmount}€]` : ""),
+        notes: (formData.notes || "") + ((appliedCoupon?.type === "amount-off" || appliedCoupon?.type === "percent-off") && discountAmount > 0 ? `\n[CUPÓN ${promoCode} -${discountAmount.toFixed(2)}€${appliedCoupon.type === "percent-off" ? ` (${appliedCoupon.percentOff}%)` : ""}]` : ""),
         accept_privacy: acceptPrivacy,
         payment_method: paymentMethod,
         status: paymentMethod === "card" ? "pending_stripe" : "pending_payment",

@@ -25,7 +25,7 @@ serve(async (req) => {
     // 1) Check shared promo codes (e.g. ANGEL5)
     const { data: shared } = await supabase
       .from("shared_promo_codes")
-      .select("amount, min_order_total, brand_filter, max_uses, used_count, expires_at")
+      .select("amount, percent_off, min_order_total, brand_filter, max_uses, used_count, expires_at")
       .eq("code", normalized)
       .maybeSingle();
 
@@ -44,7 +44,8 @@ serve(async (req) => {
         JSON.stringify({
           valid: true,
           shared: true,
-          amount: Number(shared.amount),
+          amount: Number(shared.amount ?? 0),
+          percentOff: shared.percent_off != null ? Number(shared.percent_off) : null,
           minOrderTotal: Number(shared.min_order_total),
           brandFilter: shared.brand_filter,
         }),

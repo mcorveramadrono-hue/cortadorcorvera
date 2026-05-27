@@ -13,8 +13,9 @@ export interface CartItem {
 
 export interface AppliedCoupon {
   code: string;
-  type: "free-shipping" | "amount-off";
+  type: "free-shipping" | "amount-off" | "percent-off";
   amount?: number; // si amount-off
+  percentOff?: number; // si percent-off
   minOrderTotal?: number;
   brandFilter?: string; // si presente, descuento solo aplica a items de esa marca
   shared?: boolean; // si es un cupón compartido (ANGEL5)
@@ -159,17 +160,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       setPromoCode(normalized);
       setPromoApplied(true);
+      const isPercent = data.percentOff != null && Number(data.percentOff) > 0;
       setAppliedCoupon({
         code: normalized,
-        type: "amount-off",
-        amount: Number(data.amount),
+        type: isPercent ? "percent-off" : "amount-off",
+        amount: Number(data.amount ?? 0),
+        percentOff: isPercent ? Number(data.percentOff) : undefined,
         minOrderTotal: Number(data.minOrderTotal),
         brandFilter: data.brandFilter ?? undefined,
         shared: data.shared === true,
       });
+      const valueLabel = isPercent ? `${Number(data.percentOff)}%` : `${data.amount}€`;
       const msg = data.brandFilter
-        ? `Descuento de ${data.amount}€ aplicable a productos de esa marca.`
-        : `Descuento de ${data.amount}€ listo para aplicar.`;
+        ? `Descuento de ${valueLabel} aplicable a productos de esa marca.`
+        : `Descuento de ${valueLabel} listo para aplicar.`;
       return { ok: true, message: msg };
     } catch {
       return { ok: false, message: "No se pudo validar el código." };
@@ -202,9 +206,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const couponFreeShipping = appliedCoupon?.type === "free-shipping";
   const shippingCost = couponFreeShipping ? 0 : baseShippingCost;
 
-  // Cupón de importe: solo si subtotal (filtrado por marca si aplica) >= mínimo
+  // Cupón de importe/porcentaje: solo si subtotal (filtrado por marca si aplica) >= mínimo
+  const isDiscountCoupon =
+    appliedCoupon?.type === "amount-off" || appliedCoupon?.type === "percent-off";
   const couponEligibleSubtotal =
-    appliedCoupon?.type === "amount-off" && appliedCoupon.brandFilter
+    isDiscountCoupon && appliedCoupon?.brandFilter
       ? items.reduce((sum, i) => {
           if (i.product.brand !== appliedCoupon.brandFilter) return sum;
           const promo = getPromotion(i.product.id);
@@ -214,13 +220,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         }, 0)
       : subtotal;
 
-  const discountAmount =
-    appliedCoupon?.type === "amount-off" &&
-    appliedCoupon.amount &&
-    couponEligibleSubtotal >= (appliedCoupon.minOrderTotal ?? 0) &&
+  let discountAmount = 0;
+  if (
+    isDiscountCoupon &&
+    couponEligibleSubtotal >= (appliedCoupon?.minOrderTotal ?? 0) &&
     couponEligibleSubtotal > 0
-      ? Math.min(appliedCoupon.amount, couponEligibleSubtotal)
-      : 0;
+  ) {
+    if (appliedCoupon?.type === "percent-off" && appliedCoupon.percentOff) {
+      discountAmount = Math.round(couponEligibleSubtotal * appliedCoupon.percentOff) / 100;
+    } else if (appliedCoupon?.type === "amount-off" && appliedCoupon.amount) {
+      discountAmount = Math.min(appliedCoupon.amount, couponEligibleSubtotal);
+    }
+  }
 
   const total = Math.max(0, subtotal + shippingCost - discountAmount);
 
