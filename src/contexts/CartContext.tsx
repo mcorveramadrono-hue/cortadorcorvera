@@ -160,17 +160,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       setPromoCode(normalized);
       setPromoApplied(true);
+      const isPercent = data.percentOff != null && Number(data.percentOff) > 0;
       setAppliedCoupon({
         code: normalized,
-        type: "amount-off",
-        amount: Number(data.amount),
+        type: isPercent ? "percent-off" : "amount-off",
+        amount: Number(data.amount ?? 0),
+        percentOff: isPercent ? Number(data.percentOff) : undefined,
         minOrderTotal: Number(data.minOrderTotal),
         brandFilter: data.brandFilter ?? undefined,
         shared: data.shared === true,
       });
+      const valueLabel = isPercent ? `${Number(data.percentOff)}%` : `${data.amount}€`;
       const msg = data.brandFilter
-        ? `Descuento de ${data.amount}€ aplicable a productos de esa marca.`
-        : `Descuento de ${data.amount}€ listo para aplicar.`;
+        ? `Descuento de ${valueLabel} aplicable a productos de esa marca.`
+        : `Descuento de ${valueLabel} listo para aplicar.`;
       return { ok: true, message: msg };
     } catch {
       return { ok: false, message: "No se pudo validar el código." };
