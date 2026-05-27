@@ -56,7 +56,7 @@ const Products = () => {
           ))}
         </div>
 
-        <p className="text-center text-xs text-muted-foreground/50 mt-10">
+        <p className="text-center text-xs text-muted-foreground mt-10">
           Gastos de envío: 5 € para pedidos inferiores a 20 kg · Envío gratuito a partir de 20 kg
         </p>
 

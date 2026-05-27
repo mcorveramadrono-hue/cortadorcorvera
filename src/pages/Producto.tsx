@@ -291,7 +291,7 @@ const Producto = () => {
                 {product.available === false && product.unavailableReason && (
                   <p className="text-xs text-center text-muted-foreground mt-2">{product.unavailableReason}</p>
                 )}
-                <p className="text-[10px] text-muted-foreground/60 text-center mt-2">*IVA incluido</p>
+                <p className="text-[10px] text-muted-foreground text-center mt-2">*IVA incluido</p>
               </div>
 
             </div>
