@@ -6,15 +6,19 @@ import Footer from "@/components/Footer";
 import { PROMOTIONS } from "@/data/promotions";
 import { products } from "@/data/products";
 import PromoBadge from "@/components/PromoBadge";
+import { usePageSeo } from "@/lib/seo";
 
 const Ofertas = () => {
   const navigate = useNavigate();
 
+  usePageSeo({
+    title: "Ofertas y Promociones | Corvera Ibéricos",
+    description: "Ofertas activas en jamones ibéricos: envío gratis, corte a cuchillo gratuito y descuentos en piezas seleccionadas. Aprovecha las promociones.",
+    path: "/ofertas",
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Ofertas y Promociones | Corvera Ibéricos";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Todas las ofertas y promociones de Corvera Ibéricos: envío gratuito, corte a cuchillo gratis y descuentos en jamones ibéricos.");
   }, []);
 
   return (

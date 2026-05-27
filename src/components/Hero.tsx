@@ -12,6 +12,10 @@ const Hero = () => {
         <img
           src={corveraLogo}
           alt="Corvera Ibéricos - Jamón Ibérico de Bellota"
+          width="448"
+          height="160"
+          fetchPriority="high"
+          decoding="async"
           className="w-full max-w-md h-auto object-contain"
         />
 

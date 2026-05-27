@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Slider } from "@/components/ui/slider";
 import PromoBadge from "@/components/PromoBadge";
+import { usePageSeo } from "@/lib/seo";
 
 type CategoryFilter = "all" | "jamon" | "paleta";
 type SortOption = "default" | "price-asc" | "price-desc";
@@ -87,18 +88,14 @@ const Tienda = () => {
     } catch {}
   }, [search, category, selectedBrands, selectedQualities, priceRange, sortBy, filtersOpen]);
 
+  usePageSeo({
+    title: "Tienda de Jamón Ibérico Online | Corvera Ibéricos",
+    description: "Catálogo de jamones y paletas ibéricas: César Nieto, La Joya, Ángel Martín, Epicum y Finura. Bellota, cebo y D.O.P. Envío a toda España.",
+    path: "/tienda",
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Tienda Jamón Ibérico Online | César Nieto, La Joya Jabugo, Epicum y Finura - Corvera Ibéricos";
-    const meta = document.querySelector('meta[name="description"]');
-    if (meta) meta.setAttribute("content", "Compra jamón ibérico de bellota y paleta ibérica online de las marcas César Nieto (Guijuelo), La Joya (Jabugo), Epicum y Finura. Bellota 100%, 75%, 50%, cebo y reserva familiar. Envío a toda España. Corte a cuchillo profesional.");
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute('href', 'https://corveraibericos.com/tienda');
   }, []);
 
   const toggleBrand = (id: string) => {
