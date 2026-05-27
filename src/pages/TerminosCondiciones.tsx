@@ -2,9 +2,15 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const TerminosCondiciones = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Términos y Condiciones | Corvera Ibéricos",
+    description: "Términos y condiciones de compra en Corvera Ibéricos: pedidos, envíos, pagos, devoluciones y derechos del consumidor.",
+    path: "/terminos-condiciones",
+  });
 
   return (
     <div className="min-h-screen bg-background">

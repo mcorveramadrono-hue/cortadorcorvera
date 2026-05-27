@@ -2,9 +2,15 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const PoliticaPrivacidad = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Política de Privacidad | Corvera Ibéricos",
+    description: "Política de privacidad de Corvera Ibéricos: cómo recopilamos, usamos y protegemos tus datos personales conforme al RGPD.",
+    path: "/politica-privacidad",
+  });
 
   return (
     <div className="min-h-screen bg-background">

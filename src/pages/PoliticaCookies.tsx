@@ -2,9 +2,15 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const PoliticaCookies = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Política de Cookies | Corvera Ibéricos",
+    description: "Política de cookies de Corvera Ibéricos: tipos de cookies que usamos, finalidad y cómo gestionar tus preferencias.",
+    path: "/politica-cookies",
+  });
 
   return (
     <div className="min-h-screen bg-background">

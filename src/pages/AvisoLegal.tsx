@@ -2,9 +2,15 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const AvisoLegal = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Aviso Legal | Corvera Ibéricos",
+    description: "Aviso legal de Corvera Ibéricos: titularidad del sitio web, condiciones de uso y datos identificativos del responsable.",
+    path: "/aviso-legal",
+  });
 
   return (
     <div className="min-h-screen bg-background">
