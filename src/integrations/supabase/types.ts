@@ -300,7 +300,7 @@ export type Database = {
       }
       shared_promo_codes: {
         Row: {
-          amount: number
+          amount: number | null
           brand_filter: string | null
           code: string
           created_at: string
@@ -308,10 +308,11 @@ export type Database = {
           id: string
           max_uses: number
           min_order_total: number
+          percent_off: number | null
           used_count: number
         }
         Insert: {
-          amount: number
+          amount?: number | null
           brand_filter?: string | null
           code: string
           created_at?: string
@@ -319,10 +320,11 @@ export type Database = {
           id?: string
           max_uses: number
           min_order_total?: number
+          percent_off?: number | null
           used_count?: number
         }
         Update: {
-          amount?: number
+          amount?: number | null
           brand_filter?: string | null
           code?: string
           created_at?: string
@@ -330,6 +332,7 @@ export type Database = {
           id?: string
           max_uses?: number
           min_order_total?: number
+          percent_off?: number | null
           used_count?: number
         }
         Relationships: []
