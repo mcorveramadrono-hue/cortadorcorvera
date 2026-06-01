@@ -120,7 +120,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       const current = prev[index];
       if (!current) return prev;
       const minQty = current.product.minQuantity ?? 1;
-      if (quantity < minQty) return prev;
+      const maxQty = current.product.maxQuantity ?? Infinity;
+      if (quantity < minQty || quantity > maxQty) return prev;
       const updated = [...prev];
       updated[index] = { ...updated[index], quantity };
       return updated;
