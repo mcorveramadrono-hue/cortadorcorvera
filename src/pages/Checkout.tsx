@@ -346,20 +346,24 @@ const Checkout = () => {
                 <h2 className="font-serif text-lg font-bold text-foreground">Resumen del Pedido</h2>
                 <div className="space-y-3 max-h-60 overflow-y-auto">
                   {items.map((item, i) => {
-                    const itemTotal = (item.price + (item.withKnife ? item.product.knifeSupplementPrice : 0)) * item.quantity;
+                    const isUnit = item.product.unit === "sobre";
+                    const itemTotal = (item.price + (!isUnit && item.withKnife ? item.product.knifeSupplementPrice : 0)) * item.quantity;
                     return (
                       <div key={i} className="flex justify-between text-sm">
                         <div className="min-w-0">
                           <p className="text-foreground truncate text-xs">{item.product.name}</p>
                           <p className="text-[10px] text-muted-foreground">
-                            {item.selectedWeight.toFixed(1).replace('.', ',')} kg × {item.quantity}
-                            {item.withKnife && ` + cuchillo (${item.product.knifeSupplementPrice} €)`}
+                            {isUnit
+                              ? <>{item.quantity} sobre{item.quantity === 1 ? "" : "s"} · 90 g</>
+                              : <>{item.selectedWeight.toFixed(1).replace('.', ',')} kg × {item.quantity}{item.withKnife && ` + cuchillo (${item.product.knifeSupplementPrice} €)`}</>
+                            }
                           </p>
                         </div>
                         <span className="text-foreground font-medium text-xs whitespace-nowrap ml-2">{itemTotal.toFixed(2).replace('.', ',')} €</span>
                       </div>
                     );
                   })}
+
                 </div>
                 <div className="border-t border-border pt-3 space-y-2">
                   <div className="flex justify-between text-sm">
