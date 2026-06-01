@@ -69,8 +69,10 @@ const Carrito = () => {
               {items.map((item, index) => {
                 const itemPromo = getPromotion(item.product.id);
                 const itemKnifeFree = itemPromo?.type === "free-knife";
-                const itemKnifeCost = item.withKnife && !itemKnifeFree ? item.product.knifeSupplementPrice : 0;
+                const isUnit = item.product.unit === "sobre";
+                const itemKnifeCost = !isUnit && item.withKnife && !itemKnifeFree ? item.product.knifeSupplementPrice : 0;
                 const itemTotal = (item.price + itemKnifeCost) * item.quantity;
+                const minQty = item.product.minQuantity ?? 1;
 
                 return (
                   <div key={index} className="flex gap-4 p-4 border border-border bg-card">
@@ -82,13 +84,17 @@ const Carrito = () => {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-serif text-sm font-semibold text-foreground truncate">{item.product.name}</h3>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        {item.selectedWeight.toFixed(1).replace('.', ',')} kg — {item.price.toFixed(2).replace('.', ',')} €
+                        {isUnit
+                          ? <>1 sobre · 90 g — {item.price.toFixed(2).replace('.', ',')} €</>
+                          : <>{item.selectedWeight.toFixed(1).replace('.', ',')} kg — {item.price.toFixed(2).replace('.', ',')} €</>
+                        }
                       </p>
 
                       <div className="flex items-center gap-3 mt-2">
                         <button
                           onClick={() => updateQuantity(index, item.quantity - 1)}
-                          className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors"
+                          disabled={item.quantity <= minQty}
+                          className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           <Minus size={12} />
                         </button>
@@ -99,25 +105,33 @@ const Carrito = () => {
                         >
                           <Plus size={12} />
                         </button>
+                        {isUnit && minQty > 1 && (
+                          <span className="text-[10px] text-muted-foreground">mínimo {minQty} sobres</span>
+                        )}
                       </div>
 
-                      <label className="mt-3 inline-flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={item.withKnife}
-                          onChange={(e) => updateKnife(index, e.target.checked)}
-                          className="w-4 h-4 accent-primary"
-                        />
-                        <Scissors size={14} className="text-muted-foreground" />
-                        <span className="text-xs text-muted-foreground">
-                          Corte a cuchillo{" "}
-                          {itemKnifeFree ? (
-                            <strong className="text-primary">GRATIS</strong>
-                          ) : (
-                            <>(+{item.product.knifeSupplementPrice} €)</>
-                          )}
-                        </span>
-                      </label>
+                      {!isUnit && (
+                        <label className="mt-3 inline-flex items-center gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={item.withKnife}
+                            onChange={(e) => updateKnife(index, e.target.checked)}
+                            className="w-4 h-4 accent-primary"
+                          />
+                          <Scissors size={14} className="text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">
+                            Corte a cuchillo{" "}
+                            {itemKnifeFree ? (
+                              <strong className="text-primary">GRATIS</strong>
+                            ) : (
+                              <>(+{item.product.knifeSupplementPrice} €)</>
+                            )}
+                          </span>
+                        </label>
+                      )}
+                      {isUnit && (
+                        <p className="mt-3 text-[11px] text-primary">Ya cortado a cuchillo · envío incluido hasta {item.product.freeShippingMaxUnits ?? 10} sobres</p>
+                      )}
                     </div>
                     <div className="flex flex-col items-end justify-between">
                       <button onClick={() => removeItem(index)} className="text-muted-foreground hover:text-destructive transition-colors">
@@ -128,6 +142,7 @@ const Carrito = () => {
                   </div>
                 );
               })}
+
 
               {/* Promo Code */}
               <div className="border border-border p-4 space-y-3">

@@ -116,13 +116,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateQuantity = (index: number, quantity: number) => {
-    if (quantity < 1) return;
     setItems((prev) => {
+      const current = prev[index];
+      if (!current) return prev;
+      const minQty = current.product.minQuantity ?? 1;
+      if (quantity < minQty) return prev;
       const updated = [...prev];
       updated[index] = { ...updated[index], quantity };
       return updated;
     });
   };
+
 
   const updateKnife = (index: number, withKnife: boolean) => {
     setItems((prev) => {
@@ -198,9 +202,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const totalWeight = items.reduce((sum, i) => sum + i.selectedWeight * i.quantity, 0);
 
-  // Envío gratis si hay producto con promo de envío gratis, peso >= 20, o cupón free-shipping
-  const hasPromoFreeShipping = items.some((i) => getPromotion(i.product.id)?.type === "free-shipping");
+  // Envío gratis si hay producto con promo de envío gratis, peso >= 20, cupón free-shipping,
+  // o si hay un producto por unidades (sobres) dentro de su rango de envío incluido.
+  const hasPromoFreeShipping =
+    items.some((i) => getPromotion(i.product.id)?.type === "free-shipping") ||
+    items.some(
+      (i) =>
+        i.product.unit === "sobre" &&
+        i.product.freeShippingMaxUnits != null &&
+        i.quantity <= i.product.freeShippingMaxUnits,
+    );
   const hasPromoFreeKnife = items.some((i) => getPromotion(i.product.id)?.type === "free-knife");
+
 
   const baseShippingCost = totalWeight >= 20 || hasPromoFreeShipping ? 0 : 5;
   const couponFreeShipping = appliedCoupon?.type === "free-shipping";
