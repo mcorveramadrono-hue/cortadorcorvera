@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, ShoppingCart, Tag } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Tag, Plus, Minus, Truck } from "lucide-react";
+
 import { useNavigate, useParams, Navigate, useSearchParams } from "react-router-dom";
 import { products, BRANDS } from "@/data/products";
 import { getPromotion } from "@/data/promotions";
@@ -19,14 +20,18 @@ const Producto = () => {
   const [imageIdx, setImageIdx] = useState(0);
   const [weightIdx, setWeightIdx] = useState(0);
   const [withKnife, setWithKnife] = useState(false);
-  const [added, setAdded] = useState<{ name: string; weight: number } | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState<{ name: string; weight: number; quantity: number; isUnit: boolean; unitLabel?: string } | null>(null);
 
-  // Reset weight index when product changes
+  // Reset state when product changes
   useEffect(() => {
     setWeightIdx(0);
     setImageIdx(0);
     setWithKnife(false);
+    const p = products.find((x) => x.id === productId && x.brand === brand);
+    setQuantity(p?.minQuantity ?? 1);
   }, [productId, brand]);
+
 
   const product = products.find((p) => p.id === productId && p.brand === brand);
   const brandInfo = BRANDS.find((b) => b.id === brand);
@@ -125,8 +130,12 @@ const Producto = () => {
   const promo = getPromotion(product.id);
   const knifeIsFree = promo?.type === "free-knife";
   const option = product.weightOptions[weightIdx];
+  const isUnitProduct = product.unit === "sobre";
+  const minQty = product.minQuantity ?? 1;
   const knifeCost = withKnife && !knifeIsFree ? product.knifeSupplementPrice : 0;
-  const totalPrice = option.price + knifeCost;
+  const totalPrice = isUnitProduct
+    ? option.price * quantity
+    : option.price + knifeCost;
 
   const handleBack = () => {
     if (from === "marca" && brand) {
@@ -142,15 +151,23 @@ const Producto = () => {
   };
 
   const handleAdd = () => {
+    const qty = isUnitProduct ? Math.max(quantity, minQty) : 1;
     addItem({
       product,
       selectedWeight: option.weight,
       price: option.price,
-      quantity: 1,
-      withKnife,
+      quantity: qty,
+      withKnife: isUnitProduct ? false : withKnife,
     });
-    setAdded({ name: product.name, weight: option.weight });
+    setAdded({
+      name: product.name,
+      weight: option.weight,
+      quantity: qty,
+      isUnit: isUnitProduct,
+      unitLabel: product.unitLabel,
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-background">
