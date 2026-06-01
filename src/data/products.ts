@@ -390,10 +390,10 @@ export const products: Product[] = [
     id: "epicum-sobres-cebo-iberico",
     name: "Sobres de Jamón Cebo 50% Ibérico Epicum (cortado a cuchillo)",
     description: "Sobres de jamón de cebo 50% ibérico Epicum cortados a cuchillo y envasados al vacío. Cada sobre contiene 90 g de lonchas finas listas para servir, perfectas para una tabla, un picoteo o disfrutar en cualquier momento. Pedido mínimo de 3 sobres, máximo 20 sobres. Envío incluido en todos los pedidos.",
-    pricePerKg: 77.22,
+    pricePerKg: 88.33,
     images: [epicumSobresCebo50, epicumSobresCebo502, epicumSobresCebo503],
     weightOptions: [
-      { weight: 0.09, price: 6.95, label: "1 sobre · 90 g · 6,95 €" },
+      { weight: 0.09, price: 7.95, label: "1 sobre · 90 g · 7,95 €" },
     ],
     curing: "Más de 28 meses",
     knifeSupplementPrice: 0,
