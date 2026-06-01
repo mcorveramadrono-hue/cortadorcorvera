@@ -45,19 +45,21 @@ const ALL_PRICES = products.map(getMinPrice);
 const PRICE_MIN = Math.floor(Math.min(...ALL_PRICES));
 const PRICE_MAX = Math.ceil(Math.max(...ALL_PRICES));
 
-// Default ordering: reserva familiar / fuera de norma first, then cheapest cebo, then rest grouped by brand
+// Default ordering: unit-based products first, then reserva familiar / fuera de norma,
+// then cheapest cebo, then rest grouped by brand
 function defaultSort(list: Product[]): Product[] {
-  const fueraNorma = list.filter((p) => getQuality(p) === "fuera-norma");
+  const unitProducts = list.filter((p) => p.unit === "sobre");
+  const fueraNorma = list.filter((p) => getQuality(p) === "fuera-norma" && p.unit !== "sobre");
   const cebos = list
-    .filter((p) => getQuality(p) === "cebo" || getQuality(p) === "cebo-campo")
+    .filter((p) => (getQuality(p) === "cebo" || getQuality(p) === "cebo-campo") && p.unit !== "sobre")
     .sort((a, b) => getMinPricePerKg(a) - getMinPricePerKg(b));
   const rest = list.filter((p) => {
     const q = getQuality(p);
-    return q !== "fuera-norma" && q !== "cebo" && q !== "cebo-campo";
+    return q !== "fuera-norma" && q !== "cebo" && q !== "cebo-campo" && p.unit !== "sobre";
   });
   const brandOrder = BRANDS.map((b) => b.id);
   rest.sort((a, b) => brandOrder.indexOf(a.brand) - brandOrder.indexOf(b.brand));
-  return [...fueraNorma, ...cebos, ...rest];
+  return [...unitProducts, ...fueraNorma, ...cebos, ...rest];
 }
 
 const Tienda = () => {
