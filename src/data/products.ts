@@ -41,7 +41,11 @@ import lajoyaCaja from "@/assets/products/lajoya/caja.png";
 
 // Epicum & Finura
 import epicumJamonCebo50 from "@/assets/products/epicum/jamon-cebo-50.jpg";
+import epicumSobresCebo50 from "@/assets/products/epicum/sobres-cebo-50.jpg";
+import epicumSobresCebo502 from "@/assets/products/epicum/sobres-cebo-50-2.jpg";
+import epicumSobresCebo503 from "@/assets/products/epicum/sobres-cebo-50-3.jpg";
 import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
+
 
 // Angel Martín
 import amJamonBellota100 from "@/assets/products/angelmartin/jamon-bellota-100-clean.jpg";
@@ -78,7 +82,18 @@ export interface Product {
   brand: Brand;
   available?: boolean;
   unavailableReason?: string;
+  /** Producto vendido por unidades (ej. sobres loncheados de 90 g). */
+  unit?: "sobre";
+  /** Etiqueta singular de la unidad (ej. "sobre"). */
+  unitLabel?: string;
+  /** Peso de cada unidad en kg (para cálculos de envío). */
+  unitWeightKg?: number;
+  /** Cantidad mínima de unidades por pedido. */
+  minQuantity?: number;
+  /** Envío gratuito hasta este número de unidades. */
+  freeShippingMaxUnits?: number;
 }
+
 
 export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "cesar-nieto", name: "César Nieto", tagline: "Tradición ibérica de Guijuelo" },
@@ -369,6 +384,26 @@ export const products: Product[] = [
     category: "jamon",
     brand: "epicum",
   },
+  {
+    id: "epicum-sobres-cebo-iberico",
+    name: "Sobres de Jamón Cebo 50% Ibérico Epicum (cortado a cuchillo)",
+    description: "Sobres de jamón de cebo 50% ibérico Epicum cortados a cuchillo y envasados al vacío. Cada sobre contiene 90 g de lonchas finas listas para servir, perfectas para una tabla, un picoteo o disfrutar en cualquier momento. Pedido mínimo de 3 sobres, envío incluido hasta 10 sobres.",
+    pricePerKg: 77.22,
+    images: [epicumSobresCebo50, epicumSobresCebo502, epicumSobresCebo503],
+    weightOptions: [
+      { weight: 0.09, price: 6.95, label: "1 sobre · 90 g · 6,95 €" },
+    ],
+    curing: "Más de 28 meses",
+    knifeSupplementPrice: 0,
+    category: "jamon",
+    brand: "epicum",
+    unit: "sobre",
+    unitLabel: "sobre",
+    unitWeightKg: 0.09,
+    minQuantity: 3,
+    freeShippingMaxUnits: 10,
+  },
+
 
   // ====== FINURA DE IBÉRICO ======
   {
