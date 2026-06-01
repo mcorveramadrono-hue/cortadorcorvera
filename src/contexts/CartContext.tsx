@@ -204,15 +204,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const totalWeight = items.reduce((sum, i) => sum + i.selectedWeight * i.quantity, 0);
 
   // Envío gratis si hay producto con promo de envío gratis, peso >= 20, cupón free-shipping,
-  // o si hay un producto por unidades (sobres) dentro de su rango de envío incluido.
+  // o si hay un producto por unidades (sobres) — el envío siempre está incluido.
   const hasPromoFreeShipping =
     items.some((i) => getPromotion(i.product.id)?.type === "free-shipping") ||
-    items.some(
-      (i) =>
-        i.product.unit === "sobre" &&
-        i.product.freeShippingMaxUnits != null &&
-        i.quantity <= i.product.freeShippingMaxUnits,
-    );
+    items.some((i) => i.product.unit === "sobre");
   const hasPromoFreeKnife = items.some((i) => getPromotion(i.product.id)?.type === "free-knife");
 
 
