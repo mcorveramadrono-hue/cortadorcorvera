@@ -73,6 +73,7 @@ const Carrito = () => {
                 const itemKnifeCost = !isUnit && item.withKnife && !itemKnifeFree ? item.product.knifeSupplementPrice : 0;
                 const itemTotal = (item.price + itemKnifeCost) * item.quantity;
                 const minQty = item.product.minQuantity ?? 1;
+                const maxQty = item.product.maxQuantity ?? Infinity;
 
                 return (
                   <div key={index} className="flex gap-4 p-4 border border-border bg-card">
@@ -101,7 +102,8 @@ const Carrito = () => {
                         <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(index, item.quantity + 1)}
-                          className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors"
+                          disabled={item.quantity >= maxQty}
+                          className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           <Plus size={12} />
                         </button>
@@ -130,7 +132,7 @@ const Carrito = () => {
                         </label>
                       )}
                       {isUnit && (
-                        <p className="mt-3 text-[11px] text-primary">Ya cortado a cuchillo · envío incluido hasta {item.product.freeShippingMaxUnits ?? 10} sobres</p>
+                        <p className="mt-3 text-[11px] text-primary">Ya cortado a cuchillo · envío incluido</p>
                       )}
                     </div>
                     <div className="flex flex-col items-end justify-between">
