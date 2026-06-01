@@ -242,10 +242,18 @@ const Producto = () => {
               <p className="text-muted-foreground leading-relaxed">{product.description}</p>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-4 border border-border">
-                  <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio por kg</p>
-                  <p className="font-serif text-base font-semibold text-foreground">{product.pricePerKg.toFixed(2).replace('.', ',')} €/kg</p>
-                </div>
+                {!isUnitProduct && (
+                  <div className="p-4 border border-border">
+                    <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio por kg</p>
+                    <p className="font-serif text-base font-semibold text-foreground">{product.pricePerKg.toFixed(2).replace('.', ',')} €/kg</p>
+                  </div>
+                )}
+                {isUnitProduct && (
+                  <div className="p-4 border border-border">
+                    <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Formato</p>
+                    <p className="font-serif text-base font-semibold text-foreground">Sobre de 90 g</p>
+                  </div>
+                )}
                 <div className="p-4 border border-border">
                   <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Curación</p>
                   <p className="font-serif text-base font-semibold text-foreground">{product.curing}</p>
@@ -256,41 +264,100 @@ const Producto = () => {
                     <p className="font-serif text-base font-semibold text-foreground">{product.campaign}</p>
                   </div>
                 )}
-                <div className="p-4 border border-border">
-                  <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Corte a cuchillo</p>
-                  <p className="font-serif text-sm font-semibold text-foreground">+{product.knifeSupplementPrice} €</p>
+                {!isUnitProduct && (
+                  <div className="p-4 border border-border">
+                    <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Corte a cuchillo</p>
+                    <p className="font-serif text-sm font-semibold text-foreground">+{product.knifeSupplementPrice} €</p>
+                  </div>
+                )}
+                {isUnitProduct && (
+                  <div className="p-4 border border-border">
+                    <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Precio por sobre</p>
+                    <p className="font-serif text-base font-semibold text-foreground">{option.price.toFixed(2).replace('.', ',')} €</p>
+                  </div>
+                )}
+              </div>
+
+              {!isUnitProduct && (
+                <div>
+                  <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-2">Peso</label>
+                  <select
+                    value={weightIdx}
+                    onChange={(e) => setWeightIdx(Number(e.target.value))}
+                    className="w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                  >
+                    {product.weightOptions.map((opt, idx) => (
+                      <option key={idx} value={idx}>{opt.label}</option>
+                    ))}
+                  </select>
                 </div>
-              </div>
+              )}
 
-              <div>
-                <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-2">Peso</label>
-                <select
-                  value={weightIdx}
-                  onChange={(e) => setWeightIdx(Number(e.target.value))}
-                  className="w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
-                >
-                  {product.weightOptions.map((opt, idx) => (
-                    <option key={idx} value={idx}>{opt.label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
-                <input
-                  type="checkbox"
-                  checked={withKnife}
-                  onChange={(e) => setWithKnife(e.target.checked)}
-                  className="w-4 h-4 accent-primary"
-                />
-                <span className="text-sm text-foreground">
-                  Cortado a cuchillo{" "}
-                  {knifeIsFree ? (
-                    <strong className="text-primary">GRATIS (incluido por promoción)</strong>
-                  ) : (
-                    <>(+{product.knifeSupplementPrice} €)</>
+              {isUnitProduct && (
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-2">
+                      Cantidad de sobres{minQty > 1 && ` (mínimo ${minQty})`}
+                    </label>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity((q) => Math.max(minQty, q - 1))}
+                        className="w-10 h-10 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40"
+                        disabled={quantity <= minQty}
+                        aria-label="Quitar un sobre"
+                      >
+                        <Minus size={14} />
+                      </button>
+                      <span className="font-serif text-xl font-semibold text-foreground w-12 text-center">{quantity}</span>
+                      <button
+                        type="button"
+                        onClick={() => setQuantity((q) => q + 1)}
+                        className="w-10 h-10 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors"
+                        aria-label="Añadir un sobre"
+                      >
+                        <Plus size={14} />
+                      </button>
+                      <span className="text-xs text-muted-foreground ml-2">
+                        {(quantity * 90)} g en total
+                      </span>
+                    </div>
+                  </div>
+                  {product.freeShippingMaxUnits != null && (
+                    <div className="flex items-start gap-2 text-xs text-primary bg-primary/5 border border-primary/20 px-3 py-2">
+                      <Truck size={14} className="flex-shrink-0 mt-0.5" />
+                      <span>
+                        Envío incluido hasta {product.freeShippingMaxUnits} sobres.
+                        {quantity > product.freeShippingMaxUnits && (
+                          <strong className="block mt-1 text-foreground">
+                            Has superado el máximo, se aplicarán los gastos de envío estándar.
+                          </strong>
+                        )}
+                      </span>
+                    </div>
                   )}
-                </span>
-              </label>
+                </div>
+              )}
+
+              {!isUnitProduct && (
+                <label className="flex items-center gap-3 p-3 border border-border cursor-pointer hover:border-primary/50 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={withKnife}
+                    onChange={(e) => setWithKnife(e.target.checked)}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <span className="text-sm text-foreground">
+                    Cortado a cuchillo{" "}
+                    {knifeIsFree ? (
+                      <strong className="text-primary">GRATIS (incluido por promoción)</strong>
+                    ) : (
+                      <>(+{product.knifeSupplementPrice} €)</>
+                    )}
+                  </span>
+                </label>
+              )}
+
 
               <div className="pt-4 border-t border-border">
                 <div className="flex items-baseline justify-between mb-4">
@@ -324,9 +391,14 @@ const Producto = () => {
             <DialogTitle className="font-serif text-2xl text-foreground">Producto añadido al carrito</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
               {added && (
-                <>Se ha añadido <strong>{added.name}</strong> ({added.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
+                added.isUnit ? (
+                  <>Se han añadido <strong>{added.quantity} {added.unitLabel ?? "sobre"}{added.quantity === 1 ? "" : "s"}</strong> de <strong>{added.name}</strong> a tu carrito.</>
+                ) : (
+                  <>Se ha añadido <strong>{added.name}</strong> ({added.weight.toFixed(1).replace('.', ',')} kg) a tu carrito.</>
+                )
               )}
             </DialogDescription>
+
           </DialogHeader>
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
             <button
