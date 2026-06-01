@@ -297,7 +297,7 @@ const Producto = () => {
                 <div className="space-y-3">
                   <div>
                     <label className="text-xs tracking-widest uppercase text-muted-foreground block mb-2">
-                      Cantidad de sobres{minQty > 1 && ` (mínimo ${minQty})`}
+                      Cantidad de sobres{minQty > 1 && ` (mínimo ${minQty})`}{product.maxQuantity != null && ` · máximo ${product.maxQuantity}`}
                     </label>
                     <div className="flex items-center gap-3">
                       <button
@@ -312,8 +312,9 @@ const Producto = () => {
                       <span className="font-serif text-xl font-semibold text-foreground w-12 text-center">{quantity}</span>
                       <button
                         type="button"
-                        onClick={() => setQuantity((q) => q + 1)}
-                        className="w-10 h-10 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors"
+                        onClick={() => setQuantity((q) => product.maxQuantity != null ? Math.min(product.maxQuantity, q + 1) : q + 1)}
+                        className="w-10 h-10 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40"
+                        disabled={product.maxQuantity != null && quantity >= product.maxQuantity}
                         aria-label="Añadir un sobre"
                       >
                         <Plus size={14} />
@@ -323,17 +324,10 @@ const Producto = () => {
                       </span>
                     </div>
                   </div>
-                  {product.freeShippingMaxUnits != null && (
+                  {product.unit === "sobre" && (
                     <div className="flex items-start gap-2 text-xs text-primary bg-primary/5 border border-primary/20 px-3 py-2">
                       <Truck size={14} className="flex-shrink-0 mt-0.5" />
-                      <span>
-                        Envío incluido hasta {product.freeShippingMaxUnits} sobres.
-                        {quantity > product.freeShippingMaxUnits && (
-                          <strong className="block mt-1 text-foreground">
-                            Has superado el máximo, se aplicarán los gastos de envío estándar.
-                          </strong>
-                        )}
-                      </span>
+                      <span>Envío incluido en todos los pedidos de sobres.</span>
                     </div>
                   )}
                 </div>
