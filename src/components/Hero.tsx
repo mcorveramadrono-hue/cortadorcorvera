@@ -1,4 +1,5 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
+import fraseJamon from "@/assets/frase-jamon.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Hero = () => {
@@ -25,10 +26,12 @@ const Hero = () => {
           className="w-36 h-36 md:w-48 md:h-48 object-contain"
         />
 
-        {/* Frase escrita en texto, misma tipografía serif de la marca */}
-        <h2 className="font-serif uppercase text-foreground tracking-wide leading-tight text-2xl md:text-4xl lg:text-5xl max-w-3xl">
-          El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón
-        </h2>
+        {/* Frase exacta como imagen */}
+        <img
+          src={fraseJamon}
+          alt="El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón"
+          className="w-full max-w-xl h-auto object-contain"
+        />
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-4">
