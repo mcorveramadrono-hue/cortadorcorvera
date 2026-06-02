@@ -1,5 +1,4 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
-import fraseJamon from "@/assets/frase-jamon.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Hero = () => {
