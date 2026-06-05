@@ -148,6 +148,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const normalized = code.trim().toUpperCase();
     if (!normalized) return { ok: false, message: "Introduce un código." };
 
+    if (promoApplied || appliedCoupon) {
+      return { ok: false, message: "Solo puedes usar un cupón por pedido. Elimina el actual para aplicar otro." };
+    }
+
     if (normalized === "MAMA3") {
       setPromoCode(normalized);
       setPromoApplied(true);
