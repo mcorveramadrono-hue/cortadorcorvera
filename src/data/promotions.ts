@@ -49,6 +49,14 @@ export const PROMOTIONS: Promotion[] = [
       "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
   },
   {
+    productId: "lajoya-jamon-bellota-50",
+    type: "free-knife",
+    badge: "CORTE A CUCHILLO GRATIS",
+    title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
+    description:
+      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+  },
+  {
     productId: "finura-jamon-cebo-iberico",
     type: "free-shipping",
     badge: "ENVÍO GRATUITO",
