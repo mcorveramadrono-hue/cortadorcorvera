@@ -67,8 +67,8 @@ const Ofertas = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 md:-left-12" />
-          <CarouselNext className="right-2 md:-right-12" />
+          <CarouselPrevious className="left-2 md:-left-16 md:h-12 md:w-12 [&>svg]:md:h-6 [&>svg]:md:w-6" />
+          <CarouselNext className="right-2 md:-right-16 md:h-12 md:w-12 [&>svg]:md:h-6 [&>svg]:md:w-6" />
         </Carousel>
 
         <div className="text-center mt-10">
