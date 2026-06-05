@@ -15,12 +15,12 @@ export interface Promotion {
 
 export const PROMOTIONS: Promotion[] = [
   {
-    productId: "lajoya-jamon-bellota-50",
-    type: "free-knife",
-    badge: "CORTE A CUCHILLO GRATIS",
-    title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
+    productId: "am-jamon-cebo-campo-50",
+    type: "free-shipping",
+    badge: "ENVÍO GRATUITO",
+    title: "Envío gratuito · Jamón Ibérico Cebo de Campo 50% Ángel Martín e Hijos",
     description:
-      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+      "Cerdos criados al aire libre en la dehesa, alimentados con piensos naturales y pastos. Envío gratis incluido.",
     featured: true,
   },
   {
@@ -45,6 +45,14 @@ export const PROMOTIONS: Promotion[] = [
     type: "free-knife",
     badge: "CORTE A CUCHILLO GRATIS",
     title: "Corte a cuchillo gratis con el Jamón Bellota 100% Ibérico Jabugo La Joya",
+    description:
+      "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
+  },
+  {
+    productId: "lajoya-jamon-bellota-50",
+    type: "free-knife",
+    badge: "CORTE A CUCHILLO GRATIS",
+    title: "Corte a cuchillo gratis con el Jamón Bellota 50% Ibérico Jabugo La Joya",
     description:
       "Servicio de corte a cuchillo profesional incluido sin coste adicional al añadirlo al carrito.",
   },
