@@ -67,8 +67,8 @@ const Ofertas = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 md:-left-16 md:h-12 md:w-12 [&>svg]:md:h-6 [&>svg]:md:w-6" />
-          <CarouselNext className="right-2 md:-right-16 md:h-12 md:w-12 [&>svg]:md:h-6 [&>svg]:md:w-6" />
+          <CarouselPrevious className="left-2 md:-left-16 h-12 w-12 md:h-14 md:w-14 bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground shadow-lg opacity-100 [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-7 md:[&>svg]:w-7" />
+          <CarouselNext className="right-2 md:-right-16 h-12 w-12 md:h-14 md:w-14 bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground shadow-lg opacity-100 [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-7 md:[&>svg]:w-7" />
         </Carousel>
 
         <div className="text-center mt-10">
