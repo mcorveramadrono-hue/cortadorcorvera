@@ -157,7 +157,7 @@ serve(async (req) => {
       knifePrice: Number(item.knife_supplement_price),
     }));
 
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "owner-new-order",
       recipientEmail: OWNER_EMAIL,
       idempotencyKey: `owner-new-order-${order.id}`,
@@ -184,7 +184,7 @@ serve(async (req) => {
       },
     });
 
-    await enqueueAppEmail(supabaseUrl, anonKey, {
+    await enqueueAppEmail(supabaseUrl, serviceKey, {
       templateName: "order-confirmation",
       recipientEmail: order.email,
       idempotencyKey: `customer-order-confirmation-${order.id}`,
