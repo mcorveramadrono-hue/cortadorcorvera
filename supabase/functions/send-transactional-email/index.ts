@@ -54,24 +54,15 @@ Deno.serve(async (req) => {
     )
   }
 
-  // Enforce service_role caller — block anon/authenticated JWTs
+  // Enforce service_role caller via shared-secret header equality.
+  // Gateway JWT verification is disabled because the project uses the new
+  // signing-keys system where SUPABASE_SERVICE_ROLE_KEY may not be a JWT.
   const authHeader = req.headers.get('Authorization') || ''
-  const token = authHeader.replace(/^Bearer\s+/i, '')
-  try {
-    const [, payloadB64] = token.split('.')
-    const payload = JSON.parse(
-      atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/'))
-    )
-    if (payload?.role !== 'service_role') {
-      return new Response(
-        JSON.stringify({ error: 'Forbidden' }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      )
-    }
-  } catch {
+  const token = authHeader.replace(/^Bearer\s+/i, '').trim()
+  if (!token || token !== supabaseServiceKey) {
     return new Response(
-      JSON.stringify({ error: 'Unauthorized' }),
-      { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: 'Forbidden' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
 
