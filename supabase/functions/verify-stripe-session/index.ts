@@ -82,11 +82,7 @@ serve(async (req) => {
     if (isPaid) {
       await supabaseAdmin
         .from("orders")
-        .update({
-          status: "paid",
-          payment_status: "paid",
-          paid_at: new Date().toISOString(),
-        })
+        .update({ status: "paid" })
         .eq("id", orderId);
     }
 
