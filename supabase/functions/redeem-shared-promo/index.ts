@@ -63,15 +63,22 @@ serve(async (req) => {
       .insert({ code: normalized, email: normalizedEmail, order_id: orderId ?? null });
 
     if (insertError) {
-      // Release the slot we optimistically claimed.
-      await supabase
-        .from("shared_promo_codes")
-        .update({ used_count: (await supabase
+      // Release the slot we optimistically claimed via direct SQL decrement.
+      try {
+        const { data: cur } = await supabase
           .from("shared_promo_codes")
           .select("used_count")
           .eq("code", normalized)
-          .maybeSingle()).data?.used_count ?? 1 })
-        .eq("code", normalized);
+          .maybeSingle();
+        if (cur && typeof cur.used_count === "number" && cur.used_count > 0) {
+          await supabase
+            .from("shared_promo_codes")
+            .update({ used_count: cur.used_count - 1 })
+            .eq("code", normalized);
+        }
+      } catch (releaseErr) {
+        console.error("Failed to release promo slot:", releaseErr);
+      }
       if ((insertError as any).code === "23505") {
         return new Response(JSON.stringify({ ok: false, error: "Ya has usado este cupón anteriormente" }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
