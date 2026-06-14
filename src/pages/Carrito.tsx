@@ -95,17 +95,19 @@ const Carrito = () => {
                         <button
                           onClick={() => updateQuantity(index, item.quantity - 1)}
                           disabled={item.quantity <= minQty}
+                          aria-label="Disminuir cantidad"
                           className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
-                          <Minus size={12} />
+                          <Minus size={12} aria-hidden="true" />
                         </button>
                         <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(index, item.quantity + 1)}
                           disabled={item.quantity >= maxQty}
+                          aria-label="Aumentar cantidad"
                           className="w-7 h-7 border border-border flex items-center justify-center text-foreground hover:border-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                         >
-                          <Plus size={12} />
+                          <Plus size={12} aria-hidden="true" />
                         </button>
                         {isUnit && minQty > 1 && (
                           <span className="text-[10px] text-muted-foreground">mínimo {minQty} sobres</span>
@@ -136,8 +138,8 @@ const Carrito = () => {
                       )}
                     </div>
                     <div className="flex flex-col items-end justify-between">
-                      <button onClick={() => removeItem(index)} className="text-muted-foreground hover:text-destructive transition-colors">
-                        <Trash2 size={16} />
+                      <button onClick={() => removeItem(index)} aria-label="Eliminar producto del carrito" className="text-muted-foreground hover:text-destructive transition-colors">
+                        <Trash2 size={16} aria-hidden="true" />
                       </button>
                       <span className="font-serif text-sm font-bold text-primary">{itemTotal.toFixed(2).replace('.', ',')} €</span>
                     </div>
@@ -157,8 +159,8 @@ const Carrito = () => {
                     <span className="text-sm font-mono font-bold text-primary">{promoCode}</span>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-muted-foreground">{hasPromoFreeShipping ? "Envío gratis aplicado" : "Cupón aplicado"}</span>
-                      <button onClick={removePromoCode} className="text-muted-foreground hover:text-destructive transition-colors">
-                        <X size={14} />
+                      <button onClick={removePromoCode} aria-label="Quitar código promocional" className="text-muted-foreground hover:text-destructive transition-colors">
+                        <X size={14} aria-hidden="true" />
                       </button>
                     </div>
                   </div>

@@ -91,9 +91,10 @@ const Gallery = () => {
             <>
               <button
                 onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                aria-label="Imagen anterior"
                 className="absolute left-2 md:left-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition"
               >
-                <ChevronLeft className="w-6 h-6" />
+                <ChevronLeft className="w-6 h-6" aria-hidden="true" />
               </button>
               <img
                 src={images[selectedIndex].src}
@@ -102,9 +103,10 @@ const Gallery = () => {
               />
               <button
                 onClick={(e) => { e.stopPropagation(); goNext(); }}
+                aria-label="Imagen siguiente"
                 className="absolute right-2 md:right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition"
               >
-                <ChevronRight className="w-6 h-6" />
+                <ChevronRight className="w-6 h-6" aria-hidden="true" />
               </button>
             </>
           )}

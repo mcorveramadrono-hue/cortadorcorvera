@@ -22,7 +22,7 @@ const TiendaMarca = () => {
     const brandProducts = products.filter((p) => p.brand === (brand as Brand));
     const productNames = brandProducts.map((p) => p.name).join(", ");
 
-    const title = `${brandInfo.name} - Jamones y Paletas Ibéricas | Comprar online | Corvera Ibéricos`;
+    const title = `${brandInfo.name} | Jamones Ibéricos | Corvera`;
     const description = `Compra ${brandInfo.name} online: ${productNames.slice(0, 130)}. ${brandInfo.tagline}. Envío a toda España con corte a cuchillo profesional opcional.`.slice(0, 300);
 
     document.title = title;

@@ -21,11 +21,10 @@ const GuiaBridas = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const prevTitle = document.title;
-    document.title =
-      "Bridas del Jamón Ibérico: Blanca, Verde, Roja y Negra | Guía RD 4/2014";
+    document.title = "Bridas del Jamón Ibérico | Guía RD 4/2014";
     setMeta(
       "description",
-      "Guía oficial de las bridas del jamón ibérico (blanca, verde, roja y negra) según el RD 4/2014. Diferencias entre cebo, cebo de campo, bellota y bellota 100% ibérico: raza, alimentación, curación y precio."
+      "Guía de las bridas del jamón ibérico (blanca, verde, roja, negra) según el RD 4/2014: raza, alimentación, curación y precio."
     );
     setMeta(
       "keywords",

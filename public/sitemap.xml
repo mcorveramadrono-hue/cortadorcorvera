@@ -269,6 +269,24 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://corveraibericos.com/checkout</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/confirmar-pago</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://corveraibericos.com/unsubscribe</loc>
+    <lastmod>2026-06-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
     <loc>https://corveraibericos.com/politica-privacidad</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>yearly</changefreq>
