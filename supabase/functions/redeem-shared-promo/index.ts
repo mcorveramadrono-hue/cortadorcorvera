@@ -26,7 +26,7 @@ serve(async (req) => {
 
     const { data: promo } = await supabase
       .from("shared_promo_codes")
-      .select("code, max_uses, used_count, expires_at")
+      .select("code, expires_at")
       .eq("code", normalized)
       .maybeSingle();
 
@@ -40,18 +40,38 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (promo.used_count >= promo.max_uses) {
+
+    // Atomically claim a slot for this code. Prevents race conditions where
+    // concurrent callers could exceed max_uses by reading and updating
+    // used_count separately.
+    const { data: claimed, error: claimError } = await supabase.rpc(
+      "claim_shared_promo_code",
+      { _code: normalized }
+    );
+    if (claimError) throw claimError;
+    if (!claimed) {
       return new Response(JSON.stringify({ ok: false, error: "Cupón agotado" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // Insert redemption (unique constraint on code+email blocks reuse)
+    // Record the redemption. Unique constraint on (code, email) blocks
+    // the same user from redeeming twice. If insert fails, release the
+    // slot we just claimed so it doesn't leak.
     const { error: insertError } = await supabase
       .from("shared_promo_redemptions")
       .insert({ code: normalized, email: normalizedEmail, order_id: orderId ?? null });
 
     if (insertError) {
+      // Release the slot we optimistically claimed.
+      await supabase
+        .from("shared_promo_codes")
+        .update({ used_count: (await supabase
+          .from("shared_promo_codes")
+          .select("used_count")
+          .eq("code", normalized)
+          .maybeSingle()).data?.used_count ?? 1 })
+        .eq("code", normalized);
       if ((insertError as any).code === "23505") {
         return new Response(JSON.stringify({ ok: false, error: "Ya has usado este cupón anteriormente" }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -60,17 +80,12 @@ serve(async (req) => {
       throw insertError;
     }
 
-    // Increment used_count
-    await supabase
-      .from("shared_promo_codes")
-      .update({ used_count: promo.used_count + 1 })
-      .eq("code", normalized);
-
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: (e as Error).message }), {
+    console.error("redeem-shared-promo error:", e);
+    return new Response(JSON.stringify({ ok: false, error: "No se pudo procesar la solicitud" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
