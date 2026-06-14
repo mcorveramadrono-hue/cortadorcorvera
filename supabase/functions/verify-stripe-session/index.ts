@@ -48,7 +48,7 @@ serve(async (req) => {
     }
 
     // Already verified previously — idempotent success
-    if (order.status === "paid" || order.payment_status === "paid") {
+    if (order.status === "paid") {
       return new Response(JSON.stringify({ paid: true, alreadyConfirmed: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
