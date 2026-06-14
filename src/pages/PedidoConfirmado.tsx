@@ -11,8 +11,10 @@ const PedidoConfirmado = () => {
   const [searchParams] = useSearchParams();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [paymentVerified, setPaymentVerified] = useState(false);
+  const [verifyingPayment, setVerifyingPayment] = useState(false);
 
-  const paymentSuccess = searchParams.get("payment") === "success";
+  const paymentSuccessParam = searchParams.get("payment") === "success";
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -31,23 +33,50 @@ const PedidoConfirmado = () => {
       setOrder(data);
       setLoading(false);
 
-      // Send order notification for card payments after Stripe redirect
-      if (data && paymentSuccess && data.payment_method === "card") {
-        const notifKey = `order_notif_sent_${orderId}`;
-        if (!localStorage.getItem(notifKey)) {
-          localStorage.setItem(notifKey, "true");
-          try {
-            await supabase.functions.invoke("send-order-notification", {
-              body: { orderId, sessionToken },
-            });
-          } catch (e) {
-            console.error("Failed to send order notification:", e);
+      // For card payments, verify the Stripe session server-side before
+      // showing "paid" UI or sending notifications. Never trust the URL param.
+      if (data && data.payment_method === "card") {
+        if (data.status === "paid") {
+          setPaymentVerified(true);
+          return;
+        }
+        if (!paymentSuccessParam) return;
+
+        setVerifyingPayment(true);
+        try {
+          const { data: verifyData, error: verifyError } = await supabase.functions.invoke(
+            "verify-stripe-session",
+            { body: { orderId, sessionToken } }
+          );
+          if (verifyError) {
+            console.error("Verify error:", verifyError);
+            setPaymentVerified(false);
+          } else if (verifyData?.paid) {
+            setPaymentVerified(true);
+            const notifKey = `order_notif_sent_${orderId}`;
+            if (!localStorage.getItem(notifKey) && !verifyData.alreadyConfirmed) {
+              localStorage.setItem(notifKey, "true");
+              try {
+                await supabase.functions.invoke("send-order-notification", {
+                  body: { orderId, sessionToken },
+                });
+              } catch (e) {
+                console.error("Failed to send order notification:", e);
+              }
+            }
+          } else {
+            setPaymentVerified(false);
           }
+        } catch (e) {
+          console.error("Payment verification failed:", e);
+          setPaymentVerified(false);
+        } finally {
+          setVerifyingPayment(false);
         }
       }
     };
     fetchOrder();
-  }, [orderId, paymentSuccess]);
+  }, [orderId, paymentSuccessParam]);
 
   if (loading) {
     return (
