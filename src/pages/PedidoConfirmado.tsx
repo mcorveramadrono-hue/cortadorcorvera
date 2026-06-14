@@ -110,7 +110,17 @@ const PedidoConfirmado = () => {
       <Header />
       <main className="pt-20 pb-16">
         <div className="max-w-2xl mx-auto px-4 md:px-6 text-center space-y-6">
-          {isCard && paymentSuccess ? (
+          {isCard && verifyingPayment ? (
+            <>
+              <Clock size={64} className="mx-auto text-amber-500 animate-pulse" />
+              <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+                Verificando pago...
+              </h1>
+              <p className="text-muted-foreground">
+                Estamos confirmando tu pago con el banco. Por favor, espera unos segundos.
+              </p>
+            </>
+          ) : isCard && paymentVerified ? (
             <>
               <CheckCircle size={64} className="mx-auto text-green-500" />
               <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
