@@ -390,6 +390,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_shared_promo_code: { Args: { _code: string }; Returns: boolean }
       cleanup_expired_coupons: { Args: never; Returns: undefined }
       cleanup_expired_shared_promos: { Args: never; Returns: undefined }
       delete_email: {

@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { getTrustedPrice, getTrustedKnifeSupplement } from "../_shared/product-catalog.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -92,34 +93,46 @@ serve(async (req) => {
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     for (const item of orderItems) {
-      const price = Number(item.price);
       const quantity = Number(item.quantity) || 1;
       const weight = Number(item.weight);
+      const productName = String(item.product_name || "");
 
-      if (!Number.isFinite(price) || price <= 0) continue;
+      // Re-derive prices from the trusted server-side catalog.
+      // Never trust prices stored on order_items (client-inserted).
+      const trustedPrice = getTrustedPrice(productName, weight);
+      if (trustedPrice == null) {
+        console.error("Unknown product/weight in order:", { productName, weight, orderId });
+        return new Response(
+          JSON.stringify({ error: "Producto no válido en el pedido" }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 400 }
+        );
+      }
 
       lineItems.push({
         price_data: {
           currency: "eur",
           product_data: {
-            name: `${item.product_name} (${weight.toFixed(1)} kg)`,
+            name: `${productName} (${weight.toFixed(1)} kg)`,
           },
-          unit_amount: Math.round(price * 100),
+          unit_amount: Math.round(trustedPrice * 100),
         },
         quantity,
       });
 
-      if (item.knife_supplement && Number(item.knife_supplement_price) > 0) {
-        lineItems.push({
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: `Corte a cuchillo - ${item.product_name}`,
+      if (item.knife_supplement) {
+        const trustedKnife = getTrustedKnifeSupplement(productName);
+        if (trustedKnife && trustedKnife > 0) {
+          lineItems.push({
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: `Corte a cuchillo - ${productName}`,
+              },
+              unit_amount: Math.round(trustedKnife * 100),
             },
-            unit_amount: Math.round(Number(item.knife_supplement_price) * 100),
-          },
-          quantity,
-        });
+            quantity,
+          });
+        }
       }
     }
 

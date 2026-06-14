@@ -245,7 +245,7 @@ serve(async (req) => {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Notification error:", message);
 
-    return new Response(JSON.stringify({ error: message }), {
+    return new Response(JSON.stringify({ error: "No se pudo enviar la notificación del pedido" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

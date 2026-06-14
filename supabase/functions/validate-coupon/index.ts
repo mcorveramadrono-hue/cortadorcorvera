@@ -83,7 +83,8 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {
-    return new Response(JSON.stringify({ valid: false, error: (e as Error).message }), {
+    console.error("validate-coupon error:", e);
+    return new Response(JSON.stringify({ valid: false, error: "No se pudo validar el cupón" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
