@@ -183,7 +183,7 @@ serve(async (req) => {
     const msg = error instanceof Error ? error.message : "Unknown error";
     console.error("Error sending contact email:", msg);
 
-    return new Response(JSON.stringify({ error: msg }), {
+    return new Response(JSON.stringify({ error: "No se pudo enviar el mensaje" }), {
       status: 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
