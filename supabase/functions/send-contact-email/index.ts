@@ -102,16 +102,26 @@ function buildOwnerText(data: ContactRequest) {
   ].join("\n");
 }
 
+function escapeHtml(s: string | undefined | null): string {
+  if (!s) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function buildOwnerHtml(data: ContactRequest) {
   return `
     <h2>Nueva solicitud web</h2>
-    <p><strong>Origen:</strong> ${data.origen || "contacto"}</p>
-    <p><strong>Nombre:</strong> ${data.nombre}</p>
-    <p><strong>Apellidos:</strong> ${data.apellidos || ""}</p>
-    <p><strong>Email:</strong> ${data.email}</p>
-    <p><strong>Teléfono:</strong> ${data.telefono || ""}</p>
+    <p><strong>Origen:</strong> ${escapeHtml(data.origen || "contacto")}</p>
+    <p><strong>Nombre:</strong> ${escapeHtml(data.nombre)}</p>
+    <p><strong>Apellidos:</strong> ${escapeHtml(data.apellidos || "")}</p>
+    <p><strong>Email:</strong> ${escapeHtml(data.email)}</p>
+    <p><strong>Teléfono:</strong> ${escapeHtml(data.telefono || "")}</p>
     <p><strong>Mensaje:</strong></p>
-    <p>${data.mensaje.replace(/\n/g, "<br />")}</p>
+    <p>${escapeHtml(data.mensaje).replace(/\n/g, "<br />")}</p>
   `.trim();
 }
 
