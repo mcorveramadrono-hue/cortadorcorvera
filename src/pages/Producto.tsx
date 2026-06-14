@@ -47,7 +47,7 @@ const Producto = () => {
         product.brand === "la-joya" ? "Jabugo" :
         product.brand === "epicum" || product.brand === "finura" ? "Cebo Ibérico" : "";
 
-      const title = `${product.name} | ${brandInfo.name}${origin ? ` (${origin})` : ""} - Comprar online | Corvera Ibéricos`;
+      const title = `${product.name} | ${brandInfo.name} | Corvera`;
       const description = `${product.name} de ${brandInfo.name}. ${product.description.slice(0, 110)} Desde ${minPrice.toFixed(2).replace('.', ',')} €. Envío a toda España.`.slice(0, 300);
       const canonicalHref = `https://corveraibericos.com/tienda/${product.brand}/${product.id}`;
       const imageUrl = product.images[0]?.startsWith("http")
