@@ -94,6 +94,29 @@ const Tienda = () => {
     title: "Tienda de Jamón Ibérico Online | Corvera Ibéricos",
     description: "Catálogo de jamones y paletas ibéricas: César Nieto, La Joya, Ángel Martín, Epicum y Finura. Bellota, cebo y D.O.P. Envío a toda España.",
     path: "/tienda",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Jamones y Paletas Ibéricas",
+        description: "Catálogo de jamones y paletas ibéricas de bellota, D.O.P. Guijuelo y Extremadura",
+        numberOfItems: 12,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, item: { "@type": "Product", name: "Jamón Bellota 100% Ibérico D.O.P.", description: "Cerdos de raza 100% ibérica alimentados con bellotas en las Dehesas de Salamanca y Extremadura. Curación superior a 36 meses.", url: "https://corveraibericos.com/tienda", brand: { "@type": "Brand", name: "Corvera Ibéricos" }, offers: { "@type": "AggregateOffer", lowPrice: "298.81", highPrice: "436.72", priceCurrency: "EUR", availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: "Corvera Ibéricos" } } } },
+          { "@type": "ListItem", position: 2, item: { "@type": "Product", name: "Jamón Bellota 100% Ibérico", description: "Cerdos criados en libertad, alimentados con bellota. Curado más de 36 meses.", url: "https://corveraibericos.com/tienda", brand: { "@type": "Brand", name: "Corvera Ibéricos" }, offers: { "@type": "AggregateOffer", lowPrice: "314.85", highPrice: "356.83", priceCurrency: "EUR", availability: "https://schema.org/InStock" } } },
+          { "@type": "ListItem", position: 3, item: { "@type": "Product", name: "Jamón Bellota Ibérico 75% D.O.P.", description: "Alimentación de hierba y bellotas. Curación más de 36 meses.", url: "https://corveraibericos.com/tienda", brand: { "@type": "Brand", name: "Corvera Ibéricos" }, offers: { "@type": "AggregateOffer", lowPrice: "270.62", highPrice: "386.60", priceCurrency: "EUR", availability: "https://schema.org/InStock" } } },
+          { "@type": "ListItem", position: 4, item: { "@type": "Product", name: "Paleta Bellota 100% Ibérica D.O.P.", description: "Curación más de 24 meses, alimentación natural a base de bellotas.", url: "https://corveraibericos.com/tienda", brand: { "@type": "Brand", name: "Corvera Ibéricos" }, offers: { "@type": "AggregateOffer", lowPrice: "148.05", highPrice: "177.66", priceCurrency: "EUR", availability: "https://schema.org/InStock" } } },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://corveraibericos.com/" },
+          { "@type": "ListItem", position: 2, name: "Tienda", item: "https://corveraibericos.com/tienda" },
+        ],
+      },
+    ],
   });
 
   useEffect(() => {

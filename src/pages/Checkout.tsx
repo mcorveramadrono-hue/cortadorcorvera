@@ -7,9 +7,16 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import StripeCheckoutDialog from "@/components/StripeCheckoutDialog";
 import { toast } from "@/hooks/use-toast";
+import { usePageSeo } from "@/lib/seo";
 
 const Checkout = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Finalizar compra | Corvera Ibéricos",
+    description: "Completa tus datos de envío y elige el método de pago (tarjeta, Bizum o transferencia) para finalizar tu pedido en Corvera Ibéricos.",
+    path: "/checkout",
+    noindex: true,
+  });
   const { items, subtotal, totalWeight, shippingCost, discountAmount, total, clearCart, promoApplied, promoCode, appliedCoupon } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);

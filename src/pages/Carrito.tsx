@@ -12,9 +12,16 @@ import payGooglePay from "@/assets/pay-googlepay.png";
 import payBizum from "@/assets/pay-bizum.png";
 import cajaZonas from "@/assets/corvera-caja-zonas.png";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { usePageSeo } from "@/lib/seo";
 
 const Carrito = () => {
   const navigate = useNavigate();
+  usePageSeo({
+    title: "Carrito de la compra | Corvera Ibéricos",
+    description: "Revisa los jamones y paletas ibéricas seleccionados, aplica códigos promocionales y continúa al pago seguro en Corvera Ibéricos.",
+    path: "/carrito",
+    noindex: true,
+  });
   const [promoInput, setPromoInput] = useState("");
   const [showUpsell, setShowUpsell] = useState(false);
 

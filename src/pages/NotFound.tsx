@@ -1,8 +1,15 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { usePageSeo } from "@/lib/seo";
 
 const NotFound = () => {
   const location = useLocation();
+  usePageSeo({
+    title: "Página no encontrada (404) | Corvera Ibéricos",
+    description: "La página que buscas no existe. Vuelve al inicio para seguir explorando jamones ibéricos de bellota en Corvera Ibéricos.",
+    path: location.pathname,
+    noindex: true,
+  });
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);

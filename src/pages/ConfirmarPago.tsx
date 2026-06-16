@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { usePageSeo } from "@/lib/seo";
 
 const ConfirmarPago = () => {
+  usePageSeo({
+    title: "Confirmación de pago | Corvera Ibéricos",
+    description: "Estado de la confirmación manual de pago de tu pedido en Corvera Ibéricos.",
+    path: "/confirmar-pago",
+    noindex: true,
+  });
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") as "success" | "already" | "error" | "invalid" | null;
   const orderNumber = searchParams.get("order") || "";
