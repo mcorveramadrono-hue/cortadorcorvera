@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 
 const SITE = "https://corveraibericos.com";
+const LD_MARK = "data-page-seo";
 
 export interface PageSeo {
   title: string;
   description: string;
   path: string; // e.g. "/politica-privacidad"
   ogType?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 function setMeta(selector: string, value: string) {
@@ -22,7 +25,7 @@ function setMeta(selector: string, value: string) {
   el.setAttribute("content", value);
 }
 
-export function usePageSeo({ title, description, path, ogType = "website" }: PageSeo) {
+export function usePageSeo({ title, description, path, ogType = "website", noindex = false, jsonLd }: PageSeo) {
   useEffect(() => {
     const url = `${SITE}${path}`;
     const desc = description.slice(0, 160);
@@ -42,5 +45,39 @@ export function usePageSeo({ title, description, path, ogType = "website" }: Pag
       document.head.appendChild(canonical);
     }
     canonical.setAttribute("href", url);
-  }, [title, description, path, ogType]);
+
+    // robots
+    let robots = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!robots) {
+      robots = document.createElement("meta");
+      robots.setAttribute("name", "robots");
+      document.head.appendChild(robots);
+    }
+    const prevRobots = robots.getAttribute("content") ?? "";
+    robots.setAttribute(
+      "content",
+      noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    );
+
+    // per-page JSON-LD (cleaned up on unmount)
+    const ldNodes: HTMLScriptElement[] = [];
+    if (jsonLd) {
+      const blocks = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+      for (const block of blocks) {
+        const s = document.createElement("script");
+        s.type = "application/ld+json";
+        s.setAttribute(LD_MARK, "1");
+        s.text = JSON.stringify(block);
+        document.head.appendChild(s);
+        ldNodes.push(s);
+      }
+    }
+
+    return () => {
+      for (const n of ldNodes) {
+        if (n.parentNode) n.parentNode.removeChild(n);
+      }
+      if (robots) robots.setAttribute("content", prevRobots);
+    };
+  }, [title, description, path, ogType, noindex, JSON.stringify(jsonLd ?? null)]);
 }
