@@ -3,8 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const Unsubscribe = () => {
+  usePageSeo({
+    title: "Darse de baja | Corvera Ibéricos",
+    description: "Gestiona la baja de tu suscripción a los emails de Corvera Ibéricos desde esta página.",
+    path: "/unsubscribe",
+    noindex: true,
+  });
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const [status, setStatus] = useState<"loading" | "valid" | "already" | "invalid" | "success" | "error">("loading");
