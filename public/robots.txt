@@ -15,5 +15,6 @@ Allow: /
 
 Disallow: /checkout
 Disallow: /pedido-confirmado/
+Disallow: /marcar-envio/
 
 Sitemap: https://corveraibericos.com/sitemap.xml
