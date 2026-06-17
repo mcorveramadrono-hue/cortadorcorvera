@@ -53,6 +53,8 @@ import cfJamonCeboCampo50 from "@/assets/products/castrofuerte/jamon-cebo-campo-
 import cfPaletaBellota100 from "@/assets/products/castrofuerte/paleta-bellota-100.jpg";
 import cfPaletaBellota50 from "@/assets/products/castrofuerte/paleta-bellota-50.jpg";
 import cfPaletaCeboCampo50 from "@/assets/products/castrofuerte/paleta-cebo-campo-50.jpg";
+import cfJamonFN from "@/assets/products/castrofuerte/jamon-fn.jpg";
+import cfPaletaFN from "@/assets/products/castrofuerte/paleta-fn.jpg";
 
 
 
