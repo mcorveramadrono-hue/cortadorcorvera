@@ -564,6 +564,18 @@ export const products: Product[] = [
     category: "jamon",
     brand: "castro-fuerte",
   },
+  {
+    id: "cf-jamon-fn",
+    name: "Jamón F/N Castro Fuerte (equivalencia bellota)",
+    description: "Jamón Castro Fuerte F/N con equivalencia a bellota. Curación tradicional y perfil aromático similar al ibérico de bellota, con un precio más accesible. Ideal para hostelería y consumo habitual sin renunciar a la calidad de la dehesa.",
+    pricePerKg: 23.61,
+    images: [cfJamonFN],
+    weightOptions: generateWeightOptions(8, 9.5, 0.5, 23.61),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "castro-fuerte",
+  },
 
   // ====== CASTRO FUERTE — PALETAS ======
   {
