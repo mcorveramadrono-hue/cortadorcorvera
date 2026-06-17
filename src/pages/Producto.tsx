@@ -45,6 +45,7 @@ const Producto = () => {
       const origin =
         product.brand === "cesar-nieto" ? "Guijuelo" :
         product.brand === "la-joya" ? "Jabugo" :
+        product.brand === "castro-fuerte" ? "Dehesa Extremeña" :
         product.brand === "epicum" || product.brand === "finura" ? "Cebo Ibérico" : "";
 
       const title = `${product.name} | ${brandInfo.name} | Corvera`;
