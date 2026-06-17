@@ -70,7 +70,7 @@ import amPaletaBellotaDo75Alt from "@/assets/products/angelmartin/paleta-bellota
 import amPaletaCeboCampo50 from "@/assets/products/angelmartin/paleta-cebo-campo-50.jpg";
 import amPaletaCeboCampo50Alt from "@/assets/products/angelmartin/paleta-cebo-campo-50-alt.jpg";
 
-export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin";
+export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin" | "castro-fuerte";
 
 export interface WeightOption {
   weight: number;
