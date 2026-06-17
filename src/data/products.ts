@@ -46,6 +46,16 @@ import epicumSobresCebo502 from "@/assets/products/epicum/sobres-cebo-50-2.jpg";
 import epicumSobresCebo503 from "@/assets/products/epicum/sobres-cebo-50-3.jpg";
 import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
+// Castro Fuerte
+import cfJamonBellota100 from "@/assets/products/castrofuerte/jamon-bellota-100.jpg";
+import cfJamonBellota50 from "@/assets/products/castrofuerte/jamon-bellota-50.jpg";
+import cfJamonCeboCampo50 from "@/assets/products/castrofuerte/jamon-cebo-campo-50.jpg";
+import cfPaletaBellota100 from "@/assets/products/castrofuerte/paleta-bellota-100.jpg";
+import cfPaletaBellota50 from "@/assets/products/castrofuerte/paleta-bellota-50.jpg";
+import cfPaletaCeboCampo50 from "@/assets/products/castrofuerte/paleta-cebo-campo-50.jpg";
+
+
+
 
 // Angel Martín
 import amJamonBellota100 from "@/assets/products/angelmartin/jamon-bellota-100-clean.jpg";
@@ -60,7 +70,7 @@ import amPaletaBellotaDo75Alt from "@/assets/products/angelmartin/paleta-bellota
 import amPaletaCeboCampo50 from "@/assets/products/angelmartin/paleta-cebo-campo-50.jpg";
 import amPaletaCeboCampo50Alt from "@/assets/products/angelmartin/paleta-cebo-campo-50-alt.jpg";
 
-export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin";
+export type Brand = "cesar-nieto" | "la-joya" | "epicum" | "finura" | "angel-martin" | "castro-fuerte";
 
 export interface WeightOption {
   weight: number;
@@ -103,6 +113,7 @@ export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "angel-martin", name: "Ángel Martín e Hijos", tagline: "Elaboración artesanal desde 1923" },
   { id: "epicum", name: "Epicum", tagline: "Cebo ibérico, +28 meses de curación" },
   { id: "finura", name: "Finura de Ibérico", tagline: "Cebo ibérico de ganadería propia" },
+  { id: "castro-fuerte", name: "Castro Fuerte", tagline: "Ibéricos de dehesa extremeña" },
 ];
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
@@ -512,6 +523,82 @@ export const products: Product[] = [
     knifeSupplementPrice: 35,
     category: "paleta",
     brand: "angel-martin",
+  },
+
+  // ====== CASTRO FUERTE — JAMONES ======
+  {
+    id: "cf-jamon-bellota-100",
+    name: "Jamón de Bellota 100% Ibérico Castro Fuerte",
+    description: "Jamón de bellota 100% ibérico de Dehesas Castro Fuerte. Cerdos de raza 100% ibérica criados en libertad en la dehesa extremeña y alimentados con bellota durante la montanera. Curación prolongada que aporta un sabor intenso, dulzón y persistente, con una grasa infiltrada untuosa y veteada.",
+    pricePerKg: 46.48,
+    images: [cfJamonBellota100],
+    weightOptions: generateWeightOptions(8, 9.5, 0.5, 46.48),
+    curing: "Más de 36 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "castro-fuerte",
+  },
+  {
+    id: "cf-jamon-bellota-50",
+    name: "Jamón de Bellota 50% Ibérico Castro Fuerte",
+    description: "Jamón de bellota 50% raza ibérica de Castro Fuerte. Cerdos alimentados con bellota y pastos naturales de la dehesa, con curación lenta que proporciona un sabor equilibrado, una textura melosa y un aroma profundo característico del ibérico de bellota.",
+    pricePerKg: 44.06,
+    images: [cfJamonBellota50],
+    weightOptions: generateWeightOptions(8, 9.5, 0.5, 44.06),
+    curing: "Más de 30 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "castro-fuerte",
+  },
+  {
+    id: "cf-jamon-cebo-campo-50",
+    name: "Jamón de Cebo de Campo 50% Ibérico Castro Fuerte",
+    description: "Jamón de cebo de campo 50% ibérico de Castro Fuerte. Cerdos criados al aire libre en la dehesa, alimentados con piensos naturales, hierbas y pastos. Curación tradicional con un perfil suave, jugoso y muy equilibrado.",
+    pricePerKg: 28.93,
+    images: [cfJamonCeboCampo50],
+    weightOptions: generateWeightOptions(8, 9.5, 0.5, 28.93),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "castro-fuerte",
+  },
+
+  // ====== CASTRO FUERTE — PALETAS ======
+  {
+    id: "cf-paleta-bellota-100",
+    name: "Paleta de Bellota 100% Ibérica Castro Fuerte",
+    description: "Paleta de bellota 100% ibérica de Dehesas Castro Fuerte. Procedente de cerdos de raza 100% ibérica criados en libertad y alimentados con bellota en la montanera. Curación lenta que potencia su aroma envolvente y un sabor profundo con notas dulces.",
+    pricePerKg: 33.22,
+    images: [cfPaletaBellota100],
+    weightOptions: generateWeightOptions(5, 6, 0.5, 33.22),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "castro-fuerte",
+  },
+  {
+    id: "cf-paleta-bellota-50",
+    name: "Paleta de Bellota 50% Ibérica Castro Fuerte",
+    description: "Paleta de bellota 50% raza ibérica de Castro Fuerte. Cerdos alimentados con bellota y recursos naturales de la dehesa. Sabor equilibrado, textura sedosa y un perfil aromático persistente, ideal para compartir.",
+    pricePerKg: 30.80,
+    images: [cfPaletaBellota50],
+    weightOptions: generateWeightOptions(5, 6, 0.5, 30.80),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "castro-fuerte",
+  },
+  {
+    id: "cf-paleta-cebo-campo-50",
+    name: "Paleta de Cebo de Campo 50% Ibérica Castro Fuerte",
+    description: "Paleta de cebo de campo 50% ibérica de Castro Fuerte. Cerdos criados al aire libre en la dehesa con alimentación natural a base de hierbas, pastos y piensos seleccionados. Perfil suave, jugoso y equilibrado, perfecto para el día a día.",
+    pricePerKg: 27.17,
+    images: [cfPaletaCeboCampo50],
+    weightOptions: generateWeightOptions(5, 6, 0.5, 27.17),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "castro-fuerte",
   },
 ];
 
