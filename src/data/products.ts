@@ -53,6 +53,8 @@ import cfJamonCeboCampo50 from "@/assets/products/castrofuerte/jamon-cebo-campo-
 import cfPaletaBellota100 from "@/assets/products/castrofuerte/paleta-bellota-100.jpg";
 import cfPaletaBellota50 from "@/assets/products/castrofuerte/paleta-bellota-50.jpg";
 import cfPaletaCeboCampo50 from "@/assets/products/castrofuerte/paleta-cebo-campo-50.jpg";
+import cfJamonFN from "@/assets/products/castrofuerte/jamon-fn.jpg";
+import cfPaletaFN from "@/assets/products/castrofuerte/paleta-fn.jpg";
 
 
 
@@ -562,6 +564,18 @@ export const products: Product[] = [
     category: "jamon",
     brand: "castro-fuerte",
   },
+  {
+    id: "cf-jamon-fn",
+    name: "Jamón F/N Castro Fuerte (equivalencia bellota)",
+    description: "Jamón Castro Fuerte F/N con equivalencia a bellota. Curación tradicional y perfil aromático similar al ibérico de bellota, con un precio más accesible. Ideal para hostelería y consumo habitual sin renunciar a la calidad de la dehesa.",
+    pricePerKg: 23.61,
+    images: [cfJamonFN],
+    weightOptions: generateWeightOptions(8, 9.5, 0.5, 23.61),
+    curing: "Más de 24 meses",
+    knifeSupplementPrice: 50,
+    category: "jamon",
+    brand: "castro-fuerte",
+  },
 
   // ====== CASTRO FUERTE — PALETAS ======
   {
@@ -595,6 +609,18 @@ export const products: Product[] = [
     pricePerKg: 27.17,
     images: [cfPaletaCeboCampo50],
     weightOptions: generateWeightOptions(5, 6, 0.5, 27.17),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "castro-fuerte",
+  },
+  {
+    id: "cf-paleta-fn",
+    name: "Paleta F/N Castro Fuerte (equivalencia bellota)",
+    description: "Paleta Castro Fuerte F/N con equivalencia a bellota. Curación tradicional que aporta un perfil aromático y textura cercanos al ibérico de bellota, con un precio más accesible. Perfecta para el día a día y para hostelería.",
+    pricePerKg: 22.81,
+    images: [cfPaletaFN],
+    weightOptions: generateWeightOptions(5, 6, 0.5, 22.81),
     curing: "Más de 20 meses",
     knifeSupplementPrice: 35,
     category: "paleta",
