@@ -6,6 +6,7 @@ import laJoyaImg from "@/assets/products/lajoya/jamon-cebo-50.png";
 import epicumImg from "@/assets/products/epicum/jamon-cebo-50.jpg";
 import finuraImg from "@/assets/products/finura/jamon-cebo-50.jpg";
 import angelMartinImg from "@/assets/products/angelmartin/jamon-bellota-do-75.jpg";
+import castroFuerteImg from "@/assets/products/castrofuerte/jamon-bellota-100.jpg";
 
 const brandImages: Record<string, string> = {
   "cesar-nieto": cesarNietoImg,
@@ -13,6 +14,7 @@ const brandImages: Record<string, string> = {
   "angel-martin": angelMartinImg,
   "epicum": epicumImg,
   "finura": finuraImg,
+  "castro-fuerte": castroFuerteImg,
 };
 
 const Products = () => {
