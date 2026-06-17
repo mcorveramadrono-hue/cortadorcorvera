@@ -113,6 +113,7 @@ export const BRANDS: { id: Brand; name: string; tagline: string }[] = [
   { id: "angel-martin", name: "Ángel Martín e Hijos", tagline: "Elaboración artesanal desde 1923" },
   { id: "epicum", name: "Epicum", tagline: "Cebo ibérico, +28 meses de curación" },
   { id: "finura", name: "Finura de Ibérico", tagline: "Cebo ibérico de ganadería propia" },
+  { id: "castro-fuerte", name: "Castro Fuerte", tagline: "Ibéricos de dehesa extremeña" },
 ];
 
 function generateWeightOptions(minKg: number, maxKg: number, stepKg: number, pricePerKg: number): WeightOption[] {
