@@ -101,6 +101,105 @@ serve(async (req) => {
     const safeItems = (items || []) as OrderItem[];
     const isCard = order.payment_method === "card";
 
+    // Server-side price validation against trusted catalog.
+    // For card payments, Stripe already enforced trusted prices via create-checkout.
+    // For transfer/bizum, the client controls the inserted order row, so re-derive
+    // every price from the catalog and recompute totals before storing/emailing.
+    if (!isCard) {
+      let trustedSubtotal = 0;
+      const correctedItems: OrderItem[] = [];
+      for (const it of safeItems) {
+        const productName = String(it.product_name || "");
+        const weight = Number(it.weight);
+        const quantity = Number(it.quantity) || 1;
+        const trustedPrice = getTrustedPrice(productName, weight);
+        if (trustedPrice == null) {
+          console.error("Unknown product/weight in order:", { productName, weight, orderId });
+          return new Response(JSON.stringify({ error: "Pedido con producto no válido" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        let knifePrice = 0;
+        if (it.knife_supplement) {
+          const trustedKnife = getTrustedKnifeSupplement(productName) ?? 0;
+          knifePrice = trustedKnife;
+        }
+        trustedSubtotal += (trustedPrice + knifePrice) * quantity;
+        correctedItems.push({
+          ...it,
+          price: trustedPrice,
+          knife_supplement_price: knifePrice,
+        });
+      }
+
+      // Shipping cost must be one of the allowed values (0 or 5 EUR).
+      const storedShipping = Number(order.shipping_cost) || 0;
+      const trustedShipping = storedShipping === 0 ? 0 : 5;
+
+      // Lookup any coupon discount referenced in notes to allow legitimate reductions.
+      let couponDiscount = 0;
+      const couponMatch = (order.notes || "").match(/\[CUPÓN\s+([A-Z0-9-]+)/i);
+      if (couponMatch) {
+        const code = couponMatch[1].toUpperCase();
+        const { data: coupon } = await supabase
+          .from("discount_coupons")
+          .select("amount, percent_off, free_shipping")
+          .eq("code", code)
+          .maybeSingle();
+        if (coupon) {
+          if (coupon.amount) couponDiscount += Number(coupon.amount);
+          if (coupon.percent_off) couponDiscount += trustedSubtotal * (Number(coupon.percent_off) / 100);
+        }
+        const { data: shared } = await supabase
+          .from("shared_promo_codes")
+          .select("amount, percent_off, free_shipping")
+          .eq("code", code)
+          .maybeSingle();
+        if (shared) {
+          if (shared.amount) couponDiscount += Number(shared.amount);
+          if (shared.percent_off) couponDiscount += trustedSubtotal * (Number(shared.percent_off) / 100);
+        }
+      }
+
+      const trustedTotal = Math.max(0, trustedSubtotal - couponDiscount) + trustedShipping;
+      const storedTotal = Number(order.total) || 0;
+
+      // Reject orders whose stored total is less than the trusted minimum
+      // (allows for ±1 cent rounding). This is the actual fraud guard.
+      if (storedTotal + 0.05 < trustedTotal) {
+        console.error("Price manipulation detected", {
+          orderId, storedTotal, trustedTotal, trustedSubtotal, couponDiscount, trustedShipping,
+        });
+        // Overwrite the order with trusted values rather than fail silently.
+        await supabase
+          .from("orders")
+          .update({
+            subtotal: Number(trustedSubtotal.toFixed(2)),
+            shipping_cost: Number(trustedShipping.toFixed(2)),
+            total: Number(trustedTotal.toFixed(2)),
+          })
+          .eq("id", order.id);
+        // Update per-item prices too
+        for (const ci of correctedItems) {
+          await supabase
+            .from("order_items")
+            .update({ price: ci.price, knife_supplement_price: ci.knife_supplement_price })
+            .eq("order_id", order.id)
+            .eq("product_name", ci.product_name)
+            .eq("weight", ci.weight);
+        }
+        // Refresh local order/items to the trusted values for downstream emailing
+        order.subtotal = Number(trustedSubtotal.toFixed(2));
+        order.shipping_cost = Number(trustedShipping.toFixed(2));
+        order.total = Number(trustedTotal.toFixed(2));
+        for (let i = 0; i < safeItems.length; i++) {
+          safeItems[i].price = correctedItems[i].price;
+          safeItems[i].knife_supplement_price = correctedItems[i].knife_supplement_price;
+        }
+      }
+    }
+
     let confirmationToken: string | null = order.confirmation_token;
     if (!isCard && !confirmationToken) {
       const generatedToken = crypto.randomUUID();
