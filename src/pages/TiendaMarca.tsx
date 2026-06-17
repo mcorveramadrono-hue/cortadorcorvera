@@ -58,6 +58,7 @@ const TiendaMarca = () => {
     canonical.setAttribute("href", canonicalHref);
 
     const ldId = "brand-itemlist-jsonld";
+    const ldBrandId = "brand-entity-jsonld";
     let script = document.getElementById(ldId) as HTMLScriptElement | null;
     if (!script) {
       script = document.createElement("script");
@@ -65,13 +66,37 @@ const TiendaMarca = () => {
       script.id = ldId;
       document.head.appendChild(script);
     }
+    let scriptBrand = document.getElementById(ldBrandId) as HTMLScriptElement | null;
+    if (!scriptBrand) {
+      scriptBrand = document.createElement("script");
+      scriptBrand.type = "application/ld+json";
+      scriptBrand.id = ldBrandId;
+      document.head.appendChild(scriptBrand);
+    }
+    scriptBrand.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Brand",
+      name: brandInfo.name,
+      description: `${brandInfo.tagline}. Jamones y paletas ibéricas ${brandInfo.name} distribuidas oficialmente por Corvera Ibéricos.`,
+      url: canonicalHref,
+      logo: "https://corveraibericos.com/favicon-192.png",
+    });
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: `${brandInfo.name} - Jamones y Paletas Ibéricas`,
+      name: `Jamones y Paletas ${brandInfo.name} - Comprar Online`,
       description,
       url: canonicalHref,
       isPartOf: { "@type": "WebSite", name: "Corvera Ibéricos", url: "https://corveraibericos.com" },
+      about: { "@type": "Brand", name: brandInfo.name },
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Inicio", item: "https://corveraibericos.com/" },
+          { "@type": "ListItem", position: 2, name: "Tienda", item: "https://corveraibericos.com/tienda" },
+          { "@type": "ListItem", position: 3, name: brandInfo.name, item: canonicalHref },
+        ],
+      },
       mainEntity: {
         "@type": "ItemList",
         itemListElement: brandProducts.map((p, idx) => {
@@ -104,6 +129,8 @@ const TiendaMarca = () => {
     return () => {
       const s = document.getElementById(ldId);
       if (s) s.remove();
+      const sb = document.getElementById(ldBrandId);
+      if (sb) sb.remove();
     };
   }, [brandInfo, brand]);
 
