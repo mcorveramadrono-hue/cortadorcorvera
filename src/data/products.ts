@@ -46,6 +46,16 @@ import epicumSobresCebo502 from "@/assets/products/epicum/sobres-cebo-50-2.jpg";
 import epicumSobresCebo503 from "@/assets/products/epicum/sobres-cebo-50-3.jpg";
 import finuraJamonCebo50 from "@/assets/products/finura/jamon-cebo-50.jpg";
 
+// Castro Fuerte
+import cfJamonBellota100 from "@/assets/products/castrofuerte/jamon-bellota-100.jpg";
+import cfJamonBellota50 from "@/assets/products/castrofuerte/jamon-bellota-50.jpg";
+import cfJamonCeboCampo50 from "@/assets/products/castrofuerte/jamon-cebo-campo-50.jpg";
+import cfPaletaBellota100 from "@/assets/products/castrofuerte/paleta-bellota-100.jpg";
+import cfPaletaBellota50 from "@/assets/products/castrofuerte/paleta-bellota-50.jpg";
+import cfPaletaCeboCampo50 from "@/assets/products/castrofuerte/paleta-cebo-campo-50.jpg";
+
+
+
 
 // Angel Martín
 import amJamonBellota100 from "@/assets/products/angelmartin/jamon-bellota-100-clean.jpg";
