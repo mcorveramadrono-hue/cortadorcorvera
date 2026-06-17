@@ -614,5 +614,17 @@ export const products: Product[] = [
     category: "paleta",
     brand: "castro-fuerte",
   },
+  {
+    id: "cf-paleta-fn",
+    name: "Paleta F/N Castro Fuerte (equivalencia bellota)",
+    description: "Paleta Castro Fuerte F/N con equivalencia a bellota. Curación tradicional que aporta un perfil aromático y textura cercanos al ibérico de bellota, con un precio más accesible. Perfecta para el día a día y para hostelería.",
+    pricePerKg: 22.81,
+    images: [cfPaletaFN],
+    weightOptions: generateWeightOptions(5, 6, 0.5, 22.81),
+    curing: "Más de 20 meses",
+    knifeSupplementPrice: 35,
+    category: "paleta",
+    brand: "castro-fuerte",
+  },
 ];
 
