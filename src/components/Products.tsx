@@ -41,7 +41,7 @@ const Products = () => {
               <div className="aspect-square md:aspect-[4/3] bg-transparent overflow-hidden flex items-center justify-center p-2 md:p-8 mix-blend-multiply">
                 <img
                   src={brandImages[brand.id]}
-                  alt={brand.name}
+                  alt={`Jamones ibéricos ${brand.name}`}
                   loading="lazy"
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
