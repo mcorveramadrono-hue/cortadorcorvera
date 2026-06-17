@@ -150,6 +150,33 @@ serve(async (req) => {
       });
     }
 
+    // Format and length validation to prevent payload abuse / spam relay.
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(normalized.email)) {
+      return new Response(JSON.stringify({ error: "Email inválido" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    const limits: Array<[keyof ContactRequest, number]> = [
+      ["nombre", 100],
+      ["apellidos", 100],
+      ["email", 255],
+      ["telefono", 30],
+      ["asunto", 200],
+      ["mensaje", 4000],
+    ];
+    for (const [field, max] of limits) {
+      const value = (normalized as Record<string, string | undefined>)[field as string];
+      if (value && value.length > max) {
+        return new Response(
+          JSON.stringify({ error: `El campo ${String(field)} supera el máximo de ${max} caracteres` }),
+          { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } },
+        );
+      }
+    }
+
     const formspreePayload = {
       _subject: normalized.asunto,
       nombre: normalized.nombre,
