@@ -373,6 +373,8 @@ const Tienda = () => {
               onClick={() => setFiltersOpen((v) => !v)}
               className="w-full flex items-center justify-between gap-2 px-4 py-3 bg-corvera-cream/30 border border-border text-sm tracking-widest uppercase text-foreground"
               aria-expanded={filtersOpen}
+              aria-label={filtersOpen ? "Ocultar filtros del catálogo" : "Mostrar filtros del catálogo"}
+              aria-controls="tienda-filters"
             >
               <span className="flex items-center gap-2">
                 <SlidersHorizontal size={16} />
@@ -384,7 +386,7 @@ const Tienda = () => {
               <ChevronDown size={18} className={`transition-transform ${filtersOpen ? "rotate-180" : ""}`} />
             </button>
             {filtersOpen && (
-              <div className="bg-corvera-cream/30 border border-border p-4 md:p-6 space-y-4">
+              <div id="tienda-filters" className="bg-corvera-cream/30 border border-border p-4 md:p-6 space-y-4">
                 {filtersContent}
               </div>
             )}
