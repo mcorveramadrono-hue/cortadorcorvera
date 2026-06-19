@@ -95,16 +95,18 @@ const Header = () => {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-foreground"
-            aria-label="Toggle menu"
+            aria-label={isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="md:hidden bg-background border-t border-border">
+        <div id="mobile-nav" className="md:hidden bg-background border-t border-border">
           <nav className="flex flex-col items-center py-6 gap-6">
             {links.map((link) => (
               <a

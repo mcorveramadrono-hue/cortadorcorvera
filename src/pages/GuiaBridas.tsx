@@ -266,7 +266,7 @@ const GuiaBridas = () => {
                 <div className="w-full flex items-center justify-center">
                   <img
                     src={b.image}
-                    alt={`Brida ${b.color.toLowerCase()} del jamón ${b.tipo.toLowerCase()}`}
+                    alt={`Sello oficial de brida ${b.color.toLowerCase()} para ${b.tipo.toLowerCase()} según el RD 4/2014 (raza ${b.raza.toLowerCase()})`}
                     className="w-full h-auto object-contain"
                     loading="lazy"
                   />
