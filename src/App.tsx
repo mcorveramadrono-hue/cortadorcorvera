@@ -20,6 +20,7 @@ import ConfirmarPago from "./pages/ConfirmarPago";
 import MarcarEnvio from "./pages/MarcarEnvio";
 import Ofertas from "./pages/Ofertas";
 import GuiaBridas from "./pages/GuiaBridas";
+import SobresJamon from "./pages/SobresJamon";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import WelcomeCouponDialog from "./components/WelcomeCouponDialog";
