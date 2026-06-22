@@ -39,6 +39,12 @@ const Footer = () => {
                   {link}
                 </a>
               ))}
+              <Link to="/sobres-de-jamon-iberico" className="text-sm text-background/60 hover:text-background transition-colors">
+                Sobres de jamón ibérico
+              </Link>
+              <Link to="/guia-bridas-jamon-iberico" className="text-sm text-background/60 hover:text-background transition-colors">
+                Guía de bridas
+              </Link>
             </nav>
           </div>
 
