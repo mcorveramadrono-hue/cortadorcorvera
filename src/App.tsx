@@ -51,6 +51,8 @@ const App = () => (
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/guia-bridas-jamon-iberico" element={<GuiaBridas />} />
+            <Route path="/sobres-de-jamon-iberico" element={<SobresJamon />} />
+            <Route path="/sobres-de-jamon" element={<SobresJamon />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
