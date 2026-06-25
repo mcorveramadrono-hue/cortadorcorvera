@@ -21,6 +21,9 @@ import MarcarEnvio from "./pages/MarcarEnvio";
 import Ofertas from "./pages/Ofertas";
 import GuiaBridas from "./pages/GuiaBridas";
 import SobresJamon from "./pages/SobresJamon";
+import CortadorCiudad from "./pages/CortadorCiudad";
+import ComprarJamonBellota from "./pages/ComprarJamonBellota";
+import PaletaIberica from "./pages/PaletaIberica";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import WelcomeCouponDialog from "./components/WelcomeCouponDialog";
@@ -52,6 +55,9 @@ const App = () => (
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/guia-bridas-jamon-iberico" element={<GuiaBridas />} />
             <Route path="/sobres-de-jamon-iberico" element={<SobresJamon />} />
+            <Route path="/comprar-jamon-iberico-de-bellota" element={<ComprarJamonBellota />} />
+            <Route path="/paleta-iberica-de-bellota" element={<PaletaIberica />} />
+            <Route path="/cortador-de-jamon-:ciudad" element={<CortadorCiudad />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
