@@ -80,7 +80,7 @@ const CortadorCiudad = () => {
     if (!data) return;
     window.scrollTo(0, 0);
     const prevTitle = document.title;
-    const PAGE_URL = `https://corveraibericos.com/cortador-de-jamon-${data.slug}`;
+    const PAGE_URL = `https://corveraibericos.com/cortador-de-jamon/${data.slug}`;
 
     document.title = `Cortador de Jamón ${data.nombre} | Bodas y Eventos | Corvera`;
     setMeta(
@@ -314,7 +314,7 @@ const CortadorCiudad = () => {
               .filter((c) => c.slug !== data.slug)
               .map((c, i, arr) => (
                 <span key={c.slug}>
-                  <Link to={`/cortador-de-jamon-${c.slug}`} className="underline hover:text-primary">
+                  <Link to={`/cortador-de-jamon/${c.slug}`} className="underline hover:text-primary">
                     {c.nombre}
                   </Link>
                   {i < arr.length - 1 ? " · " : ""}
