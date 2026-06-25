@@ -136,13 +136,29 @@ serve(async (req) => {
       }
     }
 
-    const shippingCost = Number(order.shipping_cost) || 0;
-    if (shippingCost > 0) {
+    // Trusted shipping cost — never trust order.shipping_cost from the client.
+    // Free shipping if total weight >= 20kg or the order includes a product
+    // that carries a free-shipping promotion. Otherwise 5€.
+    const FREE_SHIPPING_PRODUCT_NAMES = new Set<string>([
+      "Jamón Ibérico Cebo de Campo 50%",
+      "Jamón César Nieto Reserva Familiar <7kg",
+      "Jamón de Cebo Ibérico Epicum 50%",
+      "Jamón de Cebo Ibérico Finura 50%",
+    ]);
+    const computedWeight = orderItems.reduce(
+      (sum, it) => sum + (Number(it.weight) || 0) * (Number(it.quantity) || 1),
+      0
+    );
+    const hasFreeShippingProduct = orderItems.some((it) =>
+      FREE_SHIPPING_PRODUCT_NAMES.has(String(it.product_name || ""))
+    );
+    const trustedShipping = computedWeight >= 20 || hasFreeShippingProduct ? 0 : 5;
+    if (trustedShipping > 0) {
       lineItems.push({
         price_data: {
           currency: "eur",
           product_data: { name: "Gastos de envío" },
-          unit_amount: Math.round(shippingCost * 100),
+          unit_amount: Math.round(trustedShipping * 100),
         },
         quantity: 1,
       });

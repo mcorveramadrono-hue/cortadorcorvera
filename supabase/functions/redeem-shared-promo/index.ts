@@ -9,8 +9,8 @@ const corsHeaders = {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
-    const { code, email, orderId } = await req.json();
-    if (!code || !email) {
+    const { code, email, orderId, sessionToken } = await req.json();
+    if (!code || !email || !orderId || !sessionToken) {
       return new Response(JSON.stringify({ ok: false, error: "Faltan datos" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -23,6 +23,25 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
+
+    // Verify the caller actually owns an order with this email + session token.
+    // Prevents anon attackers from burning through max_uses with fake emails.
+    const { data: order } = await supabase
+      .from("orders")
+      .select("id, email, session_token")
+      .eq("id", String(orderId))
+      .maybeSingle();
+
+    if (
+      !order ||
+      String(order.session_token) !== String(sessionToken) ||
+      String(order.email).trim().toLowerCase() !== normalizedEmail
+    ) {
+      return new Response(JSON.stringify({ ok: false, error: "No autorizado" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const { data: promo } = await supabase
       .from("shared_promo_codes")
