@@ -20,7 +20,6 @@ import ConfirmarPago from "./pages/ConfirmarPago";
 import MarcarEnvio from "./pages/MarcarEnvio";
 import Ofertas from "./pages/Ofertas";
 import GuiaBridas from "./pages/GuiaBridas";
-import GuiaEmbarazo from "./pages/GuiaEmbarazo";
 import SobresJamon from "./pages/SobresJamon";
 import NotFound from "./pages/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat";
@@ -52,7 +51,6 @@ const App = () => (
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/guia-bridas-jamon-iberico" element={<GuiaBridas />} />
-            <Route path="/jamon-iberico-y-embarazo" element={<GuiaEmbarazo />} />
             <Route path="/sobres-de-jamon-iberico" element={<SobresJamon />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
