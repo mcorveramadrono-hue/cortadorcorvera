@@ -39,11 +39,29 @@ const Footer = () => {
                   {link}
                 </a>
               ))}
+              <Link to="/comprar-jamon-iberico-de-bellota" className="text-sm text-background/60 hover:text-background transition-colors">
+                Jamón ibérico de bellota
+              </Link>
+              <Link to="/paleta-iberica-de-bellota" className="text-sm text-background/60 hover:text-background transition-colors">
+                Paleta ibérica de bellota
+              </Link>
               <Link to="/sobres-de-jamon-iberico" className="text-sm text-background/60 hover:text-background transition-colors">
                 Sobres de jamón ibérico
               </Link>
               <Link to="/guia-bridas-jamon-iberico" className="text-sm text-background/60 hover:text-background transition-colors">
                 Guía de bridas
+              </Link>
+              <Link to="/cortador-de-jamon/madrid" className="text-sm text-background/60 hover:text-background transition-colors">
+                Cortador de jamón Madrid
+              </Link>
+              <Link to="/cortador-de-jamon/barcelona" className="text-sm text-background/60 hover:text-background transition-colors">
+                Cortador de jamón Barcelona
+              </Link>
+              <Link to="/cortador-de-jamon/valencia" className="text-sm text-background/60 hover:text-background transition-colors">
+                Cortador de jamón Valencia
+              </Link>
+              <Link to="/cortador-de-jamon/sevilla" className="text-sm text-background/60 hover:text-background transition-colors">
+                Cortador de jamón Sevilla
               </Link>
             </nav>
           </div>
