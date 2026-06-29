@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { Loader2, Package, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { usePageSeo } from "@/lib/seo";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
@@ -28,6 +29,13 @@ const MarcarEnvio = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || "";
+  const location = useLocation();
+  usePageSeo({
+    title: "Marcar pedido como enviado | Corvera Ibéricos",
+    description: "Panel interno de Corvera Ibéricos para registrar el envío de un pedido (transportista, número de seguimiento y URL).",
+    path: location.pathname,
+    noindex: true,
+  });
 
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState<OrderData | null>(null);
