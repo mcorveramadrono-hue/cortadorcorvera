@@ -13,7 +13,7 @@ const Footer = () => {
               <img src={corveraLogo} alt="Corvera" className="h-10 w-auto invert" />
               <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
             </div>
-            <address className="not-italic text-xs text-background/40 leading-relaxed space-y-1">
+            <address className="not-italic text-xs text-background/70 leading-relaxed space-y-1">
               <div>Madrid, España</div>
               <div>
                 <a href="tel:+34676703034" className="hover:text-background transition-colors">Tel: +34 676 70 30 34</a>
@@ -84,20 +84,20 @@ const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-background/10 text-center space-y-3">
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <Link to="/aviso-legal" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+            <Link to="/aviso-legal" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
               Aviso Legal
             </Link>
-            <Link to="/politica-privacidad" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+            <Link to="/politica-privacidad" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
               Política de Privacidad
             </Link>
-            <Link to="/terminos-condiciones" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+            <Link to="/terminos-condiciones" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
               Términos y Condiciones
             </Link>
-            <Link to="/politica-cookies" className="text-xs text-background/40 hover:text-background/70 tracking-widest transition-colors">
+            <Link to="/politica-cookies" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
               Política de Cookies
             </Link>
           </nav>
-          <p className="text-xs text-background/30 tracking-widest">
+          <p className="text-xs text-background/70 tracking-widest">
             © {new Date().getFullYear()} Corvera Ibéricos · Un Corte Original. Todos los derechos reservados.
           </p>
         </div>

@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { Clock, Building2, Smartphone, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { usePageSeo } from "@/lib/seo";
 
 const PedidoConfirmado = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  usePageSeo({
+    title: "Pedido confirmado | Corvera Ibéricos",
+    description: "Resumen y estado de tu pedido en Corvera Ibéricos. Consulta los datos de envío y el método de pago seleccionado.",
+    path: location.pathname,
+    noindex: true,
+  });
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [paymentVerified, setPaymentVerified] = useState(false);
