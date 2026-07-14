@@ -230,16 +230,16 @@ serve(async (req) => {
       });
     }
 
-    // Coupon discount as a negative line item.
+    // Coupon discount — applied via Stripe coupon (line items can't be negative).
+    let stripeDiscountCouponId: string | undefined;
     if (couponDiscountCents > 0) {
-      lineItems.push({
-        price_data: {
-          currency: "eur",
-          product_data: { name: `Descuento cupón ${promoCode}` },
-          unit_amount: -couponDiscountCents,
-        },
-        quantity: 1,
+      const stripeCoupon = await stripe.coupons.create({
+        amount_off: couponDiscountCents,
+        currency: "eur",
+        duration: "once",
+        name: `Cupón ${promoCode}`,
       });
+      stripeDiscountCouponId = stripeCoupon.id;
     }
 
     if (lineItems.length === 0) {
