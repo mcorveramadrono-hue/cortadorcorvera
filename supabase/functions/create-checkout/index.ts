@@ -138,28 +138,105 @@ serve(async (req) => {
     }
 
     // Trusted shipping cost — never trust order.shipping_cost from the client.
-    // Free shipping if total weight >= 20kg or the order includes a product
-    // that carries a free-shipping promotion. Otherwise 5€.
+    // Free shipping if total weight >= 20kg, order contains a product with a
+    // free-shipping promo (whole-piece jamones listed below), or contains a
+    // unit-based product (sobres) that always ships free.
     const FREE_SHIPPING_PRODUCT_NAMES = new Set<string>([
       "Jamón Ibérico Cebo de Campo 50%",
       "Jamón César Nieto Reserva Familiar <7kg",
       "Jamón de Cebo Ibérico Epicum 50%",
       "Jamón de Cebo Ibérico Finura 50%",
     ]);
+    // Products sold by unit (sobres) always include shipping.
+    const UNIT_FREE_SHIPPING_PRODUCT_NAMES = new Set<string>([
+      "Sobres de Jamón Cebo 50% Ibérico Epicum (cortado a cuchillo)",
+    ]);
     const computedWeight = orderItems.reduce(
       (sum, it) => sum + (Number(it.weight) || 0) * (Number(it.quantity) || 1),
       0
     );
+    const productSubtotal = orderItems.reduce((sum, it) => {
+      const q = Number(it.quantity) || 1;
+      const w = Number(it.weight) || 0;
+      const p = getTrustedPrice(String(it.product_name || ""), w) ?? 0;
+      const k = it.knife_supplement ? (getTrustedKnifeSupplement(String(it.product_name || "")) ?? 0) : 0;
+      return sum + (p + k) * q;
+    }, 0);
     const hasFreeShippingProduct = orderItems.some((it) =>
-      FREE_SHIPPING_PRODUCT_NAMES.has(String(it.product_name || ""))
+      FREE_SHIPPING_PRODUCT_NAMES.has(String(it.product_name || "")) ||
+      UNIT_FREE_SHIPPING_PRODUCT_NAMES.has(String(it.product_name || ""))
     );
-    const trustedShipping = computedWeight >= 20 || hasFreeShippingProduct ? 0 : 5;
+
+    // Server-side coupon validation. Never trust the client for discount/free-shipping.
+    // Look up promoCode in discount_coupons (single-use) or shared_promo_codes (shared).
+    let couponFreeShipping = false;
+    let couponDiscountCents = 0;
+    if (promoCode) {
+      if (promoCode === "MAMA3") {
+        couponFreeShipping = true;
+      } else {
+        // 1) Single-use coupon (discount_coupons.amount, email-bound)
+        const { data: singleCoupon } = await supabaseAdmin
+          .from("discount_coupons")
+          .select("amount, min_order_total, email, used, expires_at")
+          .eq("code", promoCode)
+          .maybeSingle();
+        if (
+          singleCoupon &&
+          singleCoupon.used === false &&
+          new Date(singleCoupon.expires_at) > new Date() &&
+          String(singleCoupon.email).toLowerCase() === String(order.email).toLowerCase() &&
+          productSubtotal >= Number(singleCoupon.min_order_total ?? 0)
+        ) {
+          const amt = Number(singleCoupon.amount) || 0;
+          couponDiscountCents = Math.round(Math.min(amt, productSubtotal) * 100);
+        } else {
+          // 2) Shared promo (percent or amount, with optional brand_filter and min)
+          const { data: shared } = await supabaseAdmin
+            .from("shared_promo_codes")
+            .select("amount, percent_off, min_order_total, brand_filter, max_uses, used_count, expires_at")
+            .eq("code", promoCode)
+            .maybeSingle();
+          if (
+            shared &&
+            new Date(shared.expires_at) > new Date() &&
+            Number(shared.used_count) < Number(shared.max_uses)
+          ) {
+            // brand_filter cannot be enforced without product-brand mapping here,
+            // so we fall back to the full product subtotal as the eligible base.
+            const eligible = productSubtotal;
+            if (eligible >= Number(shared.min_order_total ?? 0) && eligible > 0) {
+              if (shared.percent_off != null && Number(shared.percent_off) > 0) {
+                couponDiscountCents = Math.round(eligible * Number(shared.percent_off));
+              } else if (shared.amount != null) {
+                couponDiscountCents = Math.round(Math.min(Number(shared.amount), eligible) * 100);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const baseShipping = computedWeight >= 20 || hasFreeShippingProduct ? 0 : 5;
+    const trustedShipping = couponFreeShipping ? 0 : baseShipping;
     if (trustedShipping > 0) {
       lineItems.push({
         price_data: {
           currency: "eur",
           product_data: { name: "Gastos de envío" },
           unit_amount: Math.round(trustedShipping * 100),
+        },
+        quantity: 1,
+      });
+    }
+
+    // Coupon discount as a negative line item.
+    if (couponDiscountCents > 0) {
+      lineItems.push({
+        price_data: {
+          currency: "eur",
+          product_data: { name: `Descuento cupón ${promoCode}` },
+          unit_amount: -couponDiscountCents,
         },
         quantity: 1,
       });
