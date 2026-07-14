@@ -138,27 +138,65 @@ serve(async (req) => {
       const trustedShipping = storedShipping === 0 ? 0 : 5;
 
       // Lookup any coupon discount referenced in notes to allow legitimate reductions.
+      // Enforce the same integrity checks as create-checkout so a buyer can't reuse
+      // someone else's, expired, or already-redeemed code on transfer/Bizum orders.
       let couponDiscount = 0;
       const couponMatch = (order.notes || "").match(/\[CUPÓN\s+([A-Z0-9-]+)/i);
       if (couponMatch) {
         const code = couponMatch[1].toUpperCase();
+        const orderEmail = String(order.email || "").toLowerCase();
+
+        // 1) Single-use, email-bound coupon
         const { data: coupon } = await supabase
           .from("discount_coupons")
-          .select("amount, percent_off, free_shipping")
+          .select("amount, percent_off, free_shipping, min_order_total, email, used, expires_at")
           .eq("code", code)
           .maybeSingle();
-        if (coupon) {
-          if (coupon.amount) couponDiscount += Number(coupon.amount);
+        if (
+          coupon &&
+          coupon.used === false &&
+          coupon.expires_at && new Date(coupon.expires_at) > new Date() &&
+          String(coupon.email || "").toLowerCase() === orderEmail &&
+          trustedSubtotal >= Number(coupon.min_order_total ?? 0)
+        ) {
+          if (coupon.amount) couponDiscount += Math.min(Number(coupon.amount), trustedSubtotal);
           if (coupon.percent_off) couponDiscount += trustedSubtotal * (Number(coupon.percent_off) / 100);
-        }
-        const { data: shared } = await supabase
-          .from("shared_promo_codes")
-          .select("amount, percent_off, free_shipping")
-          .eq("code", code)
-          .maybeSingle();
-        if (shared) {
-          if (shared.amount) couponDiscount += Number(shared.amount);
-          if (shared.percent_off) couponDiscount += trustedSubtotal * (Number(shared.percent_off) / 100);
+        } else {
+          // 2) Shared promo (percent or amount, with brand_filter and max_uses)
+          const { data: shared } = await supabase
+            .from("shared_promo_codes")
+            .select("amount, percent_off, free_shipping, min_order_total, brand_filter, max_uses, used_count, expires_at")
+            .eq("code", code)
+            .maybeSingle();
+          if (
+            shared &&
+            shared.expires_at && new Date(shared.expires_at) > new Date() &&
+            Number(shared.used_count) < Number(shared.max_uses)
+          ) {
+            // Compute eligible subtotal per brand_filter; fall back to full subtotal
+            // only when no brand restriction is set.
+            let eligible = trustedSubtotal;
+            const brandFilter = shared.brand_filter ? String(shared.brand_filter) : "";
+            if (brandFilter) {
+              eligible = 0;
+              for (const it of safeItems) {
+                const name = String(it.product_name || "");
+                if (getProductBrand(name) !== brandFilter) continue;
+                const w = Number(it.weight) || 0;
+                const q = Number(it.quantity) || 1;
+                const p = getTrustedPrice(name, w) ?? 0;
+                const k = it.knife_supplement ? (getTrustedKnifeSupplement(name) ?? 0) : 0;
+                eligible += (p + k) * q;
+              }
+            }
+            if (eligible >= Number(shared.min_order_total ?? 0) && eligible > 0) {
+              if (shared.percent_off) {
+                couponDiscount += eligible * (Number(shared.percent_off) / 100);
+              } else if (shared.amount) {
+                couponDiscount += Math.min(Number(shared.amount), eligible);
+              }
+            }
+          }
         }
       }
 
