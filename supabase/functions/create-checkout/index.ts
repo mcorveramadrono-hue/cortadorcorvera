@@ -202,9 +202,22 @@ serve(async (req) => {
             new Date(shared.expires_at) > new Date() &&
             Number(shared.used_count) < Number(shared.max_uses)
           ) {
-            // brand_filter cannot be enforced without product-brand mapping here,
-            // so we fall back to the full product subtotal as the eligible base.
-            const eligible = productSubtotal;
+            // Compute eligible subtotal, restricted to items matching brand_filter
+            // when set. Falling back to the full subtotal would let a customer
+            // mix in unrelated brands and unfairly extend the discount.
+            let eligible = productSubtotal;
+            const brandFilter = shared.brand_filter ? String(shared.brand_filter) : "";
+            if (brandFilter) {
+              eligible = orderItems.reduce((sum, it) => {
+                const name = String(it.product_name || "");
+                if (getProductBrand(name) !== brandFilter) return sum;
+                const q = Number(it.quantity) || 1;
+                const w = Number(it.weight) || 0;
+                const p = getTrustedPrice(name, w) ?? 0;
+                const k = it.knife_supplement ? (getTrustedKnifeSupplement(name) ?? 0) : 0;
+                return sum + (p + k) * q;
+              }, 0);
+            }
             if (eligible >= Number(shared.min_order_total ?? 0) && eligible > 0) {
               if (shared.percent_off != null && Number(shared.percent_off) > 0) {
                 couponDiscountCents = Math.round(eligible * Number(shared.percent_off));
