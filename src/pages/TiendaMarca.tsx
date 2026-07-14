@@ -22,8 +22,8 @@ const TiendaMarca = () => {
     const brandProducts = products.filter((p) => p.brand === (brand as Brand));
     const productNames = brandProducts.map((p) => p.name).join(", ");
 
-    const title = `Comprar Jamón ${brandInfo.name} | ${brandInfo.name} Ibérico Online`.slice(0, 70);
-    const description = `Comprar jamones y paletas ${brandInfo.name} online en Corvera Ibéricos. ${brandInfo.tagline}. ${productNames.slice(0, 110)}. Envío a toda España y corte a cuchillo profesional opcional.`.slice(0, 300);
+    const title = `Comprar Jamón ${brandInfo.name} Online | ${brandInfo.name} Ibérico de Bellota`.slice(0, 70);
+    const description = `Comprar jamón ${brandInfo.name} y paletas ibéricas ${brandInfo.name} online al mejor precio. ${brandInfo.tagline}. ${productNames.slice(0, 100)}. Envío a toda España y corte a cuchillo profesional.`.slice(0, 300);
 
     document.title = title;
 
