@@ -91,8 +91,8 @@ const Tienda = () => {
   }, [search, category, selectedBrands, selectedQualities, priceRange, sortBy, filtersOpen]);
 
   usePageSeo({
-    title: "Tienda de Jamón Ibérico Online | Corvera Ibéricos",
-    description: "Catálogo de jamones y paletas ibéricas: César Nieto, La Joya, Ángel Martín, Epicum y Finura. Bellota, cebo y D.O.P. Envío a toda España.",
+    title: "Comprar Jamón Ibérico Online | Tienda de Jamón y Paleta",
+    description: "Comprar jamón ibérico y paleta ibérica online: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Bellota 100%, 75%, 50%, cebo y D.O.P. Envío a toda España.",
     path: "/tienda",
     jsonLd: [
       {

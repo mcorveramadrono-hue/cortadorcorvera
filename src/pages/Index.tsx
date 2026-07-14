@@ -15,8 +15,8 @@ import { usePageSeo } from "@/lib/seo";
 const Index = () => {
   const location = useLocation();
   usePageSeo({
-    title: "Corvera Ibéricos | Compra Jamón Ibérico Online",
-    description: "Jamón ibérico de bellota online: César Nieto, La Joya, Ángel Martín, Epicum y Finura. Corte a cuchillo profesional. Envío a toda España.",
+    title: "Comprar Jamón Ibérico de Bellota Online | Corvera",
+    description: "Comprar jamón ibérico de bellota online al mejor precio: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Paleta ibérica D.O.P. y corte a cuchillo. Envío España.",
     path: "/",
     jsonLd: {
       "@context": "https://schema.org",
