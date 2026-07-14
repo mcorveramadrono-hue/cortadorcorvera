@@ -14,7 +14,8 @@ serve(async (req) => {
   }
 
   try {
-    const { orderId, sessionToken } = await req.json();
+    const { orderId, sessionToken, promoCode: rawPromoCode } = await req.json();
+    const promoCode = typeof rawPromoCode === "string" ? rawPromoCode.trim().toUpperCase() : "";
 
     if (!orderId || typeof orderId !== "string") {
       return new Response(
