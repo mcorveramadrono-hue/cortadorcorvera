@@ -146,6 +146,7 @@ const Checkout = () => {
           body: {
             orderId: order.id,
             sessionToken,
+            promoCode: appliedCoupon?.code ?? promoCode ?? undefined,
           },
         });
 
