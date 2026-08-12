@@ -30,8 +30,8 @@ const Hero = () => {
         <img
           src={fraseJamon}
           alt="El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón"
-          width="1467"
-          height="457"
+          width="2064"
+          height="512"
           className="w-full max-w-xl h-auto object-contain"
         />
 
