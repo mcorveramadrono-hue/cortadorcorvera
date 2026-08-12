@@ -149,7 +149,7 @@ const TiendaMarca = () => {
 
     return (
       <Link
-        to={`/tienda/${brand}/${product.id}?from=marca`}
+        to={`/tienda/${brand}/${product.id}?from=marca${from === "home" ? "&origin=home" : ""}`}
         key={product.id}
         className="group bg-card border border-border hover:border-primary/30 transition-all duration-300 flex flex-col"
       >
