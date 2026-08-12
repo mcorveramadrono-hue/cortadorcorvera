@@ -192,7 +192,7 @@ export const products: Product[] = [
     description: "Se obtiene a partir de cruces selectos del Cerdo Ibérico, con un 50% de la Raza Ibérica en su genética. Estos cerdos se crían en granjas que aseguran su bienestar animal y son alimentados con piensos naturales, a base de cereales de la máxima calidad.",
     pricePerKg: 23.58,
     images: [jamonCebo50, jamonCebo502],
-    weightOptions: generateWeightOptions(7, 10, 0.5, 23.58),
+    weightOptions: generateWeightOptions(8, 10, 0.5, 23.58),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
