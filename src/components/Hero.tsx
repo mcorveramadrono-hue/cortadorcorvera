@@ -1,5 +1,4 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
-import fraseJamon from "@/assets/frase-jamon.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
 const Hero = () => {
@@ -28,7 +27,7 @@ const Hero = () => {
 
         {/* Frase como texto real (máxima calidad) */}
         <p className="font-serif uppercase text-foreground font-normal tracking-tight leading-[1.15] text-[clamp(1.5rem,6vw,3rem)] max-w-2xl">
-          EL D<span className="text-primary">I</span>NER<span aria-hidden="true">O</span> N<span className="text-primary">O</span> TE PUEDE D<span className="text-primary">A</span>R LA FEL<span className="text-primary">I</span>CIDAD PERO SI TE PUEDE C<span className="text-primary">O</span>MPRAR UN BUEN J<span className="text-primary">A</span>MÓN
+          EL D<span className="text-primary">I</span>NERO N<span className="text-primary">O</span> TE PUEDE D<span className="text-primary">A</span>R LA FEL<span className="text-primary">I</span>CIDAD PERO SI TE PUEDE C<span className="text-primary">O</span>MPRAR UN BUEN J<span className="text-primary">A</span>MÓN
         </p>
 
 
