@@ -26,12 +26,11 @@ const Hero = () => {
           className="w-36 h-36 md:w-48 md:h-48 object-contain"
         />
 
-        {/* Frase exacta como imagen */}
-        <img
-          src={fraseJamon}
-          alt="El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón"
-          className="w-full max-w-xl h-auto object-contain"
-        />
+        {/* Frase como texto real (máxima calidad) */}
+        <p className="font-serif uppercase text-foreground font-normal tracking-tight leading-[1.15] text-[clamp(1.5rem,6vw,3rem)] max-w-2xl">
+          EL D<span className="text-primary">I</span>NER<span aria-hidden="true">O</span> N<span className="text-primary">O</span> TE PUEDE D<span className="text-primary">A</span>R LA FEL<span className="text-primary">I</span>CIDAD PERO SI TE PUEDE C<span className="text-primary">O</span>MPRAR UN BUEN J<span className="text-primary">A</span>MÓN
+        </p>
+
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-4">
