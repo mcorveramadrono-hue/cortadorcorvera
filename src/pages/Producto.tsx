@@ -140,7 +140,8 @@ const Producto = () => {
 
   const handleBack = () => {
     if (from === "marca" && brand) {
-      navigate(`/tienda/${brand}`);
+      const origin = searchParams.get("origin");
+      navigate(`/tienda/${brand}${origin === "home" ? "?from=home" : ""}`);
     } else if (from === "tienda") {
       navigate("/tienda");
     } else if (from === "ofertas") {
