@@ -1,4 +1,4 @@
-import fraseJamon from "@/assets/frase-jamon-hd.png";
+import fraseJamon from "@/assets/frase-jamon-original-v2.png";
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 
