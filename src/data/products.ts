@@ -329,7 +329,7 @@ export const products: Product[] = [
     description: "Una opción versátil para el día a día. Textura melosa, sabor redondo y un perfil amable que seduce a todos. Ideal para quienes buscan iniciarse en los ibéricos sin renunciar a la calidad.",
     pricePerKg: 26.40,
     images: [lajoyaJamonCebo50, lajoyaAmbient4, lajoyaAmbient3, lajoyaCaja],
-    weightOptions: generateWeightOptions(7.5, 8.5, 0.5, 26.40),
+    weightOptions: generateWeightOptions(8, 8.5, 0.5, 26.40),
     curing: "Más de 24 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
