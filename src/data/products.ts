@@ -180,7 +180,7 @@ export const products: Product[] = [
     description: "Se obtiene de cruces selectos del Cerdo Ibérico, alcanzando un 50% de Raza Ibérica en su genética. Se alimentan de hierbas y otros recursos mientras campean libremente por fincas de César Nieto.",
     pricePerKg: 26.49,
     images: [jamonCeboCampo50, jamonCeboCampo502],
-    weightOptions: generateWeightOptions(7, 10, 0.5, 26.49),
+    weightOptions: generateWeightOptions(8, 10, 0.5, 26.49),
     curing: "Más de 30 meses",
     knifeSupplementPrice: 50,
     category: "jamon",
