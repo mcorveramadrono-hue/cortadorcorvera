@@ -53,6 +53,8 @@ const Hero = () => {
             alt="Un Corte Original"
             className="w-24 h-24 md:w-28 md:h-28 object-contain mt-2"
           />
+        </div>
+
         
 
         {/* CTA buttons */}
