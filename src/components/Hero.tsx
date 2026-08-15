@@ -36,9 +36,13 @@ const Hero = () => {
             decoding="async"
             className="w-full max-w-sm md:max-w-md h-auto object-contain"
           />
-          <span className="text-corvera-dark text-sm md:text-base tracking-[0.55em] uppercase">
-            Ibéricos
-          </span>
+          <div className="flex items-center gap-4 w-full max-w-xs">
+            <span className="h-px flex-1 bg-corvera-dark/40" />
+            <span className="text-corvera-dark/80 text-[10px] md:text-xs tracking-[0.35em] uppercase whitespace-nowrap">
+              Ibéricos
+            </span>
+            <span className="h-px flex-1 bg-corvera-dark/40" />
+          </div>
 
           {/* Sello */}
           <img
