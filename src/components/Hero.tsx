@@ -1,107 +1,130 @@
-import selloCorteOriginal from "@/assets/sello-corte-original.png";
-import corveraLogo from "@/assets/corvera-logo.webp";
-import fondoJamon from "@/assets/hero-textura-jamon.jpg";
+import cortadorMaestro from "@/assets/hero-cortador-maestro.jpg";
+import veteadoIberico from "@/assets/hero-veteado-iberico.jpg";
 
 const Hero = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen w-full flex items-center justify-center bg-primary p-4 pt-24 pb-12 lg:p-8 lg:pt-28 overflow-hidden"
+      className="min-h-screen w-full flex items-center justify-center bg-background px-4 pt-24 pb-10 lg:px-12 lg:pt-28 lg:pb-12"
     >
-      {/* Fondo textura jamón */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${fondoJamon})` }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-primary/85 mix-blend-multiply" aria-hidden="true" />
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-corvera-dark/40 via-transparent to-corvera-dark/60"
-        aria-hidden="true"
-      />
+      <div className="relative w-full max-w-7xl min-h-[85vh] bg-primary shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+        {/* Textura sutil de fondo */}
+        <div
+          className="absolute inset-0 opacity-15 pointer-events-none mix-blend-multiply"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 2px 2px, hsl(var(--corvera-cream) / 0.1) 1px, transparent 0)",
+            backgroundSize: "24px 24px",
+          }}
+          aria-hidden="true"
+        />
 
-      {/* Placa editorial central */}
-      <div className="relative z-10 max-w-4xl w-full bg-corvera-cream px-6 py-12 md:p-16 lg:p-20 shadow-2xl">
-        <div className="absolute inset-3 md:inset-4 border border-primary/10 pointer-events-none" aria-hidden="true" />
-        <div className="absolute inset-5 md:inset-6 border border-primary/5 pointer-events-none" aria-hidden="true" />
-
-        <div className="relative flex flex-col items-center text-center">
-          <h1 className="sr-only">
-            Corvera Ibéricos — Tienda oficial de jamón ibérico de bellota y cortador profesional a cuchillo en Madrid, envíos a toda España
-          </h1>
-
-          {/* Marca */}
-          <div className="mb-8 flex flex-col items-center gap-3">
-            <img
-              src={corveraLogo}
-              alt="Corvera Ibéricos - Jamón Ibérico de Bellota"
-              width="448"
-              height="160"
-              fetchPriority="high"
-              decoding="async"
-              className="w-full max-w-xs md:max-w-md h-auto object-contain"
-            />
-            <span className="h-px w-12 bg-primary" aria-hidden="true" />
-            <span className="text-primary text-xs md:text-sm tracking-[0.5em] uppercase font-medium">
-              Ibéricos
-            </span>
-          </div>
-
-          {/* Lema */}
-          <div className="mb-10 max-w-lg space-y-4">
-            <p className="text-corvera-dark/80 text-xl lg:text-2xl italic">Un corte original</p>
-            <p className="text-corvera-dark/70 text-[11px] md:text-sm uppercase tracking-[0.2em] leading-relaxed">
-              Cortador profesional a cuchillo · Selección de bellota
-            </p>
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-12 w-full sm:w-auto">
-            <a
-              href="#productos"
-              className="px-10 py-4 bg-primary text-primary-foreground text-sm font-semibold tracking-widest uppercase hover:bg-primary/90 transition-colors duration-300 shadow-lg"
-            >
-              Ver Productos
-            </a>
-            <a
-              href="#contacto"
-              className="px-10 py-4 border border-primary text-primary text-sm font-semibold tracking-widest uppercase hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-            >
-              Contactar
-            </a>
-          </div>
-
-          {/* Señales de confianza + sello */}
-          <div className="w-full flex flex-col md:flex-row items-center justify-between pt-10 border-t border-primary/10 gap-8">
-            <div className="flex flex-col items-center md:items-start text-xs uppercase text-corvera-dark/60 font-medium">
-              <span className="mb-1 tracking-[0.15em]">Envío gratuito</span>
-              <span className="text-primary font-bold text-sm">Pedidos +20 kg</span>
+        {/* Panel de contenido */}
+        <div className="relative z-20 w-full lg:w-3/5 flex flex-col justify-between p-8 lg:p-20 text-corvera-cream">
+          <div className="flex justify-between items-start gap-6">
+            <div>
+              <p className="text-4xl lg:text-5xl font-medium tracking-[0.12em] leading-none mb-2">
+                CORVERA
+              </p>
+              <p className="text-xs lg:text-sm tracking-[0.5em] font-light text-corvera-cream/80 uppercase">
+                Ibéricos
+              </p>
             </div>
 
-            <img
-              src={selloCorteOriginal}
-              alt="Sello Un Corte Original de Corvera Ibéricos"
-              loading="lazy"
-              className="w-24 h-24 object-contain mix-blend-multiply"
-            />
+            {/* Sello de calidad */}
+            <div className="hidden sm:flex shrink-0 items-center justify-center w-24 h-24 border border-corvera-cream/30 rounded-full text-center">
+              <span className="text-[9px] uppercase tracking-[0.2em] leading-tight px-2 text-corvera-cream/90">
+                Un Corte
+                <br />
+                Original
+              </span>
+            </div>
+          </div>
 
-            <div className="flex flex-col items-center md:items-end text-xs uppercase text-corvera-dark/60 font-medium">
-              <span className="mb-1 tracking-[0.15em]">Maestría en el</span>
-              <span className="text-primary font-bold text-sm">Corte a cuchillo</span>
+          <div className="max-w-xl my-12 lg:my-0">
+            <span className="block text-corvera-cream/60 text-xs md:text-sm uppercase tracking-[0.3em] mb-6 font-medium">
+              Jamón ibérico de bellota · Madrid
+            </span>
+            <h1 className="text-5xl lg:text-8xl font-medium leading-[0.95] tracking-tight mb-6">
+              Un corte
+              <br />
+              <span className="italic font-light">original.</span>
+            </h1>
+            <p className="text-corvera-cream/80 text-base lg:text-lg leading-relaxed max-w-md mb-10">
+              Selección de jamones y paletas de bellota de las mejores marcas, con
+              cortador profesional a cuchillo y envío a toda España.
+            </p>
+
+            <div className="flex flex-wrap gap-5">
+              <a
+                href="#productos"
+                className="px-10 py-4 bg-corvera-cream text-primary text-xs font-bold uppercase tracking-widest hover:bg-corvera-dark hover:text-corvera-cream transition-all duration-500"
+              >
+                Ver Productos
+              </a>
+              <a
+                href="#contacto"
+                className="px-10 py-4 border border-corvera-cream/40 text-corvera-cream text-xs font-bold uppercase tracking-widest hover:border-corvera-cream hover:bg-corvera-cream/10 transition-all duration-500"
+              >
+                Contactar
+              </a>
+            </div>
+          </div>
+
+          {/* Señales de confianza */}
+          <div className="flex flex-col sm:flex-row gap-6 lg:gap-12">
+            <div className="flex items-center gap-4">
+              <span className="w-8 h-px bg-corvera-cream/30" aria-hidden="true" />
+              <p className="text-[10px] uppercase tracking-[0.2em] text-corvera-cream/70 font-medium">
+                Envío gratuito +20 kg
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="w-8 h-px bg-corvera-cream/30" aria-hidden="true" />
+              <p className="text-[10px] uppercase tracking-[0.2em] text-corvera-cream/70 font-medium">
+                Maestría en el corte a cuchillo
+              </p>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Esquinas decorativas */}
-      <div
-        className="absolute top-24 left-10 w-32 h-32 border-t-2 border-l-2 border-corvera-cream/20 hidden lg:block"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-10 right-10 w-32 h-32 border-b-2 border-r-2 border-corvera-cream/20 hidden lg:block"
-        aria-hidden="true"
-      />
+        {/* Panel visual */}
+        <div className="relative w-full lg:w-2/5 min-h-[450px] lg:min-h-full overflow-hidden">
+          <div className="absolute inset-0 z-0 bg-corvera-dark">
+            <img
+              src={cortadorMaestro}
+              alt="Cortador profesional de Corvera Ibéricos cortando jamón ibérico de bellota a cuchillo"
+              width={800}
+              height={1200}
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div
+            className="absolute inset-0 z-10 hidden lg:block bg-gradient-to-r from-primary via-primary/20 to-transparent"
+            aria-hidden="true"
+          />
+
+          {/* Detalle de veteado */}
+          <div className="absolute bottom-12 -left-16 z-20 hidden xl:block w-56 h-72 border-[10px] border-primary shadow-2xl overflow-hidden rotate-2">
+            <img
+              src={veteadoIberico}
+              alt="Veteado y grasa infiltrada de lonchas de jamón ibérico de bellota"
+              width={704}
+              height={944}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div
+            className="absolute top-8 right-8 w-12 h-12 border-t border-r border-corvera-cream/20"
+            aria-hidden="true"
+          />
+        </div>
+      </div>
     </section>
   );
 };
