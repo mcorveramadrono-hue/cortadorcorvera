@@ -40,6 +40,11 @@ const Hero = () => {
             Ibéricos
           </span>
 
+          <div className="flex items-center gap-4 w-full max-w-xs">
+            <span className="h-px flex-1 bg-corvera-dark/40" />
+            <span className="h-px flex-1 bg-corvera-dark/40" />
+          </div>
+
           {/* Sello */}
           <img
             src={selloCorteOriginal}
