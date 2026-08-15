@@ -48,7 +48,7 @@ const Hero = () => {
           <img
             src={selloCorteOriginal}
             alt="Un Corte Original"
-            className="w-24 h-24 md:w-28 md:h-28 object-contain mt-2 mix-blend-multiply"
+            className="w-32 h-32 md:w-40 md:h-40 object-contain mt-2 mix-blend-multiply"
           />
         </div>
 
