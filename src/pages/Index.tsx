@@ -15,7 +15,7 @@ import { usePageSeo } from "@/lib/seo";
 const Index = () => {
   const location = useLocation();
   usePageSeo({
-    title: "Comprar Jamón Ibérico de Bellota Online | Corvera",
+    title: "Corvera Ibéricos | Jamón Ibérico de Bellota",
     description: "Comprar jamón ibérico de bellota online al mejor precio: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Paleta ibérica D.O.P. y corte a cuchillo. Envío España.",
     path: "/",
     jsonLd: {
