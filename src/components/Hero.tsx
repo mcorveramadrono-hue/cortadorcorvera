@@ -1,6 +1,6 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
-import fondoJamon from "@/assets/jamon-textura-bg.jpeg";
+import fondoJamon from "@/assets/hero-textura-jamon.jpg";
 
 const Hero = () => {
   return (
@@ -46,14 +46,14 @@ const Hero = () => {
             </span>
             <span className="h-px flex-1 bg-corvera-dark/40" />
           </div>
-        </div>
 
-        {/* Sello */}
-        <img
-          src={selloCorteOriginal}
-          alt="Un Corte Original"
-          className="w-28 h-28 md:w-36 md:h-36 object-contain -mt-10 md:-mt-14 relative z-20 drop-shadow-xl"
-        />
+          {/* Sello */}
+          <img
+            src={selloCorteOriginal}
+            alt="Un Corte Original"
+            className="w-24 h-24 md:w-28 md:h-28 object-contain mt-2"
+          />
+        
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-8">
