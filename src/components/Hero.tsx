@@ -1,6 +1,7 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 import fondoJamon from "@/assets/hero-textura-jamon.jpg";
+import fraseJamon from "@/assets/frase-jamon-original-v2.png";
 
 const Hero = () => {
   return (
@@ -39,21 +40,23 @@ const Hero = () => {
           <span className="text-corvera-dark text-sm md:text-base tracking-[0.55em] uppercase">
             Ibéricos
           </span>
-          <div className="flex items-center gap-4 w-full max-w-xs">
-            <span className="h-px flex-1 bg-corvera-dark/40" />
-            <span className="text-corvera-dark/80 text-[10px] md:text-xs tracking-[0.35em] uppercase whitespace-nowrap">
-              Un corte original
-            </span>
-            <span className="h-px flex-1 bg-corvera-dark/40" />
-          </div>
-
-          {/* Sello */}
+          {/* Sello (contiene el lema "Un corte original") */}
           <img
             src={selloCorteOriginal}
             alt="Un Corte Original"
             className="w-24 h-24 md:w-28 md:h-28 object-contain mt-2 mix-blend-multiply"
           />
         </div>
+
+        {/* Frase */}
+        <img
+          src={fraseJamon}
+          alt="El dinero no te puede dar la felicidad pero sí te puede comprar un buen jamón"
+          loading="lazy"
+          decoding="async"
+          className="w-full max-w-2xl h-auto object-contain mt-10 opacity-95"
+        />
+
 
         
 
