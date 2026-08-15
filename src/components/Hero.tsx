@@ -1,6 +1,7 @@
 import selloCorteOriginal from "@/assets/sello-corte-original.png";
 import corveraLogo from "@/assets/corvera-logo.webp";
 import fondoJamon from "@/assets/hero-textura-jamon.jpg";
+import fraseJamon from "@/assets/frase-jamon-original-v2.png";
 
 const Hero = () => {
   return (
