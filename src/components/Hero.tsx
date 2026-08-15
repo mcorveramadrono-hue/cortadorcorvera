@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-primary"
+      className="relative min-h-screen w-full flex items-center justify-center bg-primary p-4 pt-24 pb-12 lg:p-8 lg:pt-28 overflow-hidden"
     >
       {/* Fondo textura jamón */}
       <div
@@ -14,65 +14,94 @@ const Hero = () => {
         style={{ backgroundImage: `url(${fondoJamon})` }}
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-primary/80 mix-blend-multiply" aria-hidden="true" />
-      <div className="absolute inset-0 bg-gradient-to-b from-corvera-dark/50 via-transparent to-corvera-dark/70" aria-hidden="true" />
+      <div className="absolute inset-0 bg-primary/85 mix-blend-multiply" aria-hidden="true" />
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-corvera-dark/40 via-transparent to-corvera-dark/60"
+        aria-hidden="true"
+      />
 
-      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 flex flex-col items-center text-center">
-        <h1 className="sr-only">
-          Corvera Ibéricos — Tienda Oficial de Jamón Ibérico y Cortador Profesional a Cuchillo en Madrid, envíos a toda España
-        </h1>
-        <p className="sr-only">
-          Comprar jamón ibérico de bellota online de las marcas César Nieto, La Joya, Epicum y Finura, paleta ibérica D.O.P. Guijuelo y Extremadura, y servicio de cortador de jamón a cuchillo para bodas y eventos. Tienda oficial Corvera Ibéricos.
-        </p>
+      {/* Placa editorial central */}
+      <div className="relative z-10 max-w-4xl w-full bg-corvera-cream px-6 py-12 md:p-16 lg:p-20 shadow-2xl">
+        <div className="absolute inset-3 md:inset-4 border border-primary/10 pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-5 md:inset-6 border border-primary/5 pointer-events-none" aria-hidden="true" />
 
-        {/* Placa crema con la marca */}
-        <div className="w-full bg-corvera-cream shadow-2xl px-8 py-10 md:px-16 md:py-14 flex flex-col items-center gap-5">
-          <img
-            src={corveraLogo}
-            alt="Corvera Ibéricos - Jamón Ibérico de Bellota"
-            width="448"
-            height="160"
-            fetchPriority="high"
-            decoding="async"
-            className="w-full max-w-sm md:max-w-md h-auto object-contain"
-          />
-          <span className="text-corvera-dark text-sm md:text-base tracking-[0.55em] uppercase">
-            Ibéricos
-          </span>
-          <div className="flex items-center gap-4 w-full max-w-xs">
-            <span className="h-px flex-1 bg-corvera-dark/40" />
-            <span className="text-corvera-dark/80 text-[10px] md:text-xs tracking-[0.35em] uppercase whitespace-nowrap">
-              Un corte original
+        <div className="relative flex flex-col items-center text-center">
+          <h1 className="sr-only">
+            Corvera Ibéricos — Tienda oficial de jamón ibérico de bellota y cortador profesional a cuchillo en Madrid, envíos a toda España
+          </h1>
+
+          {/* Marca */}
+          <div className="mb-8 flex flex-col items-center gap-3">
+            <img
+              src={corveraLogo}
+              alt="Corvera Ibéricos - Jamón Ibérico de Bellota"
+              width="448"
+              height="160"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full max-w-xs md:max-w-md h-auto object-contain"
+            />
+            <span className="h-px w-12 bg-primary" aria-hidden="true" />
+            <span className="text-primary text-xs md:text-sm tracking-[0.5em] uppercase font-medium">
+              Ibéricos
             </span>
-            <span className="h-px flex-1 bg-corvera-dark/40" />
           </div>
 
-          {/* Sello */}
-          <img
-            src={selloCorteOriginal}
-            alt="Un Corte Original"
-            className="w-24 h-24 md:w-28 md:h-28 object-contain mt-2 mix-blend-multiply"
-          />
-        </div>
+          {/* Lema */}
+          <div className="mb-10 max-w-lg space-y-4">
+            <p className="text-corvera-dark/80 text-xl lg:text-2xl italic">Un corte original</p>
+            <p className="text-corvera-dark/70 text-[11px] md:text-sm uppercase tracking-[0.2em] leading-relaxed">
+              Cortador profesional a cuchillo · Selección de bellota
+            </p>
+          </div>
 
-        
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-12 w-full sm:w-auto">
+            <a
+              href="#productos"
+              className="px-10 py-4 bg-primary text-primary-foreground text-sm font-semibold tracking-widest uppercase hover:bg-primary/90 transition-colors duration-300 shadow-lg"
+            >
+              Ver Productos
+            </a>
+            <a
+              href="#contacto"
+              className="px-10 py-4 border border-primary text-primary text-sm font-semibold tracking-widest uppercase hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            >
+              Contactar
+            </a>
+          </div>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
-          <a
-            href="#productos"
-            className="inline-flex items-center justify-center px-8 py-3 bg-corvera-cream text-corvera-dark text-sm tracking-widest uppercase hover:bg-corvera-cream/90 transition-colors"
-          >
-            Ver Productos
-          </a>
-          <a
-            href="#contacto"
-            className="inline-flex items-center justify-center px-8 py-3 border border-corvera-cream text-corvera-cream text-sm tracking-widest uppercase hover:bg-corvera-cream hover:text-corvera-dark transition-colors"
-          >
-            Contactar
-          </a>
+          {/* Señales de confianza + sello */}
+          <div className="w-full flex flex-col md:flex-row items-center justify-between pt-10 border-t border-primary/10 gap-8">
+            <div className="flex flex-col items-center md:items-start text-xs uppercase text-corvera-dark/60 font-medium">
+              <span className="mb-1 tracking-[0.15em]">Envío gratuito</span>
+              <span className="text-primary font-bold text-sm">Pedidos +20 kg</span>
+            </div>
+
+            <img
+              src={selloCorteOriginal}
+              alt="Sello Un Corte Original de Corvera Ibéricos"
+              loading="lazy"
+              className="w-24 h-24 object-contain mix-blend-multiply"
+            />
+
+            <div className="flex flex-col items-center md:items-end text-xs uppercase text-corvera-dark/60 font-medium">
+              <span className="mb-1 tracking-[0.15em]">Maestría en el</span>
+              <span className="text-primary font-bold text-sm">Corte a cuchillo</span>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Esquinas decorativas */}
+      <div
+        className="absolute top-24 left-10 w-32 h-32 border-t-2 border-l-2 border-corvera-cream/20 hidden lg:block"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute bottom-10 right-10 w-32 h-32 border-b-2 border-r-2 border-corvera-cream/20 hidden lg:block"
+        aria-hidden="true"
+      />
     </section>
   );
 };
