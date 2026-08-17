@@ -22,14 +22,14 @@ const Hero = () => {
           Corvera Ibéricos — Tienda Oficial de Jamón Ibérico y Cortador Profesional a Cuchillo en Madrid, envíos a toda España
         </h1>
         <p className="sr-only">
-          Comprar jamón ibérico de bellota online de las marcas César Nieto, La Joya, Epicum y Finura, paleta ibérica D.O.P. Guijuelo y Extremadura, y servicio de cortador de jamón a cuchillo para bodas y eventos. Tienda oficial Corvera Ibéricos.
+          Comprar jamón ibérico online de las marcas César Nieto, La Joya, Epicum, Finura y Castro Fuerte, paleta ibérica D.O.P. Guijuelo y Extremadura, y servicio de cortador de jamón a cuchillo para bodas y eventos. Tienda oficial Corvera Ibéricos.
         </p>
 
         {/* Placa crema con la marca */}
         <div className="w-full bg-corvera-cream shadow-2xl px-8 py-10 md:px-16 md:py-14 flex flex-col items-center gap-5">
           <img
             src={corveraLogo}
-            alt="Corvera Ibéricos - Jamón Ibérico de Bellota"
+            alt="Corvera Ibéricos - Jamón Ibérico"
             width="448"
             height="160"
             fetchPriority="high"
