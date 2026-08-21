@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ArrowLeft, Building2, Smartphone, CreditCard, Loader2 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { getPromotion } from "@/data/promotions";
+
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
