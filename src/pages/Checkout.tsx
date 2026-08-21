@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ArrowLeft, Building2, Smartphone, CreditCard, Loader2 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { getPromotion } from "@/data/promotions";
+
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -55,7 +57,11 @@ const Checkout = () => {
     );
   }
 
-  const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const knifeTotal = items.reduce((sum, i) => {
+    const knifeFree = getPromotion(i.product.id)?.type === "free-knife";
+    return sum + (i.withKnife && !knifeFree ? i.product.knifeSupplementPrice * i.quantity : 0);
+  }, 0);
+
   const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
   const productSubtotal = subtotal - knifeTotal;
 
@@ -131,7 +137,11 @@ const Checkout = () => {
         price: item.price,
         quantity: item.quantity,
         knife_supplement: item.withKnife,
-        knife_supplement_price: item.withKnife ? item.product.knifeSupplementPrice : 0,
+        knife_supplement_price:
+          item.withKnife && getPromotion(item.product.id)?.type !== "free-knife"
+            ? item.product.knifeSupplementPrice
+            : 0,
+
       }));
 
       const { error: itemsError } = await supabase
@@ -356,7 +366,9 @@ const Checkout = () => {
                 <div className="space-y-3 max-h-60 overflow-y-auto">
                   {items.map((item, i) => {
                     const isUnit = item.product.unit === "sobre";
-                    const itemTotal = (item.price + (!isUnit && item.withKnife ? item.product.knifeSupplementPrice : 0)) * item.quantity;
+                    const knifeFree = getPromotion(item.product.id)?.type === "free-knife";
+                    const knifeUnit = !isUnit && item.withKnife && !knifeFree ? item.product.knifeSupplementPrice : 0;
+                    const itemTotal = (item.price + knifeUnit) * item.quantity;
                     return (
                       <div key={i} className="flex justify-between text-sm">
                         <div className="min-w-0">
@@ -364,10 +376,11 @@ const Checkout = () => {
                           <p className="text-[10px] text-muted-foreground">
                             {isUnit
                               ? <>{item.quantity} sobre{item.quantity === 1 ? "" : "s"} · 90 g</>
-                              : <>{item.selectedWeight.toFixed(1).replace('.', ',')} kg × {item.quantity}{item.withKnife && ` + cuchillo (${item.product.knifeSupplementPrice} €)`}</>
+                              : <>{item.selectedWeight.toFixed(1).replace('.', ',')} kg × {item.quantity}{item.withKnife && (knifeFree ? " + cuchillo (gratis)" : ` + cuchillo (${item.product.knifeSupplementPrice} €)`)}</>
                             }
                           </p>
                         </div>
+
                         <span className="text-foreground font-medium text-xs whitespace-nowrap ml-2">{itemTotal.toFixed(2).replace('.', ',')} €</span>
                       </div>
                     );
