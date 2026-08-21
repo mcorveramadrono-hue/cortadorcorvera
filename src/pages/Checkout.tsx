@@ -55,7 +55,11 @@ const Checkout = () => {
     );
   }
 
-  const knifeTotal = items.reduce((sum, i) => sum + (i.withKnife ? i.product.knifeSupplementPrice * i.quantity : 0), 0);
+  const knifeTotal = items.reduce((sum, i) => {
+    const knifeFree = getPromotion(i.product.id)?.type === "free-knife";
+    return sum + (i.withKnife && !knifeFree ? i.product.knifeSupplementPrice * i.quantity : 0);
+  }, 0);
+
   const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
   const productSubtotal = subtotal - knifeTotal;
 
