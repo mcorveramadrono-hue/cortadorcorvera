@@ -24,11 +24,20 @@ export function getTrustedPrice(productName: string, weightKg: number): number |
   return typeof price === "number" ? price : null;
 }
 
+// Products with an active "corte a cuchillo gratis" promotion (src/data/promotions.ts).
+// The knife supplement must NEVER be charged for these.
+export const FREE_KNIFE_PRODUCT_NAMES = new Set<string>([
+  "Jamón Bellota 100% Ibérico Jabugo",
+  "Jamón Bellota 50% Ibérico Jabugo",
+]);
+
 export function getTrustedKnifeSupplement(productName: string): number | null {
   const entry = PRODUCT_CATALOG[productName];
   if (!entry) return null;
+  if (FREE_KNIFE_PRODUCT_NAMES.has(productName)) return 0;
   return entry.knifeSupplementPrice;
 }
+
 
 // Product name → brand slug map. Generated from src/data/products.ts.
 // Must be kept in sync when brands or product names change.
