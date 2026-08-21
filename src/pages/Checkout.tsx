@@ -137,7 +137,11 @@ const Checkout = () => {
         price: item.price,
         quantity: item.quantity,
         knife_supplement: item.withKnife,
-        knife_supplement_price: item.withKnife ? item.product.knifeSupplementPrice : 0,
+        knife_supplement_price:
+          item.withKnife && getPromotion(item.product.id)?.type !== "free-knife"
+            ? item.product.knifeSupplementPrice
+            : 0,
+
       }));
 
       const { error: itemsError } = await supabase
