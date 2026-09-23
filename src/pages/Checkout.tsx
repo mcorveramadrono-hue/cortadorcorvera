@@ -79,10 +79,7 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      const sessionToken = crypto.randomUUID();
       const orderData = {
-        order_number: `TMP-${Date.now()}`,
-        session_token: sessionToken,
         first_name: formData.firstName,
         last_name: formData.lastName,
         email: formData.email,
