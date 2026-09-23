@@ -96,17 +96,30 @@ const Checkout = () => {
         notes: (formData.notes || "") + ((appliedCoupon?.type === "amount-off" || appliedCoupon?.type === "percent-off") && discountAmount > 0 ? `\n[CUPÓN ${promoCode} -${discountAmount.toFixed(2)}€${appliedCoupon.type === "percent-off" ? ` (${appliedCoupon.percentOff}%)` : ""}]` : ""),
         accept_privacy: acceptPrivacy,
         payment_method: paymentMethod,
-        status: paymentMethod === "card" ? "pending_stripe" : "pending_payment",
       };
 
-      const { data: order, error: orderError } = await supabase
-        .from("orders")
-        .insert(orderData)
-        .select()
-        .single()
-        .setHeader("x-session-token", sessionToken);
+      const orderItems = items.map((item) => ({
+        product_name: item.product.name,
+        weight: item.selectedWeight,
+        price: item.price,
+        quantity: item.quantity,
+        knife_supplement: item.withKnife,
+        knife_supplement_price:
+          item.withKnife && getPromotion(item.product.id)?.type !== "free-knife"
+            ? item.product.knifeSupplementPrice
+            : 0,
+      }));
 
-      if (orderError) throw orderError;
+      // Order + items are created server-side; the session token is issued by
+      // the server, never sent by the browser.
+      const { data: placed, error: placeError } = await supabase.functions.invoke("place-order", {
+        body: { order: orderData, items: orderItems },
+      });
+      if (placeError || !placed?.orderId || !placed?.sessionToken) {
+        throw placeError ?? new Error(placed?.error || "No se pudo registrar el pedido");
+      }
+      const order = { id: placed.orderId as string };
+      const sessionToken = placed.sessionToken as string;
 
       // If a shared coupon (e.g. ANGEL5) is applied AND it's actually giving a discount,
       // redeem it now that the order exists. Server verifies orderId+sessionToken+email
