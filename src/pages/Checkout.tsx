@@ -140,25 +140,6 @@ const Checkout = () => {
         }
       }
 
-      const orderItems = items.map((item) => ({
-        order_id: order.id,
-        product_name: item.product.name,
-        weight: item.selectedWeight,
-        price: item.price,
-        quantity: item.quantity,
-        knife_supplement: item.withKnife,
-        knife_supplement_price:
-          item.withKnife && getPromotion(item.product.id)?.type !== "free-knife"
-            ? item.product.knifeSupplementPrice
-            : 0,
-
-      }));
-
-      const { error: itemsError } = await supabase
-        .from("order_items")
-        .insert(orderItems)
-        .setHeader("x-session-token", sessionToken);
-      if (itemsError) throw itemsError;
 
       // If card payment, redirect to Stripe Checkout
       if (paymentMethod === "card") {
