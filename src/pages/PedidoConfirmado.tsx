@@ -32,12 +32,12 @@ const PedidoConfirmado = () => {
         setLoading(false);
         return;
       }
-      const { data } = await supabase
-        .from("orders")
-        .select("*")
-        .eq("id", orderId)
-        .single()
-        .setHeader("x-session-token", sessionToken);
+      // Read the order through a server function that verifies the session
+      // token; the database no longer trusts caller-supplied headers.
+      const { data: result } = await supabase.functions.invoke("get-order", {
+        body: { orderId, sessionToken },
+      });
+      const data = result?.order ?? null;
       setOrder(data);
       setLoading(false);
 
