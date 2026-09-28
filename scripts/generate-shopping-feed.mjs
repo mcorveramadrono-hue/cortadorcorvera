@@ -60,9 +60,27 @@ for (const p of products) {
   const imgs = [];
   for (let i = 0; i < Math.min(p.images.length, 4); i++) {
     const src = p.images[i];
-    const ext = path.extname(src).toLowerCase();
-    const name = `${p.id}-${i + 1}${ext}`;
-    await copyFile(src, path.join(IMG_DIR, name));
+    const name = `${p.id}-${i + 1}.jpg`;
+    const dest = path.join(IMG_DIR, name);
+    try {
+      execFileSync("python3", [
+        "-c",
+        [
+          "import sys",
+          "from PIL import Image",
+          "im = Image.open(sys.argv[1])",
+          "im = im.convert('RGBA')",
+          "bg = Image.new('RGB', im.size, (255,255,255))",
+          "bg.paste(im, mask=im.split()[3])",
+          "bg.thumbnail((1600,1600))",
+          "bg.save(sys.argv[2], 'JPEG', quality=85, optimize=True)",
+        ].join("\n"),
+        src,
+        dest,
+      ]);
+    } catch {
+      await copyFile(src, dest);
+    }
     imgs.push(`${SITE}/feed-images/${name}`);
   }
 
