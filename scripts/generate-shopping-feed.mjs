@@ -78,7 +78,7 @@ for (const p of products) {
     <g:id>${esc(p.id)}</g:id>
     <g:title>${esc(title)}</g:title>
     <g:description>${esc(desc)}</g:description>
-    <g:link>${SITE}/producto/${esc(p.id)}</g:link>
+    <g:link>${SITE}/tienda/${esc(p.brand)}/${esc(p.id)}</g:link>
     <g:image_link>${esc(imgs[0])}</g:image_link>
 ${imgs
   .slice(1)
