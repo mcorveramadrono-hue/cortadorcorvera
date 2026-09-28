@@ -2,6 +2,7 @@
 // Uso: bun run scripts/generate-shopping-feed.mjs
 import { build } from "esbuild";
 import { mkdir, writeFile, copyFile, rm } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 
