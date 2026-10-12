@@ -262,17 +262,18 @@ serve(async (req) => {
       );
     }
 
-    const origin = req.headers.get("origin") || "https://cortadorcorvera.lovable.app";
+    const origin = req.headers.get("origin") || "https://www.corveraibericos.com";
 
+    // Hosted Stripe Checkout (redirect). More reliable than the embedded iframe
+    // on mobile, 3D Secure and Apple/Google Pay.
     const session = await stripe.checkout.sessions.create({
       customer_email: customerEmail,
       line_items: lineItems,
       mode: "payment",
-      // Card only (Apple Pay / Google Pay included). "link" forced customers
-      // into a Link phone/email verification screen that blocked card payment.
       payment_method_types: ["card"],
-      ui_mode: "embedded",
-      return_url: `${origin}/pedido-confirmado/${orderId}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      locale: "es",
+      success_url: `${origin}/pedido-confirmado/${orderId}?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/checkout?payment=cancelled`,
       ...(stripeDiscountCouponId
         ? { discounts: [{ coupon: stripeDiscountCouponId }] }
         : {}),
@@ -286,7 +287,7 @@ serve(async (req) => {
       .update({ stripe_session_id: session.id })
       .eq("id", orderId);
 
-    return new Response(JSON.stringify({ clientSecret: session.client_secret }), {
+    return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });

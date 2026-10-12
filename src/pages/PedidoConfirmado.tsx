@@ -5,12 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { usePageSeo } from "@/lib/seo";
+import { useCart } from "@/contexts/CartContext";
 
 const PedidoConfirmado = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const { clearCart } = useCart();
   usePageSeo({
     title: "Pedido confirmado | Corvera Ibéricos",
     description: "Resumen y estado de tu pedido en Corvera Ibéricos. Consulta los datos de envío y el método de pago seleccionado.",
@@ -46,6 +48,7 @@ const PedidoConfirmado = () => {
       if (data && data.payment_method === "card") {
         if (data.status === "paid") {
           setPaymentVerified(true);
+          if (paymentSuccessParam) clearCart();
           return;
         }
         if (!paymentSuccessParam) return;
@@ -61,6 +64,7 @@ const PedidoConfirmado = () => {
             setPaymentVerified(false);
           } else if (verifyData?.paid) {
             setPaymentVerified(true);
+            clearCart();
             const notifKey = `order_notif_sent_${orderId}`;
             if (!localStorage.getItem(notifKey) && !verifyData.alreadyConfirmed) {
               localStorage.setItem(notifKey, "true");
