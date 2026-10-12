@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, Building2, Smartphone, CreditCard, Loader2 } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { getPromotion } from "@/data/promotions";
 
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import StripeCheckoutDialog from "@/components/StripeCheckoutDialog";
 import { toast } from "@/hooks/use-toast";
 import { usePageSeo } from "@/lib/seo";
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   usePageSeo({
     title: "Finalizar compra | Corvera Ibéricos",
     description: "Completa tus datos de envío y elige el método de pago (tarjeta, Bizum o transferencia) para finalizar tu pedido en Corvera Ibéricos.",
@@ -22,8 +22,6 @@ const Checkout = () => {
   const { items, subtotal, totalWeight, shippingCost, discountAmount, total, clearCart, promoApplied, promoCode, appliedCoupon } = useCart();
   const [loading, setLoading] = useState(false);
   const [acceptPrivacy, setAcceptPrivacy] = useState(false);
-  const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
-  const [stripeOrderId, setStripeOrderId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"transfer" | "bizum" | "card">("transfer");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -38,11 +36,22 @@ const Checkout = () => {
     notes: "",
   });
 
+  useEffect(() => {
+    if (searchParams.get("payment") === "cancelled") {
+      toast({
+        title: "Pago no completado",
+        description: "No se ha realizado ningún cargo. Tu carrito sigue guardado, puedes intentarlo de nuevo.",
+      });
+      searchParams.delete("payment");
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
+
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  if (items.length === 0 && !stripeClientSecret) {
+  if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -141,7 +150,9 @@ const Checkout = () => {
       }
 
 
-      // If card payment, redirect to Stripe Checkout
+      // If card payment, redirect to Stripe's hosted payment page.
+      // The cart is kept until payment is confirmed, so a cancelled or failed
+      // payment doesn't lose the customer's basket.
       if (paymentMethod === "card") {
         const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke("create-checkout", {
           body: {
@@ -153,14 +164,17 @@ const Checkout = () => {
 
         if (checkoutError) throw checkoutError;
 
-        const clientSecret = checkoutData?.clientSecret;
-        if (!clientSecret) throw new Error("No se pudo crear la sesión de pago");
+        const url = checkoutData?.url;
+        if (!url) throw new Error(checkoutData?.error || "No se pudo crear la sesión de pago");
 
-        clearCart();
         localStorage.setItem(`order_token_${order.id}`, sessionToken);
-        setStripeOrderId(order.id);
-        setStripeClientSecret(clientSecret);
-        setLoading(false);
+        const inIframe = window.self !== window.top;
+        if (inIframe) {
+          window.open(url, "_blank");
+          setLoading(false);
+        } else {
+          window.location.href = url;
+        }
         return;
       }
 
@@ -426,19 +440,6 @@ const Checkout = () => {
         </div>
       </main>
       <Footer />
-
-      {stripeClientSecret && (
-        <StripeCheckoutDialog
-          open={!!stripeClientSecret}
-          onClose={() => {
-            setStripeClientSecret(null);
-            if (stripeOrderId) {
-              navigate(`/pedido-confirmado/${stripeOrderId}?payment=pending`);
-            }
-          }}
-          clientSecret={stripeClientSecret}
-        />
-      )}
     </div>
   );
 };
