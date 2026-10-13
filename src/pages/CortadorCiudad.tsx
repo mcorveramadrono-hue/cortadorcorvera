@@ -255,7 +255,7 @@ const CortadorCiudad = () => {
             Cobertura completa en {data.nombre}
           </h2>
           <p className="text-muted-foreground leading-relaxed text-lg">
-            Dentro de {data.nombre} trabajamos en todas las zonas, sin excepción: domicilio, finca, restaurante, hotel o salón de eventos. Si el evento es en otra población de {data.provincia}, también nos desplazamos. Solo necesitamos la dirección exacta para confirmar el desplazamiento en el presupuesto.
+            Dentro de {data.nombre} trabajamos en todas las zonas, sin excepción: domicilio, finca, restaurante, hotel o salón de eventos. Si el evento es en otra población de la provincia de {data.provincia}, también nos desplazamos. Solo necesitamos la dirección exacta para confirmar el desplazamiento en el presupuesto.
           </p>
         </section>
 
