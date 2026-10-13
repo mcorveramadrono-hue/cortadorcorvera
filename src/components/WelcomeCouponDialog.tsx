@@ -25,6 +25,7 @@ const WelcomeCouponDialog = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -49,6 +50,10 @@ const WelcomeCouponDialog = () => {
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0]?.message ?? "Correo no válido");
+      return;
+    }
+    if (!accepted) {
+      toast.error("Debes aceptar recibir comunicaciones comerciales y la Política de Privacidad.");
       return;
     }
     setLoading(true);
@@ -81,6 +86,9 @@ const WelcomeCouponDialog = () => {
       onClick={() => close()}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Cupón de bienvenida"
         className="relative w-full max-w-3xl overflow-hidden rounded-lg bg-white shadow-2xl animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
@@ -135,7 +143,9 @@ const WelcomeCouponDialog = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+                <label htmlFor="welcome-email" className="sr-only">Tu email</label>
                 <input
+                  id="welcome-email"
                   type="email"
                   required
                   value={email}
@@ -145,24 +155,30 @@ const WelcomeCouponDialog = () => {
                   disabled={loading}
                   className="w-full rounded-full border border-gray-300 px-5 py-3 text-sm font-serif outline-none transition focus:border-[#8B2020] focus:ring-2 focus:ring-[#8B2020]/20 disabled:opacity-50"
                 />
+                <div className="flex items-start gap-2 text-left">
+                  <input id="welcome-consent" type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} required className="mt-0.5 h-4 w-4 accent-primary" />
+                  <label htmlFor="welcome-consent" className="text-xs text-gray-700 leading-snug">
+                    Acepto recibir el cupón y comunicaciones comerciales de Corvera Ibéricos por email, y la <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidad</a>. Puedes darte de baja en cualquier momento.
+                  </label>
+                </div>
                 <button
                   type="submit"
                   disabled={loading}
                   className="w-full rounded-full bg-[#8B2020] py-3.5 font-serif font-semibold text-white shadow-md transition hover:bg-[#6f1818] hover:shadow-lg disabled:opacity-60"
                 >
-                  {loading ? "Enviando…" : "Acepto el soborno"}
+                  {loading ? "Enviando…" : "Recibir mi cupón de 5 €"}
                 </button>
                 <button
                   type="button"
                   onClick={() => close()}
-                  className="block w-full text-xs text-gray-500 underline underline-offset-4 hover:text-gray-700"
+                  className="block w-full text-xs text-gray-700 underline underline-offset-4 hover:text-gray-700"
                 >
                   No, prefiero pagar 5€ más
                 </button>
               </form>
             )}
 
-            <p className="mt-5 text-center text-[11px] italic text-gray-400">
+            <p className="mt-5 text-center text-xs italic text-gray-600">
               Sin spam. Solo ofertas que merecen la pena.
             </p>
           </div>

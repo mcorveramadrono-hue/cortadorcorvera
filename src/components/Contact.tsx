@@ -8,6 +8,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", telefono: "", message: "" });
+  const [accepted, setAccepted] = useState(false);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -27,6 +28,11 @@ const Contact = () => {
         description: "Revisa que nombre, email, teléfono y mensaje estén completos.",
         variant: "destructive",
       });
+      return;
+    }
+
+    if (!accepted) {
+      toast({ title: "Falta tu consentimiento", description: "Debes aceptar la Política de Privacidad para enviar el mensaje.", variant: "destructive" });
       return;
     }
 
@@ -59,6 +65,7 @@ const Contact = () => {
       setTimeout(() => {
         setSent(false);
         setFormData({ name: "", email: "", telefono: "", message: "" });
+        setAccepted(false);
       }, 3000);
     } catch (err: any) {
       console.error("Error sending form:", err);
@@ -94,8 +101,10 @@ const Contact = () => {
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Nombre</label>
+                <label htmlFor="contact-name" className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Nombre</label>
                 <input
+                  id="contact-name"
+                  required
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -104,8 +113,10 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Email</label>
+                <label htmlFor="contact-email" className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Email</label>
                 <input
+                  id="contact-email"
+                  required
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -114,8 +125,10 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Teléfono</label>
+                <label htmlFor="contact-telefono" className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Teléfono</label>
                 <input
+                  id="contact-telefono"
+                  required
                   type="tel"
                   value={formData.telefono}
                   onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
@@ -124,8 +137,10 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <label className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Mensaje</label>
+                <label htmlFor="contact-message" className="text-sm tracking-widest uppercase text-muted-foreground block mb-2">Mensaje</label>
                 <textarea
+                  id="contact-message"
+                  required
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -133,12 +148,18 @@ const Contact = () => {
                   placeholder="¿En qué podemos ayudarte?"
                 />
               </div>
+              <div className="flex items-start gap-3">
+                <input id="contact-privacy" type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} required className="mt-1 h-4 w-4 accent-primary" />
+                <label htmlFor="contact-privacy" className="text-sm text-muted-foreground leading-relaxed">
+                  He leído y acepto la <a href="/politica-privacidad" target="_blank" rel="noopener noreferrer" className="text-primary underline">Política de Privacidad</a>. Tus datos solo se usarán para responder a tu consulta.
+                </label>
+              </div>
               <button
                 type="submit"
                 disabled={sending}
                 className="w-full inline-flex items-center justify-center gap-2 px-8 py-3 bg-foreground text-background text-sm tracking-widest uppercase hover:bg-foreground/90 transition-colors disabled:opacity-50"
               >
-                <Send size={16} />
+                <Send size={16} aria-hidden="true" />
                 {sending ? "Enviando..." : "Enviar Mensaje"}
               </button>
             </form>

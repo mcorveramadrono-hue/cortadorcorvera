@@ -29,7 +29,7 @@ const AvisoLegal = () => {
         </h1>
 
         <div className="prose prose-sm max-w-none text-muted-foreground space-y-6 [&_h2]:text-foreground [&_h2]:font-serif [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-3 [&_strong]:text-foreground">
-          <p className="text-sm text-muted-foreground">Última actualización: 21 de mayo de 2026</p>
+          <p className="text-sm text-muted-foreground">Última actualización: 13 de octubre de 2026</p>
 
           <h2>1. Información general (LSSI-CE)</h2>
           <p>
@@ -77,10 +77,7 @@ const AvisoLegal = () => {
             La relación entre el titular y el usuario se regirá por la normativa española vigente. Para la resolución de cualquier controversia, las partes se someten a los Juzgados y Tribunales del domicilio del consumidor cuando se trate de relaciones con consumidores.
           </p>
           <p>
-            Conforme al artículo 14 del Reglamento (UE) 524/2013, se informa al consumidor de la existencia de la plataforma de resolución de litigios en línea de la Comisión Europea, accesible en{" "}
-            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              https://ec.europa.eu/consumers/odr
-            </a>.
+            El consumidor puede presentar sus reclamaciones mediante las hojas de reclamaciones, ante las oficinas de consumo de su comunidad autónoma o ante la Junta Arbitral de Consumo.
           </p>
         </div>
       </div>

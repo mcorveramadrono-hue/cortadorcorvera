@@ -16,7 +16,7 @@ const Index = () => {
   const location = useLocation();
   usePageSeo({
     title: "Corvera Ibéricos | Jamón Ibérico Online",
-    description: "Comprar jamón ibérico online al mejor precio: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Paleta ibérica D.O.P. y corte a cuchillo. Envío España.",
+    description: "Comprar jamón ibérico online: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Paleta ibérica D.O.P. y corte a cuchillo. Envío España.",
     path: "/",
     jsonLd: {
       "@context": "https://schema.org",
