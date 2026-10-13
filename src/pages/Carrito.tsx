@@ -23,6 +23,8 @@ const Carrito = () => {
     noindex: true,
   });
   const [promoInput, setPromoInput] = useState("");
+  const [promoEmail, setPromoEmail] = useState("");
+  const [needsPromoEmail, setNeedsPromoEmail] = useState(false);
   const [showUpsell, setShowUpsell] = useState(false);
 
   useEffect(() => {
@@ -36,8 +38,14 @@ const Carrito = () => {
   const knifeCount = items.filter((i) => i.withKnife).reduce((sum, i) => sum + i.quantity, 0);
 
   const handleApplyPromo = async () => {
-    const res = await applyPromoCode(promoInput);
+    const res = await applyPromoCode(promoInput, needsPromoEmail ? promoEmail : undefined);
+    if (res.needsEmail && !needsPromoEmail) {
+      setNeedsPromoEmail(true);
+      toast({ title: "Falta tu correo", description: res.message });
+      return;
+    }
     if (res.ok) {
+      setNeedsPromoEmail(false);
       toast({ title: "¡Código aplicado!", description: res.message });
       setPromoInput("");
     } else {
@@ -187,6 +195,22 @@ const Carrito = () => {
                     >
                       Aplicar
                     </button>
+                  </div>
+                )}
+                {!promoApplied && needsPromoEmail && (
+                  <div className="space-y-1">
+                    <label htmlFor="promo-email" className="text-xs text-muted-foreground">
+                      Correo al que te enviamos el cupón
+                    </label>
+                    <input
+                      id="promo-email"
+                      type="email"
+                      value={promoEmail}
+                      onChange={(e) => setPromoEmail(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
+                      placeholder="tu@email.com"
+                      className="w-full border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-primary transition-colors"
+                    />
                   </div>
                 )}
               </div>

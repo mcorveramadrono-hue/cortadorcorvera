@@ -8,6 +8,13 @@
       "when": 1790169847506,
       "tag": "0000_remove_header_based_order_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791886497751,
+      "tag": "0001_welcome_coupon_requests",
+      "breakpoints": true
     }
   ]
 }

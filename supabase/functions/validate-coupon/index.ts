@@ -9,7 +9,8 @@ const corsHeaders = {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
-    const { code } = await req.json();
+    const { code, email } = await req.json();
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase().slice(0, 255) : "";
     if (!code) {
       return new Response(JSON.stringify({ valid: false, error: "Falta código" }), {
         status: 400,
@@ -56,10 +57,21 @@ serve(async (req) => {
     // 2) Personal discount coupons
     const { data, error } = await supabase
       .from("discount_coupons")
-      .select("amount, min_order_total, used, expires_at")
+      .select("amount, min_order_total, used, expires_at, email")
       .eq("code", normalized)
       .maybeSingle();
     if (error || !data) {
+      return new Response(JSON.stringify({ valid: false, error: "Código no encontrado" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    // Personal coupons are bound to an email: only reveal details to its owner.
+    if (!normalizedEmail) {
+      return new Response(JSON.stringify({ valid: false, needsEmail: true, error: "Introduce el correo al que te enviamos el cupón." }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (String(data.email || "").toLowerCase() !== normalizedEmail) {
       return new Response(JSON.stringify({ valid: false, error: "Código no encontrado" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
