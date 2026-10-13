@@ -65,7 +65,7 @@ const WelcomeCouponDialog = () => {
       if ((data as any)?.alreadyIssued) {
         toast.success("Ya te enviamos un soborno antes. Revisa tu correo.");
       } else {
-        toast.success("¡Listo! Tu cupón vuela hacia tu bandeja de entrada.");
+        toast.success("¡Casi listo! Revisa tu correo y confirma para recibir tu cupón.");
       }
       setDone(true);
       localStorage.setItem(STORAGE_KEY, new Date().toISOString());

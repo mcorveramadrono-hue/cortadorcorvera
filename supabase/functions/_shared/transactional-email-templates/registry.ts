@@ -17,6 +17,7 @@ import { template as ownerShippingLink } from './owner-shipping-link.tsx'
 import { template as orderShipped } from './order-shipped.tsx'
 import { template as couponIssued } from './coupon-issued.tsx'
 import { template as ownerWelcomeCoupon } from './owner-welcome-coupon.tsx'
+import { template as welcomeCouponConfirm } from './welcome-coupon-confirm.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'order-confirmation': orderConfirmation,
@@ -27,4 +28,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'order-shipped': orderShipped,
   'coupon-issued': couponIssued,
   'owner-welcome-coupon': ownerWelcomeCoupon,
+  'welcome-coupon-confirm': welcomeCouponConfirm,
 }

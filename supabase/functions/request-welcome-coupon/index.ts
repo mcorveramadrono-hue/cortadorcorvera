@@ -45,7 +45,7 @@ async function renderAndEnqueue(
     .eq("email", normalized)
     .maybeSingle();
   if (suppressed) {
-    console.log("Skipping suppressed recipient", normalized);
+    console.log("Skipping suppressed recipient");
     return;
   }
 
@@ -106,61 +106,89 @@ async function renderAndEnqueue(
   if (enqueueError) throw enqueueError;
 }
 
+const SITE_URL = "https://www.corveraibericos.com";
+const json = (b: unknown, status = 200) =>
+  new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
+async function issueCoupon(supabase: ReturnType<typeof createClient>, email: string) {
+  const { data: existing } = await supabase
+    .from("discount_coupons").select("id")
+    .eq("email", email).is("source_order_id", null)
+    .gt("expires_at", new Date().toISOString()).maybeSingle();
+  if (existing) return;
+  const code = `BIEN-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+  const { error } = await supabase.from("discount_coupons").insert({
+    code, email, amount: AMOUNT, min_order_total: MIN_ORDER_TOTAL,
+  });
+  if (error) throw error;
+  await renderAndEnqueue(supabase, "coupon-issued", email, `welcome-coupon-${code}`, {
+    code, amount: AMOUNT, minOrderTotal: MIN_ORDER_TOTAL, variant: "welcome",
+  });
+  try {
+    await renderAndEnqueue(supabase, "owner-welcome-coupon", "corveraibericos@gmail.com", `owner-welcome-coupon-${code}`, {
+      customerEmail: email, code, amount: AMOUNT,
+    });
+  } catch (_e) {
+    console.error("owner-welcome-coupon notify failed");
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  const supabase = createClient(supabaseUrl, serviceKey);
+
+  // Step 2: the recipient clicks the confirmation link → issue the coupon.
+  if (req.method === "GET") {
+    const token = new URL(req.url).searchParams.get("token") ?? "";
+    const redirect = (status: string) =>
+      new Response(null, { status: 302, headers: { Location: `${SITE_URL}/?cupon=${status}` } });
+    if (!/^[0-9a-f]{64}$/.test(token)) return redirect("invalido");
+    try {
+      const { data: reqRow } = await supabase
+        .from("welcome_coupon_requests").select("id, email, confirmed_at, created_at")
+        .eq("token", token).maybeSingle();
+      if (!reqRow) return redirect("invalido");
+      if (reqRow.confirmed_at) return redirect("ya-confirmado");
+      if (Date.now() - new Date(reqRow.created_at as string).getTime() > 7 * 24 * 3600 * 1000) return redirect("caducado");
+      await supabase.from("welcome_coupon_requests").update({ confirmed_at: new Date().toISOString() }).eq("id", reqRow.id);
+      await issueCoupon(supabase, reqRow.email as string);
+      return redirect("enviado");
+    } catch (_e) {
+      console.error("welcome coupon confirm error");
+      return redirect("error");
+    }
+  }
+
+  // Step 1: request → send a confirmation link to the address.
   try {
     const body = await req.json().catch(() => ({}));
     const rawEmail = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
     if (!rawEmail || rawEmail.length > 255 || !EMAIL_RE.test(rawEmail)) {
-      return new Response(JSON.stringify({ error: "Email no válido" }), {
-        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ error: "Email no válido" }, 400);
     }
-
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, serviceKey);
 
     const { data: existing } = await supabase
-      .from("discount_coupons")
-      .select("id")
-      .eq("email", rawEmail)
-      .is("source_order_id", null)
-      .gt("expires_at", new Date().toISOString())
-      .maybeSingle();
+      .from("discount_coupons").select("id")
+      .eq("email", rawEmail).is("source_order_id", null)
+      .gt("expires_at", new Date().toISOString()).maybeSingle();
+    if (existing) return json({ ok: true, alreadyIssued: true });
 
-    if (existing) {
-      return new Response(JSON.stringify({ ok: true, alreadyIssued: true }), {
-        status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    const code = `BIEN-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
-    const { error: insertError } = await supabase.from("discount_coupons").insert({
-      code, email: rawEmail, amount: AMOUNT, min_order_total: MIN_ORDER_TOTAL,
-    });
+    const token = generateToken();
+    const { error: insertError } = await supabase
+      .from("welcome_coupon_requests").insert({ email: rawEmail, token });
     if (insertError) throw insertError;
 
-    await renderAndEnqueue(supabase, "coupon-issued", rawEmail, `welcome-coupon-${code}`, {
-      code, amount: AMOUNT, minOrderTotal: MIN_ORDER_TOTAL, variant: "welcome",
+    const confirmUrl = `${supabaseUrl}/functions/v1/request-welcome-coupon?token=${token}`;
+    await renderAndEnqueue(supabase, "welcome-coupon-confirm", rawEmail, `welcome-confirm-${token}`, {
+      confirmUrl, amount: AMOUNT,
     });
 
-    try {
-      await renderAndEnqueue(supabase, "owner-welcome-coupon", "corveraibericos@gmail.com", `owner-welcome-coupon-${code}`, {
-        customerEmail: rawEmail, code, amount: AMOUNT,
-      });
-    } catch (notifyErr) {
-      console.error("owner-welcome-coupon notify failed:", notifyErr);
-    }
-
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    console.error("request-welcome-coupon error:", err);
-    return new Response(JSON.stringify({ error: "No se pudo generar el cupón. Inténtalo más tarde." }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return json({ ok: true, confirmationSent: true });
+  } catch (_err) {
+    console.error("request-welcome-coupon error");
+    return json({ error: "No se pudo generar el cupón. Inténtalo más tarde." }, 500);
   }
 });
