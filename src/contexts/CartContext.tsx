@@ -37,7 +37,7 @@ interface CartContextType {
   promoCode: string;
   promoApplied: boolean;
   appliedCoupon: AppliedCoupon | null;
-  applyPromoCode: (code: string) => Promise<{ ok: boolean; message: string }>;
+  applyPromoCode: (code: string, email?: string) => Promise<{ ok: boolean; message: string; needsEmail?: boolean }>;
   removePromoCode: () => void;
   hasPromoFreeShipping: boolean;
   hasPromoFreeKnife: boolean;
@@ -144,7 +144,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setAppliedCoupon(null);
   };
 
-  const applyPromoCode = async (code: string): Promise<{ ok: boolean; message: string }> => {
+  const applyPromoCode = async (code: string, email?: string): Promise<{ ok: boolean; message: string; needsEmail?: boolean }> => {
     const normalized = code.trim().toUpperCase();
     if (!normalized) return { ok: false, message: "Introduce un código." };
 
@@ -162,10 +162,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     // Validar contra el backend (cupones 10€)
     try {
       const { data, error } = await supabase.functions.invoke("validate-coupon", {
-        body: { code: normalized },
+        body: { code: normalized, email: email?.trim() || undefined },
       });
       if (error || !data?.valid) {
-        return { ok: false, message: data?.error || "Código no válido." };
+        return { ok: false, message: data?.error || "Código no válido.", needsEmail: data?.needsEmail === true };
       }
       setPromoCode(normalized);
       setPromoApplied(true);
