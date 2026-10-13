@@ -101,6 +101,16 @@ serve(async (req) => {
     const safeItems = (items || []) as OrderItem[];
     const isCard = order.payment_method === "card";
 
+    // Card orders are only marked paid by verify-stripe-session after Stripe
+    // confirms payment. Refuse to notify for unpaid card orders.
+    if (isCard && order.status !== "paid" && order.status !== "shipped") {
+      return new Response(JSON.stringify({ error: "Pago no confirmado" }), {
+        status: 409,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const isPaid = order.status === "paid" || order.status === "shipped";
+
     // Server-side price validation against trusted catalog.
     // For card payments, Stripe already enforced trusted prices via create-checkout.
     // For transfer/bizum, the client controls the inserted order row, so re-derive
@@ -258,9 +268,6 @@ serve(async (req) => {
       shippingToken = crypto.randomUUID();
       updates.shipping_token = shippingToken;
     }
-    if (isCard && order.status !== "paid" && order.status !== "shipped") {
-      updates.status = "paid";
-    }
     if (Object.keys(updates).length > 0) {
       await supabase.from("orders").update(updates).eq("id", order.id);
     }
@@ -274,6 +281,7 @@ serve(async (req) => {
           .from("discount_coupons")
           .update({ used: true, used_at: new Date().toISOString(), used_order_id: order.id })
           .eq("code", code)
+          .eq("email", String(order.email || "").toLowerCase())
           .eq("used", false);
       }
     }
@@ -338,7 +346,8 @@ serve(async (req) => {
     });
 
     // Emite cupón 10€ si el pedido incluye el Jamón Cebo La Joya
-    const triggers = safeItems.some((it) => it.product_name.includes("Jamón Cebo 50% Ibérico Jabugo"));
+    // Only for paid orders; transfer/Bizum orders get it in confirm-payment.
+    const triggers = isPaid && safeItems.some((it) => it.product_name.includes("Jamón Cebo 50% Ibérico Jabugo"));
     if (triggers) {
       const code = `CORV-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
       const { error: couponError } = await supabase.from("discount_coupons").insert({

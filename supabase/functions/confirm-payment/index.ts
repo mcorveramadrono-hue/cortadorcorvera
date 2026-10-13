@@ -99,6 +99,7 @@ serve(async (req) => {
         .from("discount_coupons")
         .update({ used: true, used_at: new Date().toISOString(), used_order_id: orderId })
         .eq("code", code)
+        .eq("email", String(order.email || "").toLowerCase())
         .eq("used", false);
     }
 
@@ -116,6 +117,26 @@ serve(async (req) => {
       withKnife: item.knife_supplement,
       knifePrice: Number(item.knife_supplement_price),
     }));
+
+    // Issue the 10 € loyalty coupon now that the transfer/Bizum payment is confirmed.
+    if ((items || []).some((it: any) => String(it.product_name || "").includes("Jamón Cebo 50% Ibérico Jabugo"))) {
+      const { data: existingCoupon } = await supabase
+        .from("discount_coupons").select("id").eq("source_order_id", orderId).maybeSingle();
+      if (!existingCoupon) {
+        const couponCode = `CORV-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+        const { error: couponError } = await supabase.from("discount_coupons").insert({
+          code: couponCode, email: order.email, amount: 10, min_order_total: 150, source_order_id: orderId,
+        });
+        if (!couponError) {
+          await enqueueAppEmail(supabaseUrl, serviceKey, {
+            templateName: "coupon-issued",
+            recipientEmail: order.email,
+            idempotencyKey: `coupon-issued-${orderId}`,
+            templateData: { firstName: order.first_name, code: couponCode, amount: 10, minOrderTotal: 150 },
+          });
+        }
+      }
+    }
 
     const shippingUrl = `${SITE_URL}/marcar-envio/${orderId}?token=${shippingToken}`;
 
