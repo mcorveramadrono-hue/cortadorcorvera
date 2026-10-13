@@ -21,7 +21,6 @@ interface CiudadData {
   provincia: string;
   latitude: number;
   longitude: number;
-  comarcas: string[];
   intro: string;
 }
 
@@ -33,7 +32,6 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Madrid",
     latitude: 40.4168,
     longitude: -3.7038,
-    comarcas: ["Pozuelo", "Majadahonda", "Las Rozas", "Alcobendas", "Boadilla del Monte", "Getafe", "Móstoles", "Alcalá de Henares", "Aravaca", "Chamartín", "Salamanca", "Chamberí", "Retiro"],
     intro:
       "Servicio de cortador de jamón a cuchillo en Madrid y alrededores para bodas, catering, eventos de empresa y celebraciones familiares. Nos desplazamos al lugar de tu evento; puedes aportar tu jamón ibérico o elegir la pieza con nosotros. También atendemos eventos en Toledo y alrededores.",
   },
@@ -44,7 +42,6 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Toledo",
     latitude: 39.8628,
     longitude: -4.0273,
-    comarcas: ["Illescas", "Seseña", "Bargas", "Olías del Rey", "Torrijos", "Talavera de la Reina"],
     intro:
       "Cortador de jamón en Toledo y alrededores para bodas, catering y eventos de empresa. Corte a cuchillo en directo en fincas, restaurantes y celebraciones privadas. Puedes aportar tu pieza o elegir un jamón ibérico con nosotros; consultamos contigo la fecha, ubicación y necesidades del evento. También prestamos servicio en Madrid y alrededores.",
   },
@@ -55,7 +52,6 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Barcelona",
     latitude: 41.3851,
     longitude: 2.1734,
-    comarcas: ["Eixample", "Sarrià-Sant Gervasi", "Pedralbes", "Gràcia", "Sant Cugat", "Sitges", "Castelldefels", "Vallès Occidental", "Maresme"],
     intro:
       "Cortador de jamón profesional a cuchillo en Barcelona ciudad, Vallès y costa catalana. Bodas, eventos de empresa, catas y celebraciones con jamón ibérico de bellota seleccionado.",
   },
@@ -66,7 +62,6 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Valencia",
     latitude: 39.4699,
     longitude: -0.3763,
-    comarcas: ["Ciutat Vella", "L'Eixample", "El Saler", "Paterna", "Burjassot", "Gandía", "Sagunto", "Cullera"],
     intro:
       "Cortador profesional de jamón a cuchillo en Valencia y toda la Comunitat. Cortes en directo para bodas, eventos corporativos, hoteles y catas privadas en la playa o en finca.",
   },
@@ -77,7 +72,6 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Sevilla",
     latitude: 37.3886,
     longitude: -5.9823,
-    comarcas: ["Triana", "Los Remedios", "Nervión", "Aljarafe", "Bormujos", "Tomares", "Mairena", "Dos Hermanas", "Carmona"],
     intro:
       "Servicio de cortador de jamón a cuchillo en Sevilla capital, Aljarafe y provincia. Bodas, ferias, hoteles, eventos y catas privadas con jamón ibérico de bellota.",
   },
@@ -176,7 +170,7 @@ const CortadorCiudad = () => {
             name: `¿Atendéis bodas en toda la provincia de ${data.provincia}?`,
             acceptedAnswer: {
               "@type": "Answer",
-              text: `Sí, cubrimos ${data.nombre} capital y toda la provincia de ${data.provincia}, incluyendo ${data.comarcas.slice(0, 4).join(", ")} y poblaciones cercanas.`,
+              text: `Sí, cubrimos ${data.nombre} capital y toda la provincia de ${data.provincia}, sin excluir ninguna zona. Solo necesitamos la dirección del evento para confirmar el desplazamiento.`,
             },
           },
           {
@@ -258,18 +252,11 @@ const CortadorCiudad = () => {
 
         <section className="max-w-4xl mx-auto px-6 py-16">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
-            Zonas que cubrimos en {data.provincia}
+            Cobertura completa en {data.nombre}
           </h2>
-          <p className="text-muted-foreground leading-relaxed text-lg mb-6">
-            Trabajamos en {data.nombre} capital y nos desplazamos a toda la provincia, incluyendo:
+          <p className="text-muted-foreground leading-relaxed text-lg">
+            Dentro de {data.nombre} trabajamos en todas las zonas, sin excepción: domicilio, finca, restaurante, hotel o salón de eventos. Si el evento es en otra población de {data.provincia}, también nos desplazamos. Solo necesitamos la dirección exacta para confirmar el desplazamiento en el presupuesto.
           </p>
-          <div className="flex flex-wrap gap-2">
-            {data.comarcas.map((c) => (
-              <span key={c} className="px-3 py-1 border border-border rounded-sm text-sm text-muted-foreground">
-                {c}
-              </span>
-            ))}
-          </div>
         </section>
 
         <section className="bg-corvera-cream py-16">
@@ -284,7 +271,7 @@ const CortadorCiudad = () => {
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿Atendéis bodas en toda la provincia de {data.provincia}?</h3>
-                <p className="text-muted-foreground leading-relaxed">Sí, cubrimos {data.nombre} capital y toda la provincia, incluyendo {data.comarcas.slice(0, 4).join(", ")} y poblaciones cercanas.</p>
+                <p className="text-muted-foreground leading-relaxed">Sí, cubrimos {data.nombre} capital y toda la provincia de {data.provincia}, sin excluir ninguna zona. Solo necesitamos la dirección del evento para confirmar el desplazamiento.</p>
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿El jamón lo lleva el cortador?</h3>
