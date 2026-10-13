@@ -33,9 +33,20 @@ const CIUDADES: Record<string, CiudadData> = {
     provincia: "Madrid",
     latitude: 40.4168,
     longitude: -3.7038,
-    comarcas: ["Pozuelo", "Majadahonda", "Las Rozas", "Alcobendas", "Boadilla del Monte", "Aravaca", "Chamartín", "Salamanca", "Chamberí", "Retiro"],
+    comarcas: ["Pozuelo", "Majadahonda", "Las Rozas", "Alcobendas", "Boadilla del Monte", "Getafe", "Móstoles", "Alcalá de Henares", "Aravaca", "Chamartín", "Salamanca", "Chamberí", "Retiro"],
     intro:
-      "Servicio profesional de cortador de jamón a cuchillo en Madrid capital y toda la Comunidad. Bodas, eventos corporativos, presentaciones, catas privadas y celebraciones familiares atendidas por un cortador con más de una década de experiencia.",
+      "Servicio de cortador de jamón a cuchillo en Madrid y alrededores para bodas, catering, eventos de empresa y celebraciones familiares. Nos desplazamos al lugar de tu evento; puedes aportar tu jamón ibérico o elegir la pieza con nosotros. También atendemos eventos en Toledo y alrededores.",
+  },
+  toledo: {
+    slug: "toledo",
+    nombre: "Toledo",
+    region: "Castilla-La Mancha",
+    provincia: "Toledo",
+    latitude: 39.8628,
+    longitude: -4.0273,
+    comarcas: ["Illescas", "Seseña", "Bargas", "Olías del Rey", "Torrijos", "Talavera de la Reina"],
+    intro:
+      "Cortador de jamón en Toledo y alrededores para bodas, catering y eventos de empresa. Corte a cuchillo en directo en fincas, restaurantes y celebraciones privadas. Puedes aportar tu pieza o elegir un jamón ibérico con nosotros; consultamos contigo la fecha, ubicación y necesidades del evento. También prestamos servicio en Madrid y alrededores.",
   },
   barcelona: {
     slug: "barcelona",
@@ -85,7 +96,7 @@ const CortadorCiudad = () => {
     document.title = `Cortador de Jamón ${data.nombre} | Bodas y Eventos | Corvera`;
     setMeta(
       "description",
-      `Cortador profesional de jamón ibérico a cuchillo en ${data.nombre}. Bodas, eventos corporativos, catas y celebraciones. Presupuesto sin compromiso.`
+      `Contrata un cortador de jamón en ${data.nombre} y alrededores para bodas, catering y eventos de empresa. Corte a cuchillo de jamón ibérico. Pide presupuesto.`
     );
     setMeta(
       "keywords",
@@ -117,7 +128,7 @@ const CortadorCiudad = () => {
     const ld = [
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
+        "@type": "Service",
         name: `Corvera Ibéricos - Cortador de Jamón Profesional en ${data.nombre}`,
         description: `Servicio profesional de cortador de jamón ibérico a cuchillo en ${data.nombre} para bodas, eventos corporativos, catas y celebraciones.`,
         url: PAGE_URL,
@@ -125,17 +136,7 @@ const CortadorCiudad = () => {
         telephone: "+34676703034",
         email: "corveraibericos@gmail.com",
         priceRange: "€€-€€€",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: data.nombre,
-          addressRegion: data.region,
-          addressCountry: "ES",
-        },
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: data.latitude,
-          longitude: data.longitude,
-        },
+        provider: { "@type": "Organization", name: "Corvera Ibéricos", url: "https://corveraibericos.com/" },
         areaServed: [
           { "@type": "City", name: data.nombre },
           { "@type": "AdministrativeArea", name: data.provincia },
@@ -183,7 +184,7 @@ const CortadorCiudad = () => {
             name: "¿El jamón lo lleva el cortador?",
             acceptedAnswer: {
               "@type": "Answer",
-              text: "Podemos llevar nosotros el jamón ibérico de bellota seleccionado o cortar la pieza que aporte el cliente. En el presupuesto se detalla cada opción.",
+              text: "Podemos llevar nosotros la pieza de jamón ibérico o cortar la que aporte el cliente. En el presupuesto se detalla cada opción.",
             },
           },
         ],
@@ -287,7 +288,7 @@ const CortadorCiudad = () => {
               </div>
               <div>
                 <h3 className="font-serif text-xl font-bold text-foreground mb-2">¿El jamón lo lleva el cortador?</h3>
-                <p className="text-muted-foreground leading-relaxed">Podemos llevar nosotros el jamón ibérico de bellota seleccionado o cortar la pieza que aporte el cliente. En el presupuesto se detalla cada opción.</p>
+                <p className="text-muted-foreground leading-relaxed">Podemos llevar nosotros la pieza de jamón ibérico o cortar la que aporte el cliente. En el presupuesto se detalla cada opción.</p>
               </div>
             </div>
           </div>
@@ -298,7 +299,7 @@ const CortadorCiudad = () => {
             ¿Tienes un evento en {data.nombre}?
           </h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Cuéntanos los detalles y te enviamos presupuesto en menos de 24 horas.
+            Cuéntanos la fecha, el lugar y el número de invitados para preparar tu presupuesto.
           </p>
           <a
             href="https://wa.me/34676703034"

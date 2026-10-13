@@ -1,8 +1,10 @@
 import { useState } from "react";
 import eventosServicio from "@/assets/eventos-servicio.jpg";
-import servicioSinPieza from "@/assets/servicio-sin-pieza.jpg";
-import servicioConPieza from "@/assets/servicio-con-pieza.jpg";
+import servicioSinPieza from "@/assets/corte-sin-pieza-evento.jpg.asset.json";
+import servicioConPieza from "@/assets/servicio-con-pieza-sin-vitola.png";
 import { PartyPopper, Utensils, Award } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 import ContactFormDialog from "./ContactFormDialog";
 
@@ -11,8 +13,9 @@ const services = [
     icon: PartyPopper,
     title: "Eventos y Catering",
     description:
-      "Hacemos de tu evento una experiencia gastronómica inolvidable. Bodas, celebraciones, eventos corporativos... Ponemos el jamón ibérico en el centro de tu mesa con un servicio premium.",
+      "Servicio de cortador de jamón en Madrid, Toledo y alrededores para bodas, celebraciones, catering y eventos de empresa. Corte de jamón ibérico a cuchillo en directo, con posibilidad de aportar tu pieza o elegirla con nosotros.",
     features: [
+      "Madrid, Toledo y alrededores",
       "Bodas y celebraciones",
       "Eventos corporativos",
       "Show de corte en vivo",
@@ -31,7 +34,7 @@ const services = [
       "Envío a toda la península",
       "Envasado al vacío",
     ],
-    image: servicioSinPieza,
+    image: servicioSinPieza.url,
   },
   {
     icon: Award,
@@ -72,7 +75,7 @@ const Services = () => {
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-[300px] md:h-[400px] object-cover"
+                  className={`w-full h-[300px] md:h-[400px] ${index === 1 ? "object-contain" : "object-cover"}`}
                 />
               </div>
 
@@ -89,7 +92,13 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
-                <button
+                {index === 0 && (
+                  <nav aria-label="Cortador de jamón por zona" className="flex flex-wrap gap-x-6 gap-y-2">
+                    <Link to="/cortador-de-jamon/madrid" className="text-primary underline underline-offset-4">Cortador de jamón en Madrid</Link>
+                    <Link to="/cortador-de-jamon/toledo" className="text-primary underline underline-offset-4">Cortador de jamón en Toledo</Link>
+                  </nav>
+                )}
+                <Button
                   onClick={() => {
                     setSelectedService(service.title);
                     setShowForm(true);
@@ -97,7 +106,7 @@ const Services = () => {
                   className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors mt-4"
                 >
                   Solicitar Servicio
-                </button>
+                </Button>
               </div>
             </div>
           ))}
