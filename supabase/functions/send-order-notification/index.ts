@@ -281,7 +281,7 @@ serve(async (req) => {
           .from("discount_coupons")
           .update({ used: true, used_at: new Date().toISOString(), used_order_id: order.id })
           .eq("code", code)
-          .ilike("email", String(order.email || ""))
+          .eq("email", String(order.email || "").toLowerCase())
           .eq("used", false);
       }
     }
