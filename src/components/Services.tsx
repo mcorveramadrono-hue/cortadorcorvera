@@ -1,6 +1,6 @@
 import { useState } from "react";
 import eventosServicio from "@/assets/eventos-servicio.jpg";
-import servicioSinPieza from "@/assets/corte-sin-pieza-sobres.jpg.asset.json";
+import servicioSinPieza from "@/assets/corte-sin-pieza-sobres.jpg";
 import servicioConPieza from "@/assets/servicio-con-pieza-sin-vitola.png";
 import { PartyPopper, Utensils, Award } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -34,7 +34,7 @@ const services = [
       "Envío a toda la península",
       "Envasado al vacío",
     ],
-    image: servicioSinPieza.url,
+    image: servicioSinPieza,
   },
   {
     icon: Award,
