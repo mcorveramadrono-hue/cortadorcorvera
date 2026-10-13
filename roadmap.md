@@ -7,3 +7,4 @@
 - [x] Replace the cutting-without-piece photo with the uploaded vacuum-packed slices shot.
 - [x] Footer navigation: drop Barcelona, Valencia and Sevilla; add Toledo.
 - [x] Footer: stop the Navegación column covering the "Un Corte Original" text.
+- [x] Cortador pages (Madrid, Toledo): stop listing zones; state full coverage of the town and province.
