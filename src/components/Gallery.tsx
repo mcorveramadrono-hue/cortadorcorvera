@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -65,7 +66,7 @@ const Gallery = () => {
 
         <Carousel
           opts={{ align: "start", loop: true }}
-          className="max-w-6xl mx-auto px-8 md:px-12"
+          className="max-w-6xl mx-auto px-14 md:px-16"
         >
           <CarouselContent>
             {images.map((image, index) => (
@@ -84,34 +85,36 @@ const Gallery = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious variant="default" aria-label="Foto anterior" title="Foto anterior" className="left-0 z-10 h-11 w-11 border border-primary [&_svg]:size-6" />
+          <CarouselNext variant="default" aria-label="Foto siguiente" title="Foto siguiente" className="right-0 z-10 h-11 w-11 border border-primary [&_svg]:size-6" />
         </Carousel>
       </div>
 
       <Dialog open={selectedIndex !== null} onOpenChange={closeImage}>
-        <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 border-none bg-black/95 flex items-center justify-center">
+        <DialogContent className="max-w-[90vw] max-h-[90vh] p-0 border-none bg-background flex items-center justify-center">
           {selectedIndex !== null && (
             <>
-              <button
+              <Button size="icon"
                 onClick={(e) => { e.stopPropagation(); goPrev(); }}
                 aria-label="Imagen anterior"
-                className="absolute left-2 md:left-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition"
+                title="Imagen anterior"
+                className="absolute left-2 md:left-4 z-10 h-11 w-11 rounded-full [&_svg]:size-6"
               >
                 <ChevronLeft className="w-6 h-6" aria-hidden="true" />
-              </button>
+              </Button>
               <img
                 src={images[selectedIndex].src}
                 alt={images[selectedIndex].alt}
                 className="max-w-full max-h-[85vh] object-contain"
               />
-              <button
+              <Button size="icon"
                 onClick={(e) => { e.stopPropagation(); goNext(); }}
                 aria-label="Imagen siguiente"
-                className="absolute right-2 md:right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition"
+                title="Imagen siguiente"
+                className="absolute right-2 md:right-4 z-10 h-11 w-11 rounded-full [&_svg]:size-6"
               >
                 <ChevronRight className="w-6 h-6" aria-hidden="true" />
-              </button>
+              </Button>
             </>
           )}
         </DialogContent>

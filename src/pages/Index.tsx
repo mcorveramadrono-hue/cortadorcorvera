@@ -16,7 +16,7 @@ const Index = () => {
   const location = useLocation();
   usePageSeo({
     title: "Corvera Ibéricos | Jamón Ibérico Online",
-    description: "Comprar jamón ibérico online: César Nieto, La Joya, Ángel Martín, Epicum, Finura y Castro Fuerte. Paleta ibérica D.O.P. y corte a cuchillo. Envío España.",
+    description: "Compra jamón ibérico online de César Nieto, La Joya, Epicum y otras marcas. Cortador de jamón para eventos en Madrid, Toledo y alrededores. Envío peninsular.",
     path: "/",
     jsonLd: {
       "@context": "https://schema.org",
@@ -25,7 +25,7 @@ const Index = () => {
         { "@type": "Question", name: "¿Hacéis envíos a toda España?", acceptedAnswer: { "@type": "Answer", text: "Sí, realizamos envíos a toda la península española. Envío gratuito para pedidos superiores a 20 kg; para pedidos inferiores, el coste es de 5 €." } },
         { "@type": "Question", name: "¿Qué métodos de pago aceptáis?", acceptedAnswer: { "@type": "Answer", text: "Aceptamos pago con tarjeta de crédito/débito (Visa, Mastercard), transferencia bancaria y Bizum." } },
         { "@type": "Question", name: "¿Qué diferencia hay entre jamón ibérico de bellota y de cebo?", acceptedAnswer: { "@type": "Answer", text: "El de bellota procede de cerdos alimentados con bellotas y hierbas en la dehesa; el de cebo se alimenta con piensos a base de cereales. La bellota aporta mayor infiltración grasa y sabor más complejo." } },
-        { "@type": "Question", name: "¿Ofrecéis servicio de corte a cuchillo para eventos?", acceptedAnswer: { "@type": "Answer", text: "Sí, ofrecemos cortador profesional para bodas, celebraciones y eventos corporativos, con o sin pieza incluida." } },
+        { "@type": "Question", name: "¿Ofrecéis servicio de corte a cuchillo para eventos?", acceptedAnswer: { "@type": "Answer", text: "Sí, ofrecemos cortador de jamón en Madrid, Toledo y alrededores para bodas, celebraciones, catering y eventos corporativos, con posibilidad de aportar o elegir la pieza." } },
         { "@type": "Question", name: "¿Cuánto tiempo de curación tienen vuestros jamones?", acceptedAnswer: { "@type": "Answer", text: "Los jamones ibéricos de bellota tienen una curación mínima de 36 meses; los de cebo y cebo de campo, 30 meses; las paletas entre 20 y 24 meses." } },
       ],
     },
