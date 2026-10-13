@@ -35,6 +35,8 @@ const images = [
   { src: gallery9, alt: "Cortador profesional en acción" },
   { src: gallery10, alt: "Corte de jamón en blanco y negro" },
   { src: gallery11, alt: "Lámina de jamón ibérico en cuchillo" },
+  { src: gallery12, alt: "Plato de jamón ibérico cortado a cuchillo en un evento con tomates y pan" },
+  { src: gallery13, alt: "Jamón ibérico en jamonera preparado para corte en un evento junto al río" },
 ];
 
 const Gallery = () => {
