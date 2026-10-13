@@ -262,7 +262,15 @@ serve(async (req) => {
       );
     }
 
-    const origin = req.headers.get("origin") || "https://www.corveraibericos.com";
+    // Only redirect back to our own sites — never trust an arbitrary Origin header.
+    const ALLOWED_ORIGINS = new Set([
+      "https://www.corveraibericos.com",
+      "https://corveraibericos.com",
+      "https://cortadorcorvera.lovable.app",
+      "https://id-preview--d212ff23-bdc6-4bea-9cb2-5eeda10a1b8e.lovable.app",
+    ]);
+    const reqOrigin = req.headers.get("origin") || "";
+    const origin = ALLOWED_ORIGINS.has(reqOrigin) ? reqOrigin : "https://www.corveraibericos.com";
 
     // Hosted Stripe Checkout (redirect). More reliable than the embedded iframe
     // on mobile, 3D Secure and Apple/Google Pay.
