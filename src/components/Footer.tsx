@@ -54,14 +54,8 @@ const Footer = () => {
               <Link to="/cortador-de-jamon/madrid" className="text-sm text-background/60 hover:text-background transition-colors">
                 Cortador de jamón Madrid
               </Link>
-              <Link to="/cortador-de-jamon/barcelona" className="text-sm text-background/60 hover:text-background transition-colors">
-                Cortador de jamón Barcelona
-              </Link>
-              <Link to="/cortador-de-jamon/valencia" className="text-sm text-background/60 hover:text-background transition-colors">
-                Cortador de jamón Valencia
-              </Link>
-              <Link to="/cortador-de-jamon/sevilla" className="text-sm text-background/60 hover:text-background transition-colors">
-                Cortador de jamón Sevilla
+              <Link to="/cortador-de-jamon/toledo" className="text-sm text-background/60 hover:text-background transition-colors">
+                Cortador de jamón Toledo
               </Link>
             </nav>
           </div>
