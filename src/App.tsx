@@ -14,6 +14,7 @@ import PedidoConfirmado from "./pages/PedidoConfirmado";
 import PoliticaPrivacidad from "./pages/PoliticaPrivacidad";
 import AvisoLegal from "./pages/AvisoLegal";
 import TerminosCondiciones from "./pages/TerminosCondiciones";
+import PoliticaDevoluciones from "./pages/PoliticaDevoluciones";
 import PoliticaCookies from "./pages/PoliticaCookies";
 import Unsubscribe from "./pages/Unsubscribe";
 import ConfirmarPago from "./pages/ConfirmarPago";
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/aviso-legal" element={<AvisoLegal />} />
             <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
             <Route path="/politica-cookies" element={<PoliticaCookies />} />
+            <Route path="/politica-devoluciones" element={<PoliticaDevoluciones />} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
             <Route path="/confirmar-pago" element={<ConfirmarPago />} />
             <Route path="/marcar-envio/:orderId" element={<MarcarEnvio />} />

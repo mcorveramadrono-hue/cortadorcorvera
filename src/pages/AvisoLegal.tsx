@@ -77,10 +77,7 @@ const AvisoLegal = () => {
             La relación entre el titular y el usuario se regirá por la normativa española vigente. Para la resolución de cualquier controversia, las partes se someten a los Juzgados y Tribunales del domicilio del consumidor cuando se trate de relaciones con consumidores.
           </p>
           <p>
-            Conforme al artículo 14 del Reglamento (UE) 524/2013, se informa al consumidor de la existencia de la plataforma de resolución de litigios en línea de la Comisión Europea, accesible en{" "}
-            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              https://ec.europa.eu/consumers/odr
-            </a>.
+            El consumidor puede presentar sus reclamaciones mediante las hojas de reclamaciones, ante las oficinas de consumo de su comunidad autónoma o ante la Junta Arbitral de Consumo.
           </p>
         </div>
       </div>

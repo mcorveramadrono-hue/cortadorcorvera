@@ -10,8 +10,8 @@ const Footer = () => {
           {/* Logo */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src={corveraLogo} alt="Corvera" className="h-10 w-auto invert" />
-              <p className="text-xs tracking-[0.25em] text-background/60 uppercase">Un Corte Original</p>
+              <img src={corveraLogo} alt="Corvera Ibéricos" className="h-10 w-auto invert" />
+              <p className="text-xs tracking-[0.25em] text-background/80 uppercase">Un Corte Original</p>
             </div>
             <address className="not-italic text-xs text-background/70 leading-relaxed space-y-1">
               <div>Madrid, España</div>
@@ -95,6 +95,9 @@ const Footer = () => {
             </Link>
             <Link to="/politica-cookies" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
               Política de Cookies
+            </Link>
+            <Link to="/politica-devoluciones" className="text-xs text-background/80 hover:text-background tracking-widest transition-colors">
+              Devoluciones y Reembolsos
             </Link>
           </nav>
           <p className="text-xs text-background/70 tracking-widest">

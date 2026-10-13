@@ -88,10 +88,7 @@ const TerminosCondiciones = () => {
             Conforme a la normativa de consumidores y usuarios, los productos están sujetos a la garantía legal aplicable. Cualquier incidencia con el pedido debe comunicarse en un plazo máximo de 24 horas desde la recepción, aportando fotografías y descripción del problema a <strong>corveraibericos@gmail.com</strong>.
           </p>
           <p>
-            Existen hojas de reclamaciones a disposición del consumidor. Asimismo, puede acudir a la plataforma europea de resolución de litigios en línea:{" "}
-            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              https://ec.europa.eu/consumers/odr
-            </a>.
+            Existen hojas de reclamaciones a disposición del consumidor. Asimismo, puede acudir a las oficinas de consumo de su comunidad autónoma o a la Junta Arbitral de Consumo. Consulte también nuestra <a href="/politica-devoluciones" className="text-primary hover:underline">Política de Devoluciones y Reembolsos</a>.
           </p>
 
           <h2>9. Servicios de cortador profesional y eventos</h2>
