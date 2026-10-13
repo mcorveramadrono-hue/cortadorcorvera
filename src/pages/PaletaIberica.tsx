@@ -149,7 +149,7 @@ const PaletaIberica = () => {
             <ul className="space-y-3 text-muted-foreground text-lg leading-relaxed">
               <li>✔ Sabor más intenso y aromático que el jamón.</li>
               <li>✔ Curación más corta — perfecta para consumir antes.</li>
-              <li>✔ Mejor relación calidad-precio dentro del ibérico de bellota.</li>
+              <li>✔ Precio por kilo más accesible que el jamón de bellota de la misma calidad.</li>
               <li>✔ Ideal para hogares pequeños o consumo más rápido.</li>
               <li>✔ Disponible en pieza entera, deshuesada o loncheada a cuchillo.</li>
             </ul>

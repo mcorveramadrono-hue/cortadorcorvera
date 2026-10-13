@@ -19,10 +19,10 @@ const Hero = () => {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 flex flex-col items-center text-center">
         <h1 className="sr-only">
-          Corvera Ibéricos — Tienda Oficial de Jamón Ibérico y Cortador Profesional a Cuchillo en Madrid, envíos a toda España
+          Corvera Ibéricos — Tienda de Jamón Ibérico y Cortador Profesional a Cuchillo en Madrid, envíos a toda España
         </h1>
         <p className="sr-only">
-          Comprar jamón ibérico online de las marcas César Nieto, La Joya, Epicum, Finura y Castro Fuerte, paleta ibérica D.O.P. Guijuelo y Extremadura, y servicio de cortador de jamón a cuchillo para bodas y eventos. Tienda oficial Corvera Ibéricos.
+          Comprar jamón ibérico online de las marcas César Nieto, La Joya, Epicum, Finura y Castro Fuerte, paleta ibérica D.O.P. Guijuelo y Extremadura, y servicio de cortador de jamón a cuchillo para bodas y eventos. Corvera Ibéricos.
         </p>
 
         {/* Placa crema con la marca */}

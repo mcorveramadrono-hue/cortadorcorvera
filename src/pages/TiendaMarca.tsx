@@ -23,7 +23,7 @@ const TiendaMarca = () => {
     const productNames = brandProducts.map((p) => p.name).join(", ");
 
     const title = `Comprar Jamón ${brandInfo.name} Online | ${brandInfo.name} Ibérico de Bellota`.slice(0, 70);
-    const description = `Comprar jamón ${brandInfo.name} y paletas ibéricas ${brandInfo.name} online al mejor precio. ${brandInfo.tagline}. ${productNames.slice(0, 100)}. Envío a toda España y corte a cuchillo profesional.`.slice(0, 300);
+    const description = `Comprar jamón ${brandInfo.name} y paletas ibéricas ${brandInfo.name} online. ${brandInfo.tagline}. ${productNames.slice(0, 100)}. Envío a toda España y corte a cuchillo profesional.`.slice(0, 300);
 
     document.title = title;
 
@@ -77,7 +77,7 @@ const TiendaMarca = () => {
       "@context": "https://schema.org",
       "@type": "Brand",
       name: brandInfo.name,
-      description: `${brandInfo.tagline}. Jamones y paletas ibéricas ${brandInfo.name} distribuidas oficialmente por Corvera Ibéricos.`,
+      description: `${brandInfo.tagline}. Jamones y paletas ibéricas ${brandInfo.name} a la venta en Corvera Ibéricos.`,
       url: canonicalHref,
       logo: "https://corveraibericos.com/favicon-192.png",
     });
