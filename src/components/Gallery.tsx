@@ -20,6 +20,8 @@ import gallery8 from "@/assets/gallery/gallery-8.jpeg";
 import gallery9 from "@/assets/gallery/gallery-9.jpeg";
 import gallery10 from "@/assets/gallery/gallery-10.jpeg";
 import gallery11 from "@/assets/gallery/gallery-11.jpeg";
+import gallery12 from "@/assets/gallery/gallery-12.jpeg";
+import gallery13 from "@/assets/gallery/gallery-13.jpeg";
 
 const images = [
   { src: gallery1, alt: "Plato de jamón ibérico cortado a mano" },
