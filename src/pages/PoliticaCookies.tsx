@@ -29,7 +29,7 @@ const PoliticaCookies = () => {
         </h1>
 
         <div className="prose prose-sm max-w-none text-muted-foreground space-y-6 [&_h2]:text-foreground [&_h2]:font-serif [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mt-10 [&_h2]:mb-3 [&_strong]:text-foreground">
-          <p className="text-sm text-muted-foreground">Última actualización: 21 de mayo de 2026</p>
+          <p className="text-sm text-muted-foreground">Última actualización: 13 de octubre de 2026</p>
 
           <h2>1. ¿Qué son las cookies?</h2>
           <p>
@@ -43,7 +43,7 @@ const PoliticaCookies = () => {
           <ul className="list-disc pl-6 space-y-1">
             <li><strong>Cookies de sesión y carrito:</strong> permiten mantener los productos seleccionados en el carrito de compra y gestionar el proceso de pedido.</li>
             <li><strong>Cookies del proveedor de pago (Stripe):</strong> necesarias para procesar pagos de forma segura y prevenir el fraude.</li>
-            <li><strong>Almacenamiento local (localStorage):</strong> se utiliza para conservar el contenido del carrito entre visitas y mejorar la experiencia de compra.</li>
+            <li><strong>Almacenamiento local (localStorage):</strong> se utiliza para conservar el contenido del carrito entre visitas y recordar si ya has visto o cerrado la ventana del cupón de bienvenida y mejorar la experiencia de compra.</li>
           </ul>
           <p>
             <strong>No se utilizan cookies de análisis, publicidad ni de seguimiento de terceros</strong> que requieran consentimiento.
