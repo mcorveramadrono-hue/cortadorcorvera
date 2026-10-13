@@ -75,7 +75,7 @@ const Services = () => {
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="w-full h-[300px] md:h-[400px] object-cover"
+                  className={`w-full h-[300px] md:h-[400px] ${index === 1 ? "object-contain" : "object-cover"}`}
                 />
               </div>
 
