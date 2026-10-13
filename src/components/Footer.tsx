@@ -9,9 +9,9 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-12 items-start">
           {/* Logo */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <img src={corveraLogo} alt="Corvera Ibéricos" className="h-10 w-auto invert" />
-              <p className="text-xs tracking-[0.25em] text-background/80 uppercase">Un Corte Original</p>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <img src={corveraLogo} alt="Corvera Ibéricos" className="h-10 w-auto max-w-full object-contain invert" />
+              <p className="text-xs tracking-[0.25em] text-background/80 uppercase whitespace-nowrap">Un Corte Original</p>
             </div>
             <address className="not-italic text-xs text-background/70 leading-relaxed space-y-1">
               <div>Madrid, España</div>
@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
 
           {/* Links */}
-          <div className="space-y-4">
+          <div className="space-y-4 md:pl-10">
             <p className="text-xs tracking-[0.3em] uppercase text-background/40 font-medium">
               Navegación
             </p>
