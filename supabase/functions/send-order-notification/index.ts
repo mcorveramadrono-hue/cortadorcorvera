@@ -178,10 +178,21 @@ serve(async (req) => {
             .select("amount, percent_off, free_shipping, min_order_total, brand_filter, max_uses, used_count, expires_at")
             .eq("code", code)
             .maybeSingle();
+          // A code at max_uses is still valid when this order holds one of the slots.
+          let slotHeldByOrder = false;
+          if (shared && Number(shared.used_count) >= Number(shared.max_uses)) {
+            const { data: held } = await supabase
+              .from("shared_promo_redemptions")
+              .select("id")
+              .eq("code", code)
+              .eq("order_id", orderId)
+              .maybeSingle();
+            slotHeldByOrder = !!held;
+          }
           if (
             shared &&
             shared.expires_at && new Date(shared.expires_at) > new Date() &&
-            Number(shared.used_count) < Number(shared.max_uses)
+            (Number(shared.used_count) < Number(shared.max_uses) || slotHeldByOrder)
           ) {
             // Compute eligible subtotal per brand_filter; fall back to full subtotal
             // only when no brand restriction is set.
