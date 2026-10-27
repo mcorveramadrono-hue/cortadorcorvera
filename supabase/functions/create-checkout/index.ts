@@ -197,10 +197,22 @@ serve(async (req) => {
             .select("amount, percent_off, min_order_total, brand_filter, max_uses, used_count, expires_at")
             .eq("code", promoCode)
             .maybeSingle();
+          // redeem-shared-promo already took a slot for this order, so a code at
+          // max_uses is still valid when one of those uses belongs to this order.
+          let slotHeldByOrder = false;
+          if (shared && Number(shared.used_count) >= Number(shared.max_uses)) {
+            const { data: held } = await supabaseAdmin
+              .from("shared_promo_redemptions")
+              .select("id")
+              .eq("code", promoCode)
+              .eq("order_id", orderId)
+              .maybeSingle();
+            slotHeldByOrder = !!held;
+          }
           if (
             shared &&
             new Date(shared.expires_at) > new Date() &&
-            Number(shared.used_count) < Number(shared.max_uses)
+            (Number(shared.used_count) < Number(shared.max_uses) || slotHeldByOrder)
           ) {
             // Compute eligible subtotal, restricted to items matching brand_filter
             // when set. Falling back to the full subtotal would let a customer
