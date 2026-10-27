@@ -60,6 +60,51 @@ serve(async (req) => {
       });
     }
 
+    // If this email already redeemed the code, allow it only when that earlier
+    // redemption belongs to this same order or to an abandoned, unpaid card
+    // attempt (customer cancelled on Stripe and is retrying). In that case the
+    // existing slot moves to the new order instead of claiming another one.
+    const { data: existing } = await supabase
+      .from("shared_promo_redemptions")
+      .select("id, order_id")
+      .eq("code", normalized)
+      .eq("email", normalizedEmail)
+      .maybeSingle();
+
+    if (existing) {
+      if (existing.order_id && String(existing.order_id) === String(orderId)) {
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      let reusable = !existing.order_id;
+      if (existing.order_id) {
+        const { data: prevOrder } = await supabase
+          .from("orders")
+          .select("status, email")
+          .eq("id", String(existing.order_id))
+          .maybeSingle();
+        reusable =
+          !prevOrder ||
+          (prevOrder.status === "pending_stripe" &&
+            String(prevOrder.email).trim().toLowerCase() === normalizedEmail);
+      }
+      if (!reusable) {
+        return new Response(JSON.stringify({ ok: false, error: "Ya has usado este cupón anteriormente" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const { error: moveError } = await supabase
+        .from("shared_promo_redemptions")
+        .update({ order_id: orderId })
+        .eq("id", existing.id);
+      if (moveError) throw moveError;
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+
     // Atomically claim a slot for this code. Prevents race conditions where
     // concurrent callers could exceed max_uses by reading and updating
     // used_count separately.
