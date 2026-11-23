@@ -8,6 +8,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import PromoBanner from "@/components/PromoBanner";
 import Ofertas from "@/components/Ofertas";
+import CorteZonas from "@/components/CorteZonas";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { usePageSeo } from "@/lib/seo";
@@ -48,6 +49,7 @@ const Index = () => {
         <Hero />
         <Ofertas />
         <Products />
+        <CorteZonas />
         <About />
         <Services />
         <Gallery />
