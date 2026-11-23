@@ -46,9 +46,9 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
+        <CorteZonas />
         <Ofertas />
         <Products />
-        <CorteZonas />
         <Services />
         <Gallery />
         <Contact />

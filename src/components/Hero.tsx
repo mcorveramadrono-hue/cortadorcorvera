@@ -63,6 +63,12 @@ const Hero = () => {
             Ver Productos
           </a>
           <a
+            href="#servicios"
+            className="inline-flex items-center justify-center px-8 py-3 border border-corvera-cream text-corvera-cream text-sm tracking-widest uppercase hover:bg-corvera-cream hover:text-corvera-dark transition-colors"
+          >
+            Ver Servicios
+          </a>
+          <a
             href="#contacto"
             className="inline-flex items-center justify-center px-8 py-3 border border-corvera-cream text-corvera-cream text-sm tracking-widest uppercase hover:bg-corvera-cream hover:text-corvera-dark transition-colors"
           >
