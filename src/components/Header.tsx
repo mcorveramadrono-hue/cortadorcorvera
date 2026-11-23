@@ -31,7 +31,7 @@ const Header = () => {
   const links = [
     { label: "Inicio", href: "#inicio" },
     { label: "Tienda", href: "/tienda" },
-    { label: "Corte Original", href: "#sobre-nosotros" },
+    { label: "Corte Original", href: "#el-corte" },
     { label: "Servicios", href: "#servicios" },
     { label: "Guía Bridas", href: "/guia-bridas-jamon-iberico" },
     { label: "Contacto", href: "#contacto" },

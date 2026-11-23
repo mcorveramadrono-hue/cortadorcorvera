@@ -109,6 +109,9 @@ const CorteZonas = () => {
             ))}
           </div>
           <img src={cajaZonas} alt="Caja Corvera Ibéricos con el jamón envasado por zonas y folleto explicativo" className="w-full mt-10" loading="lazy" />
+          <p className="text-muted-foreground leading-relaxed mt-8">
+            No solo vendemos jamón: lo cortamos a cuchillo y envasamos maza, babilla, punta y jarrete por separado, con un folleto que explica cada zona y sus diferencias. Así, cada degustación se convierte en un recorrido por la pieza.
+          </p>
         </div>
       </section>
     );
@@ -235,7 +238,7 @@ const CorteZonas = () => {
               <p className="text-sm tracking-[0.3em] uppercase text-primary font-medium mb-3">Un corte original</p>
               <h3 className="font-serif text-3xl md:text-5xl font-bold text-foreground mb-4">Cada zona, en su sobre</h3>
               <p className="text-muted-foreground md:text-lg leading-relaxed mb-6">
-                Envasamos maza, babilla, punta y jarrete por separado, con un folleto que explica cada zona y sus diferencias, para que disfrutes el jamón como nunca.
+                No solo vendemos jamón: lo cortamos a cuchillo y envasamos maza, babilla, punta y jarrete por separado, con un folleto que explica cada zona y sus diferencias. Así, cada degustación se convierte en un recorrido por la pieza.
               </p>
               <a
                 href="/tienda"

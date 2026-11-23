@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
 import Products from "@/components/Products";
 import Services from "@/components/Services";
 import Gallery from "@/components/Gallery";
@@ -50,7 +49,6 @@ const Index = () => {
         <Ofertas />
         <Products />
         <CorteZonas />
-        <About />
         <Services />
         <Gallery />
         <Contact />
