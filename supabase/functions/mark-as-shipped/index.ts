@@ -93,17 +93,48 @@ serve(async (req) => {
       });
     }
 
-    // Only allow https tracking links on known carrier domains.
-    const CARRIER_DOMAINS = ["gls-spain.es", "gls-group.com", "gls-group.eu", "seur.com", "mrw.es", "correos.es", "correosexpress.com", "dhl.com", "dhl.es", "ups.com", "fedex.com", "nacex.es", "nacex.com", "tipsa.com", "envialia.com", "ctt.es", "cttexpress.com", "tnt.com", "dpd.com", "dpd.es", "zeleris.com", "sending.es"];
+    // Carrier must come from a fixed list; tracking link must belong to that carrier.
+    const CARRIERS: Record<string, string[]> = {
+      "GLS": ["gls-spain.es", "gls-group.com", "gls-group.eu"],
+      "SEUR": ["seur.com"],
+      "MRW": ["mrw.es"],
+      "Correos": ["correos.es"],
+      "Correos Express": ["correosexpress.com"],
+      "DHL": ["dhl.com", "dhl.es"],
+      "UPS": ["ups.com"],
+      "FedEx": ["fedex.com"],
+      "Nacex": ["nacex.es", "nacex.com"],
+      "Tipsa": ["tipsa.com"],
+      "Envialia": ["envialia.com"],
+      "CTT Express": ["ctt.es", "cttexpress.com"],
+      "TNT": ["tnt.com"],
+      "DPD": ["dpd.com", "dpd.es"],
+      "Zeleris": ["zeleris.com"],
+      "Sending": ["sending.es"],
+    };
+    const carrierDomains = CARRIERS[String(shippingCarrier)];
+    if (!carrierDomains) {
+      return new Response(JSON.stringify({ error: "Elige una compañía de envío de la lista." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!/^[A-Za-z0-9-]{4,40}$/.test(String(trackingNumber))) {
+      return new Response(JSON.stringify({ error: "El código de seguimiento solo puede tener letras, números y guiones (4-40)." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     if (trackingUrl) {
       let ok = false;
       try {
         const u = new URL(String(trackingUrl));
         const host = u.hostname.toLowerCase();
-        ok = u.protocol === "https:" && CARRIER_DOMAINS.some((d) => host === d || host.endsWith("." + d));
+        ok = u.protocol === "https:" && !u.username && !u.password &&
+          carrierDomains.some((d) => host === d || host.endsWith("." + d));
       } catch (_e) { ok = false; }
       if (!ok) {
-        return new Response(JSON.stringify({ error: "El enlace de seguimiento debe ser https y de una empresa de transporte conocida (GLS, SEUR, MRW, Correos, DHL...)." }), {
+        return new Response(JSON.stringify({ error: "El enlace de seguimiento debe ser https y de la web de la compañía elegida." }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });

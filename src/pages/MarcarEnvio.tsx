@@ -172,14 +172,18 @@ const MarcarEnvio = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="carrier">Compañía de envío *</Label>
-                <Input
+                <select
                   id="carrier"
                   value={carrier}
                   onChange={(e) => setCarrier(e.target.value)}
-                  placeholder="GLS, SEUR, MRW, Correos Express..."
-                  maxLength={100}
                   required
-                />
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  <option value="">Elige una compañía</option>
+                  {["GLS", "SEUR", "MRW", "Correos", "Correos Express", "DHL", "UPS", "FedEx", "Nacex", "Tipsa", "Envialia", "CTT Express", "TNT", "DPD", "Zeleris", "Sending"].map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -189,7 +193,8 @@ const MarcarEnvio = () => {
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
                   placeholder="Ej: 1234567890ABC"
-                  maxLength={200}
+                  maxLength={40}
+                  pattern="[A-Za-z0-9-]{4,40}"
                   required
                 />
               </div>
