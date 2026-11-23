@@ -153,6 +153,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
 
     if (normalized === "MAMA3") {
+      if (Date.now() >= new Date("2026-05-03T23:59:59+02:00").getTime()) {
+        return { ok: false, message: "Esta promoción ha terminado." };
+      }
       setPromoCode(normalized);
       setPromoApplied(true);
       setAppliedCoupon({ code: normalized, type: "free-shipping" });

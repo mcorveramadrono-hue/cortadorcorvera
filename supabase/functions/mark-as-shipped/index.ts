@@ -93,6 +93,23 @@ serve(async (req) => {
       });
     }
 
+    // Only allow https tracking links on known carrier domains.
+    const CARRIER_DOMAINS = ["gls-spain.es", "gls-group.com", "gls-group.eu", "seur.com", "mrw.es", "correos.es", "correosexpress.com", "dhl.com", "dhl.es", "ups.com", "fedex.com", "nacex.es", "nacex.com", "tipsa.com", "envialia.com", "ctt.es", "cttexpress.com", "tnt.com", "dpd.com", "dpd.es", "zeleris.com", "sending.es"];
+    if (trackingUrl) {
+      let ok = false;
+      try {
+        const u = new URL(String(trackingUrl));
+        const host = u.hostname.toLowerCase();
+        ok = u.protocol === "https:" && CARRIER_DOMAINS.some((d) => host === d || host.endsWith("." + d));
+      } catch (_e) { ok = false; }
+      if (!ok) {
+        return new Response(JSON.stringify({ error: "El enlace de seguimiento debe ser https y de una empresa de transporte conocida (GLS, SEUR, MRW, Correos, DHL...)." }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+    }
+
     const { data: order, error: fetchErr } = await supabase
       .from("orders")
       .select("*")

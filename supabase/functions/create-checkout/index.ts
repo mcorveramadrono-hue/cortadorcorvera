@@ -172,16 +172,53 @@ serve(async (req) => {
     let couponFreeShipping = false;
     let couponDiscountCents = 0;
     if (promoCode) {
+      // MAMA3 free-shipping promo only valid until its published end date.
+      const MAMA3_END = new Date("2026-05-03T23:59:59+02:00").getTime();
       if (promoCode === "MAMA3") {
-        couponFreeShipping = true;
+        couponFreeShipping = Date.now() < MAMA3_END;
       } else {
         // 1) Single-use coupon (discount_coupons.amount, email-bound)
         const { data: singleCoupon } = await supabaseAdmin
           .from("discount_coupons")
-          .select("amount, min_order_total, email, used, expires_at")
+          .select("amount, min_order_total, email, used, expires_at, used_order_id")
           .eq("code", promoCode)
           .maybeSingle();
+        let reserved = false;
         if (
+          singleCoupon &&
+          singleCoupon.used === false &&
+          String(singleCoupon.email).toLowerCase() === String(order.email).toLowerCase()
+        ) {
+          // Reserve the coupon for this order so only one unpaid checkout can carry it.
+          const prevId = singleCoupon.used_order_id as string | null;
+          let canTake = !prevId || prevId === orderId;
+          if (prevId && prevId !== orderId) {
+            const { data: prev } = await supabaseAdmin
+              .from("orders").select("status, stripe_session_id").eq("id", prevId).maybeSingle();
+            if (!prev || prev.status === "pending_stripe" || prev.status === "pending_payment") {
+              canTake = true;
+              if (prev?.stripe_session_id) {
+                try {
+                  const old = await stripe.checkout.sessions.retrieve(prev.stripe_session_id);
+                  if (old.status === "complete") canTake = false;
+                  else if (old.status === "open") await stripe.checkout.sessions.expire(prev.stripe_session_id);
+                } catch (_e) {
+                  canTake = false;
+                }
+              }
+            }
+          }
+          if (canTake) {
+            let q = supabaseAdmin.from("discount_coupons")
+              .update({ used_order_id: orderId })
+              .eq("code", promoCode).eq("used", false);
+            q = prevId ? q.eq("used_order_id", prevId) : q.is("used_order_id", null);
+            const { data: upd } = await q.select("id");
+            reserved = !!upd && upd.length > 0;
+          }
+        }
+        if (
+          reserved &&
           singleCoupon &&
           singleCoupon.used === false &&
           new Date(singleCoupon.expires_at) > new Date() &&
@@ -197,22 +234,23 @@ serve(async (req) => {
             .select("amount, percent_off, min_order_total, brand_filter, max_uses, used_count, expires_at")
             .eq("code", promoCode)
             .maybeSingle();
-          // redeem-shared-promo already took a slot for this order, so a code at
-          // max_uses is still valid when one of those uses belongs to this order.
-          let slotHeldByOrder = false;
-          if (shared && Number(shared.used_count) >= Number(shared.max_uses)) {
+          // A shared promo is only valid when redeem-shared-promo recorded a
+          // redemption (which claims a slot) for this exact order and email.
+          let redeemedForOrder = false;
+          if (shared) {
             const { data: held } = await supabaseAdmin
               .from("shared_promo_redemptions")
               .select("id")
               .eq("code", promoCode)
               .eq("order_id", orderId)
+              .eq("email", String(order.email).trim().toLowerCase())
               .maybeSingle();
-            slotHeldByOrder = !!held;
+            redeemedForOrder = !!held;
           }
           if (
             shared &&
             new Date(shared.expires_at) > new Date() &&
-            (Number(shared.used_count) < Number(shared.max_uses) || slotHeldByOrder)
+            redeemedForOrder
           ) {
             // Compute eligible subtotal, restricted to items matching brand_filter
             // when set. Falling back to the full subtotal would let a customer
