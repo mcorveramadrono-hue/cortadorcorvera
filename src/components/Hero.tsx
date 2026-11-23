@@ -58,7 +58,7 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 mt-8">
           <a
             href="#productos"
-            className="inline-flex items-center justify-center px-8 py-3 bg-corvera-cream text-corvera-dark text-sm tracking-widest uppercase hover:bg-corvera-cream/90 transition-colors"
+            className="inline-flex items-center justify-center px-8 py-3 border border-corvera-cream text-corvera-cream text-sm tracking-widest uppercase hover:bg-corvera-cream hover:text-corvera-dark transition-colors"
           >
             Ver Productos
           </a>
