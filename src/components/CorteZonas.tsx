@@ -68,10 +68,12 @@ const CorteZonas = () => {
   const ref = useRef<HTMLElement>(null);
   const [p, setP] = useState(0);
   const [reducido, setReducido] = useState(false);
+  const [esMovil, setEsMovil] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducido(mq.matches);
+    setEsMovil(window.matchMedia("(max-width: 767px)").matches);
     let raf = 0;
     const calc = () => {
       raf = 0;
@@ -128,10 +130,10 @@ const CorteZonas = () => {
       id="el-corte"
       ref={ref}
       className="relative bg-corvera-cream"
-      style={{ height: "520vh" }}
+      style={{ height: esMovil ? "900svh" : "520vh" }}
       aria-label="El corte por zonas: maza, babilla, punta y jarrete"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div className="h-full max-w-6xl mx-auto px-6 grid grid-rows-[1fr_auto] md:grid-rows-1 md:grid-cols-2 items-center gap-4 md:gap-12 py-20 md:py-0">
           {/* Ilustración */}
           <div className="relative h-full max-h-[48vh] md:max-h-[80vh] flex items-center justify-center">

@@ -22,7 +22,7 @@ const WhatsAppFloat = () => {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl md:bottom-6 md:right-6"
+      className="fixed bottom-4 left-4 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl md:left-auto md:bottom-6 md:right-6"
     >
       <MessageCircle size={24} className="fill-white" strokeWidth={0} />
       <span className="hidden text-sm font-semibold sm:inline">
